@@ -202,6 +202,19 @@ select.btn{padding:6px 10px}
     <li><a href="#flash">Flashcards<span class="ok">✓</span></a></li>
     <li><a href="#report">Incident Report Template<span class="ok">✓</span></a></li>
     <li><a href="#tools">أداة Decode + Tools<span class="ok">✓</span></a></li>
+    <li class="grp">🎤 Interview Mode (المرحلة التانية)</li>
+    <li><a href="#iv-start">خطة الـ Interview<span class="ok">✓</span></a></li>
+    <li><a href="#iv-story">Tell me about yourself<span class="ok">✓</span></a></li>
+    <li><a href="#iv-mssp">يوم في MSSP SOC<span class="ok">✓</span></a></li>
+    <li><a href="#iv-win">Windows Deep Dive<span class="ok">✓</span></a></li>
+    <li><a href="#iv-phish">Phishing Deep Dive<span class="ok">✓</span></a></li>
+    <li><a href="#iv-siem">SIEM Deep Dive<span class="ok">✓</span></a></li>
+    <li><a href="#iv-rules">Detection Rules &amp; Tuning<span class="ok">✓</span></a></li>
+    <li><a href="#iv-edr">EDR Deep Dive<span class="ok">✓</span></a></li>
+    <li><a href="#iv-solutions">Security Solutions Map<span class="ok">✓</span></a></li>
+    <li><a href="#iv-bank">Rapid-fire + Mock Drill<span class="ok">✓</span></a></li>
+    <li><a href="#iv-behav">Behavioral + أسئلتك ليهم<span class="ok">✓</span></a></li>
+    <li class="grp">الختام</li>
     <li><a href="#final">Checklist ليلة الامتحان<span class="ok">✓</span></a></li>
   </ul>
 </aside>
@@ -213,10 +226,12 @@ select.btn{padding:6px 10px}
   <h1>🛡️ SOC Analyst Assessment — المرجع الكامل</h1>
   <p>الملف ده معمول عشان تراجع منه الليلة دي وتدخل بكرة واثق من نفسك. هتلاقي فيه: أساسيات مختصرة ← طريقة التحليل ← أمثلة Logs حقيقية الشكل ← 13 سيناريو تدريبي بإجابات مخفية ← أسئلة إنترفيو.</p>
   <p><b>طريقة المذاكرة المقترحة:</b> اقرأ الاستراتيجية الأول (10 دقايق) ← لِف على الأساسيات بسرعة ← ركّز في Phishing + Logs + Web ← حل الـ Labs <u>من غير</u> ما تبص على الإجابة ← اختم بالـ Flashcards.</p>
+  <p><b>للمرحلة التانية (الـ Interview):</b> روح على قسم <a href="#iv-start">🎤 Interview Mode</a>. فيه Tell me about yourself، والـ MSSP workflow، وشرح عميق لـ Windows و Phishing و SIEM و Rules و EDR و Solutions، وبنك أسئلة مع Mock Drill بتايمر.</p>
   <div class="chips">
     <span class="chip">🔍 البحث شغال على كل الملف</span>
     <span class="chip">✅ علّم كل قسم تخلصه</span>
     <span class="chip">🧪 أداة Base64/URL decode جوه الملف</span>
+    <span class="chip">🎤 Interview Mode + Mock Drill بتايمر</span>
     <span class="chip">⚠️ كل الـ IPs والدومينات أمثلة وهمية (Documentation ranges)</span>
   </div>
 </div>
@@ -1995,6 +2010,701 @@ Severity: High             Status: Contained / Open        Verdict: True Positiv
 </div>
 </section>
 
+
+<!-- ===================== INTERVIEW MODE ===================== -->
+<section class="sec" id="iv-start">
+<header><h2><span class="num">I1</span>🎤 Interview Mode — خطة اللعب بتاعتك</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<div class="callout idea"><b class="t">🎯 وضعك بصراحة</b>
+البوزيشن طالب خبرة وإنت معندكش خبرة <b>Production</b>. ده مش نهاية الكلام. الـ interviewer عايز يتطمن على 3 حاجات: <b>(1)</b> هل هتعرف تشتغل على الـ queue من أول شهر؟ <b>(2)</b> هل بتفكر زي Analyst؟ <b>(3)</b> هل هتتعلم بسرعة ومش هتعمل كوارث؟
+الاستراتيجية: <b>اتكلم بلغة واحد اشتغل في SOC</b> (Triage، Enrichment، Escalation، SLA، Tuning، Handover)، واربط كل إجابة بحاجة <b>عملتها فعلاً</b> في LetsDefend أو BTL1. الجملة السحرية: <i>"In LetsDefend I handled a similar alert, here's how I approached it…"</i>
+</div>
+
+<h3>شكل الـ SOC Interview عادةً (MSSP)</h3>
+<div class="tbl"><table>
+<tr><th>المرحلة</th><th>بيسألوا عن إيه</th><th>تجهيزك في الملف</th></tr>
+<tr><td>1. Intro</td><td>Tell me about yourself، ليه SOC، ليه الشركة دي</td><td><a href="#iv-story">I2</a></td></tr>
+<tr><td>2. Fundamentals</td><td>Networking، OSI، Ports، TCP/UDP، DNS، HTTP، Crypto</td><td><a href="#net">01</a> + <a href="#iv-bank">I10</a></td></tr>
+<tr><td>3. Windows / AD</td><td>Event IDs، processes، authentication، persistence</td><td><a href="#iv-win">I4</a> + <a href="#win">02</a></td></tr>
+<tr><td>4. Tools &amp; Solutions</td><td>SIEM إيه هو، شغلت على إيه، EDR بيشتغل إزاي، الفرق بين الحلول</td><td><a href="#iv-siem">I6</a> <a href="#iv-edr">I8</a> <a href="#iv-solutions">I9</a></td></tr>
+<tr><td>5. Scenarios</td><td>"جالك alert كذا، تعمل إيه؟"، phishing، brute force، malware</td><td><a href="#iv-phish">I5</a> + <a href="#labs">16</a></td></tr>
+<tr><td>6. Detection</td><td>اكتب/اشرح rule، إزاي تقلل FP</td><td><a href="#iv-rules">I7</a></td></tr>
+<tr><td>7. Behavioral</td><td>ضغط، غلطة، شغل جماعي، شيفتات</td><td><a href="#iv-behav">I11</a></td></tr>
+<tr><td>8. Your questions</td><td>"عندك أسئلة لينا؟"</td><td><a href="#iv-behav">I11</a></td></tr>
+</table></div>
+
+<h3>طريقة الإجابة الشفوية: إطار "C.A.R.E"</h3>
+<ol class="steps">
+<li><b>C</b>larify: "Just to confirm, is this an internal host or a server facing the internet?" (سؤال توضيح واحد بيبيّن نضجك).</li>
+<li><b>A</b>pproach: قول خطواتك بالترتيب: "First I'd validate the alert, then enrich, then scope…"</li>
+<li><b>R</b>easoning: قول <u>ليه</u>: "…because a 302 after a POST usually means the credentials were submitted."</li>
+<li><b>E</b>nd with action: إنهي دايماً بقرار: "So I'd classify it as TP, isolate the host, and escalate to L2 with my notes."</li>
+</ol>
+<div class="callout warn"><b class="t">⚠️ لو مش عارف الإجابة</b>
+ماتألفش. قول: <i>"I'm not 100% sure about that, but here's how I'd find out / here's my understanding…"</i> وكمّل بالمنطق. الـ interviewer في SOC بيقدّر الأمانة جداً، لأن الـ analyst اللي بيألّف في الـ interview هيألّف في الـ ticket كمان.
+</div>
+<div class="callout tip"><b class="t">💡 جهّز إجاباتك بالإنجليزي</b> حتى لو الـ interview بالعربي، الـ terms كلها إنجليزي، وكتير من الـ MSSPs بيعملوا جزء بالإنجليزي عشان يتأكدوا إنك هتعرف تكلم العملاء.</div>
+</section>
+
+<!-- ===================== STORY ===================== -->
+<section class="sec" id="iv-story">
+<header><h2><span class="num">I2</span>"Tell me about yourself" و "مفيش خبرة"</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<h3>Tell me about yourself (60-90 ثانية، احفظ الهيكل مش الكلام)</h3>
+<p class="muted">املا اللي بين [ ] ببياناتك الحقيقية. أي حاجة مش عاملها فعلاً امسحها، لأنهم هيسألوك فيها.</p>
+<pre style="white-space:pre-wrap">I'm [Name], [a graduate of / studying] [degree] at [university], and I'm focused on defensive security
+and SOC operations.
+
+Over the last [X months] I've built hands-on blue-team skills in two ways:
+First, the BTL1 certification from Security Blue Team, which covers phishing analysis, threat intelligence,
+digital forensics, SIEM and incident response, and ends with a 24-hour practical incident-response exam.
+Second, LetsDefend, where I worked through [N] alerts in a simulated SOC environment: phishing, malware,
+web attacks and suspicious logins. I used the SIEM, the EDR and log management there, followed the playbooks,
+and documented every case with a TP/FP verdict and my evidence.
+
+That gave me the L1 workflow: triage, enrichment, investigation, a clear verdict, and escalation with good notes.
+
+[Optional: I also built a small home lab with Sysmon + Splunk/Wazuh to see how attacks look in real logs.]
+
+I'm applying to [Company] because an MSSP means many clients, many environments and many threat types.
+That's the fastest way to grow as an analyst. My goal is to be a strong L1 in the first months and grow
+toward L2 / incident response.</pre>
+<p><b>القاعدة:</b> Present (أنا مين) ← Past (عملت إيه بإيدي) ← Future (ليه هنا وعايز أوصل لفين). ماتحكيش قصة حياتك من الإعدادية.</p>
+
+<h3>السؤال الأصعب: "The role requires experience. Why should we hire you?"</h3>
+<pre style="white-space:pre-wrap">That's fair. I don't have production SOC experience yet. But I've practiced the exact L1 workflow many times
+in realistic environments. For example, in LetsDefend I [one concrete case: investigated a phishing alert,
+found the user clicked, checked the proxy logs for a POST and the EDR for execution, then marked it TP and
+contained it]. BTL1's 24-hour practical exam also forced me to run a full investigation under time pressure.
+
+What I bring: a solid methodology, I document well, and I ask before I assume. In my first 90 days I'd
+learn your runbooks, your client environments and your escalation matrix, so I'm productive on the queue fast.</pre>
+<div class="callout info"><b class="t">ℹ️ ليه الإجابة دي شغالة</b> بتعترف بالحقيقة (honesty) ← بتقدّم دليل ملموس (evidence) ← بتتكلم عن قيمة واضحة ← بتوريهم إنك فاهم إزاي MSSP بيشتغل (runbooks، escalation matrix). ده بالظبط نفس تفكير الـ Analyst: <b>claim + evidence</b>.</div>
+
+<h3>أسئلة الـ Intro التانية</h3>
+<details><summary>Why SOC? / Why blue team?</summary><div class="body">"I enjoy the investigation part: taking a small signal, following the evidence and building the full story. And the impact is direct: you protect real organizations every shift. BTL1 and LetsDefend confirmed this is what I want to do daily."</div></details>
+<details><summary>Why our company? (MSSP)</summary><div class="body">اعمل research الأول (العملاء، الـ sectors، الـ certifications، المنتجات). الهيكل: "Exposure to multiple industries and environments + structured processes (SLAs, runbooks) that build discipline + growth path from L1 to L2/IR. I saw that you [specific thing about them]."</div></details>
+<details><summary>What's your biggest weakness?</summary><div class="body">اختار حاجة <b>حقيقية بس مش قاتلة</b> للـ role، وقول بتعالجها إزاي. مثال: "I don't have production experience with enterprise EDRs like CrowdStrike or Defender at scale. To close the gap I've studied how they work and what their consoles look like and worked through the EDR in LetsDefend, and I learn tools fast." <b>ماتقولش</b> "Windows ضعيف" أو "Phishing ضعيف"، دول أساس الشغل.</div></details>
+<details><summary>Where do you see yourself in 2-3 years?</summary><div class="body">"A strong L2 / incident responder, maybe moving into threat hunting or detection engineering. I'd like to earn [CySA+ / BTL2 / GCIH] along the way." (طموح ومرتبط بنفس الشركة.)</div></details>
+<details><summary>Are you OK with shifts / nights / weekends?</summary><div class="body">MSSPs شغالة 24/7. لو موافق قولها بوضوح ومن غير تردد: "Yes, I understand a 24/7 SOC needs rotating shifts, and I'm ready for that."</div></details>
+</section>
+
+<!-- ===================== MSSP DAY ===================== -->
+<section class="sec" id="iv-mssp">
+<header><h2><span class="num">I3</span>يوم في حياة SOC L1 في MSSP (عشان تتكلم كأنك اشتغلت)</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<p>أكتر حاجة بتفرق بين حد "ذاكر" وحد "فاهم الشغل" إنه يعرف <b>الـ workflow الحقيقي</b>. لو سألوك <i>"Walk me through how you'd handle the alert queue"</i> احكي ده:</p>
+<ol class="steps">
+<li><b>Shift handover:</b> تقرا الـ handover notes: incidents مفتوحة، حاجات محتاجة follow-up، عملاء عندهم حاجة شغالة (pentest مثلاً).</li>
+<li><b>Log source health:</b> تتأكد إن مفيش عميل الـ logs بتاعته وقفت. <i>"No logs = no detection"</i>، وفي MSSP دي alert مهمة لوحدها.</li>
+<li><b>Queue triage:</b> تبدأ بالـ alerts حسب <b>Severity + SLA + Asset criticality</b>، مش بالترتيب الزمني.</li>
+<li><b>Investigate:</b> Validate ← Enrich (TI، asset owner، user role) ← Correlate (SIEM/EDR/Proxy/Email) ← Verdict.</li>
+<li><b>Document:</b> ticket notes واضحة (شوف المثال تحت). <b>لو مش مكتوب، يبقى ماحصلش.</b></li>
+<li><b>Close or Escalate:</b> FP/BTP تتقفل بسبب واضح. TP حسب الـ runbook: تبلّغ العميل، أو تعمل escalate لـ L2، أو الاتنين.</li>
+<li><b>Containment:</b> في MSSP غالباً <b>مش بتعمل action من غير موافقة العميل</b> إلا لو العقد بيسمح (pre-approved actions زي isolate لـ workstation). دي نقطة لو قلتها هتبان فاهم.</li>
+<li><b>Tuning requests:</b> rule بتطلع FP كتير؟ تفتح request للـ detection/content team بالدليل.</li>
+<li><b>End-of-shift handover.</b></li>
+</ol>
+
+<h3>مصطلحات MSSP لازم تبقى طالعة على لسانك</h3>
+<div class="tbl"><table>
+<tr><th>المصطلح</th><th>المعنى</th></tr>
+<tr><td><b>Multi-tenant</b></td><td>SIEM واحد (أو أكتر) بيخدم عملاء كتير، والـ data بتاعة كل عميل منفصلة (Splunk indexes لكل عميل، Sentinel workspaces + Azure Lighthouse، QRadar domains)</td></tr>
+<tr><td><b>SLA</b></td><td>الوقت المتفق عليه للرد (مثال: P1 خلال 15-30 دقيقة). خرق الـ SLA = غرامة/مشكلة مع العميل</td></tr>
+<tr><td><b>MTTA / MTTD / MTTR</b></td><td>Mean Time To Acknowledge / Detect / Respond</td></tr>
+<tr><td><b>Runbook / Playbook</b></td><td>خطوات مكتوبة لكل نوع alert. وفيه runbook خاص بكل عميل (مين تكلمه، مسموحلك بإيه)</td></tr>
+<tr><td><b>Escalation matrix</b></td><td>مين تكلمه وإمتى وبأي وسيلة (email/phone) حسب الـ severity</td></tr>
+<tr><td><b>Allowlist / Exclusion</b></td><td>استثناء لنشاط معروف (scanner الـ IT مثلاً)، ويبقى محدد بشروط وله تاريخ مراجعة</td></tr>
+<tr><td><b>Use case</b></td><td>سيناريو تهديد ليه rule + playbook (مثال: "Brute force against VPN")</td></tr>
+<tr><td><b>Ticketing</b></td><td>ServiceNow، Jira، TheHive: كل alert/incident ليه ticket</td></tr>
+<tr><td><b>Shift handover</b></td><td>تسليم واستلام الشيفت</td></tr>
+<tr><td><b>Customer notification</b></td><td>إيميل/مكالمة للعميل بتشرح اللي حصل والمطلوب منه</td></tr>
+<tr><td><b>MDR</b></td><td>Managed Detection &amp; Response: الـ MSSP بيعمل detection و response كمان (مش مراقبة بس)</td></tr>
+</table></div>
+
+<h3>مثال Ticket Notes احترافية (اعرضها لو سألوك "إزاي بتوثق؟")</h3>
+<pre style="white-space:pre-wrap">[Client: ACME] [Alert: Suspicious PowerShell - Encoded Command] [Host: FIN-LT-0088] [User: sara.n]
+Verdict: TRUE POSITIVE - Severity: HIGH
+
+Summary: WINWORD.EXE spawned powershell.exe with a hidden, encoded command after the user opened an
+email attachment. The decoded command downloads upd.exe from 198.51.100[.]77 and executes it.
+
+Evidence:
+- 09:01:58 user opened Shipping_Invoice_88213.docm (from Outlook)
+- 09:02:11 proxy: GET hxxp://198.51.100[.]77/upd.exe (UA WindowsPowerShell/5.1), 389 KB
+- 09:03-09:06 beaconing every 60s to the same IP (POST /api/v1/status)
+- upd.exe unsigned; SHA256 9f2c...e41a; VT 12/71 (Trojan.Downloader)
+
+IOCs: 198.51.100[.]77 | hxxp://198.51.100[.]77/upd.exe | SHA256 9f2c...e41a | sender invoices@dhl-track[.]example
+MITRE: T1566.001, T1204.002, T1059.001, T1105, T1071.001
+
+Actions: Escalated to L2 at 09:20. Client notified (P2 per runbook) at 09:22, requested approval to isolate.
+Recommended: isolate host, block IOCs, purge email from all mailboxes, reset user credentials.</pre>
+
+<h3>مثال Escalation / Notification للعميل</h3>
+<pre style="white-space:pre-wrap">Subject: [P2][ACME] Malware execution detected on FIN-LT-0088, action required
+
+Dear ACME Security Team,
+At 09:02 UTC our SOC detected malware execution on host FIN-LT-0088 (user: sara.n) following a phishing
+email. The host is communicating with a known malicious IP (198.51.100[.]77).
+
+Recommended immediate actions:
+1. Approve network isolation of FIN-LT-0088 (we can perform it from the EDR on your approval)
+2. Reset credentials for sara.n
+3. Block the IOCs listed below
+
+We are continuing the investigation and will update you within 60 minutes.
+IOCs: ...
+Regards, SOC Team</pre>
+<p class="muted">لاحظ: واضح، مختصر، فيه الـ severity في الـ subject، وفيه actions مطلوبة ووقت الـ update الجاي. العميل مش لازم يكون تقني.</p>
+</section>
+
+<!-- ===================== WINDOWS DEEP ===================== -->
+<section class="sec" id="iv-win">
+<header><h2><span class="num">I4</span>Windows Deep Dive للـ Interview (نقطة ضعفك ← خليها نقطة قوة)</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<p>القسم <a href="#win">02</a> فيه الجداول. هنا هتفهم <b>إزاي تشرح بالكلام</b>، لأن الـ interviewer بيسأل "اشرح" مش "عدّد".</p>
+
+<h3>1. إزاي Windows بيسجّل الأحداث؟</h3>
+<ul>
+<li>الـ logs متخزنة في <code class="i">C:\Windows\System32\winevt\Logs\*.evtx</code>، وبتفتحها بـ <b>Event Viewer</b> أو <code class="i">Get-WinEvent</code>.</li>
+<li>أهم channels: <b>Security</b> (logons، accounts، audit)، <b>System</b> (services 7045، drivers)، <b>Application</b>، <b>Microsoft-Windows-PowerShell/Operational</b> (4104)، <b>Microsoft-Windows-Sysmon/Operational</b>، <b>TerminalServices</b> (RDP)، <b>Windows Defender/Operational</b> (1116 = malware detected، 1117 = action taken).</li>
+<li>مش كل حاجة بتتسجل by default. لازم <b>Audit Policy</b> (GPO أو <code class="i">auditpol /get /category:*</code>). مثلاً 4688 محتاج "Audit Process Creation" + تفعيل "Include command line in process creation events".</li>
+<li><b>ليه Sysmon؟</b> لأنه بيدي تفاصيل أكتر من الـ native logs: hashes، parent command line، network connections لكل process، DNS، process access لـ LSASS.</li>
+<li>الـ logs بتتبعت للـ SIEM عن طريق <b>agent</b> (Splunk UF، Wazuh agent، AMA في Azure) أو <b>WEF</b> (Windows Event Forwarding).</li>
+</ul>
+
+<h3>2. Authentication: اشرحها في دقيقة</h3>
+<pre style="white-space:pre-wrap">"When a user logs in to a domain machine, Windows uses Kerberos by default. The client proves who it is to the
+Domain Controller and gets a TGT (event 4768). When it needs a service, like a file share, it presents the TGT
+and gets a service ticket (4769). The machine where the logon happens records 4624 with a logon type.
+If Kerberos can't be used (IP instead of hostname, workgroup, legacy apps), Windows falls back to NTLM,
+a challenge-response protocol validated on the DC (4776). NTLM is weaker: the hash itself works as the secret,
+and that's what Pass-the-Hash abuses. LSASS handles all of this and keeps credential material in memory,
+which is why attackers dump it."</pre>
+
+<h3>3. Process vs Service vs Thread vs DLL</h3>
+<div class="tbl"><table>
+<tr><td><b>Process</b></td><td>برنامج شغال ليه memory space خاص، PID، Parent، Token (صلاحيات اليوزر)</td></tr>
+<tr><td><b>Thread</b></td><td>وحدة التنفيذ جوه الـ process (Injection بيعمل thread في process تانية)</td></tr>
+<tr><td><b>Service</b></td><td>Process بيشتغل في الخلفية تحت Service Control Manager (<code class="i">services.exe</code>)، وغالباً بحساب SYSTEM</td></tr>
+<tr><td><b>DLL</b></td><td>مكتبة كود بتتحمّل جوه process. <b>DLL Sideloading:</b> exe سليم وموقّع بيحمّل DLL خبيثة بنفس الاسم المتوقع من نفس الفولدر (APTs بيحبوه جداً)</td></tr>
+<tr><td><b>Token</b></td><td>هوية وصلاحيات الـ process. <b>Token impersonation/theft</b> = سرقة token لـ SYSTEM/admin</td></tr>
+</table></div>
+
+<h3>4. مفاهيم بيسألوا عليها كتير</h3>
+<div class="tbl"><table>
+<tr><th>المفهوم</th><th>الشرح البسيط</th></tr>
+<tr><td><b>Process Injection</b></td><td>كتابة كود خبيث جوه process سليمة (explorer/svchost) عشان يستخبى ويستلف صلاحياتها. APIs: <code class="i">OpenProcess</code> ← <code class="i">VirtualAllocEx</code> ← <code class="i">WriteProcessMemory</code> ← <code class="i">CreateRemoteThread</code> (Sysmon 8)</td></tr>
+<tr><td><b>Process Hollowing</b></td><td>يشغّل process سليمة في وضع suspended، يفضّي الكود بتاعها ويحط الخبيث مكانه، وبعدين يكمّلها. شكلها من برا سليمة</td></tr>
+<tr><td><b>UAC Bypass</b></td><td>رفع الصلاحيات من Medium لـ High من غير prompt (مثلاً عن طريق <code class="i">fodhelper.exe</code> + registry). T1548.002</td></tr>
+<tr><td><b>AMSI</b></td><td>Antimalware Scan Interface: بيخلي الـ AV يفحص الـ scripts (PowerShell/VBA/JS) <b>بعد</b> فك الـ obfuscation وقت التشغيل. المهاجمين بيحاولوا يعملوله bypass</td></tr>
+<tr><td><b>LAPS</b></td><td>باسورد local admin مختلف وعشوائي لكل جهاز ومتخزن في AD، فيمنع إن hash واحد يفتح كل الأجهزة</td></tr>
+<tr><td><b>Credential Guard</b></td><td>بيعزل الـ secrets بتاعة LSASS بالـ virtualization (VBS)، فالـ dump مايجيبش hashes مفيدة</td></tr>
+<tr><td><b>GPO</b></td><td>Group Policy: إعدادات مركزية من الـ AD. المهاجم اللي معاه Domain Admin ممكن يوزّع ransomware بـ GPO</td></tr>
+<tr><td><b>Mark-of-the-Web</b></td><td>Zone.Identifier ADS على الملفات اللي نزلت من النت، فـ Office بيقفل الـ macros. عشان كده المهاجمين بيستخدموا ISO/ZIP</td></tr>
+<tr><td><b>WMI</b></td><td>واجهة إدارة. المهاجمين بيستخدموها في execution و lateral movement (<code class="i">wmiprvse.exe</code>) و persistence (Event subscriptions)</td></tr>
+<tr><td><b>Living off the Land</b></td><td>استخدام أدوات ويندوز الشرعية (LOLBins) عشان يهرب من الـ AV</td></tr>
+</table></div>
+
+<h3>5. "How would you investigate a suspicious process on a Windows host?"</h3>
+<ol class="steps">
+<li><b>Identity:</b> اسمه، الـ path (System32 ولا AppData/Temp؟)، signed ولا لأ؟ hash ← VT.</li>
+<li><b>Lineage:</b> مين الـ parent؟ مين الـ children؟ (Office ← PowerShell = 🚩).</li>
+<li><b>Command line:</b> encoded؟ hidden؟ URLs؟ paths غريبة؟</li>
+<li><b>User / Integrity:</b> شغال باسم مين؟ SYSTEM؟ ليه؟</li>
+<li><b>Network:</b> بيكلّم مين؟ (Sysmon 3 / EDR network tab) و reputation الـ IP/domain.</li>
+<li><b>File/Registry:</b> عمل ملفات؟ Run keys؟ scheduled tasks؟ services؟</li>
+<li><b>Prevalence:</b> موجود على كام جهاز في البيئة؟ (لو على جهاز واحد بس = مريب أكتر).</li>
+<li><b>Timeline:</b> إيه اللي حصل قبله بدقايق؟ (إيميل؟ download؟ logon؟)</li>
+</ol>
+
+<h3>6. أسئلة Windows سريعة وإجاباتها</h3>
+<details><summary>Where are Windows event logs stored, and how can an attacker hide activity?</summary><div class="body"><code class="i">C:\Windows\System32\winevt\Logs</code>. المهاجم يقدر يمسحها (<code class="i">wevtutil cl</code> ← 1102/104)، أو يوقف الـ logging، أو يعدّل الـ audit policy (4719). الحل إن الـ logs تتبعت للـ SIEM لحظياً فمايقدرش يمسح النسخة اللي هناك.</div></details>
+<details><summary>How do you detect persistence on a Windows machine?</summary><div class="body">Autoruns (Sysinternals) بيجمع كل أماكن الـ persistence. وتدور على: Run/RunOnce keys، Scheduled tasks (4698)، Services (7045)، Startup folder، WMI subscriptions (Sysmon 19-21)، Accounts جديدة (4720)، IFEO/Winlogon changes. وفي الـ SIEM: Sysmon 13 على مسارات الـ Run keys.</div></details>
+<details><summary>What's the difference between 4624 Logon Type 3 and 10?</summary><div class="body">Type 3 = Network (SMB share، PsExec، net use)، مفيش desktop session. Type 10 = RemoteInteractive (RDP) فيه session كاملة. RDP brute force مع NLA بيبان فشله كـ Type 3.</div></details>
+<details><summary>How do you detect credential dumping?</summary><div class="body">Sysmon 10 (process access لـ lsass.exe بـ access masks زي 0x1010/0x1410/0x1FFFFF)، command lines زي <code class="i">procdump -ma lsass</code> و <code class="i">comsvcs.dll MiniDump</code>، <code class="i">reg save HKLM\SAM</code>، ملفات <code class="i">.dmp</code> في أماكن غريبة، تنبيهات EDR.</div></details>
+<details><summary>svchost.exe looks suspicious. How do you check?</summary><div class="body">لازم: parent = <code class="i">services.exe</code>، path = <code class="i">C:\Windows\System32\svchost.exe</code>، فيه <code class="i">-k &lt;group&gt;</code> في الـ command line، signed by Microsoft، والـ user SYSTEM / LOCAL SERVICE / NETWORK SERVICE (أو اليوزر لبعض الـ per-user services). أي اختلاف (parent explorer، path في AppData، اسم <code class="i">svch0st</code>) = مريب.</div></details>
+<details><summary>What is PowerShell logging and why does it matter?</summary><div class="body">3 أنواع: <b>Module logging</b> (4103)، <b>Script Block logging</b> (4104، بيسجّل الكود بعد فك الـ obfuscation)، و <b>Transcription</b> (نص كامل للجلسة). مهمة لأن PowerShell أكتر أداة بيستغلها المهاجمين. ولازم تاخد بالك من محاولات <b>downgrade لـ PowerShell v2</b> (<code class="i">powershell -version 2</code>) عشان يهرب من الـ logging و AMSI.</div></details>
+</section>
+
+<!-- ===================== PHISHING DEEP ===================== -->
+<section class="sec" id="iv-phish">
+<header><h2><span class="num">I5</span>Phishing Deep Dive للـ Interview</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<h3>الإجابة النموذجية: "How do you analyze a phishing email?" (90 ثانية)</h3>
+<pre style="white-space:pre-wrap">"I start by getting the original email as .eml, not a screenshot, so I have the full headers.
+1) Headers: I compare From, Return-Path and Reply-To, check SPF, DKIM and DMARC results, and read the
+   Received chain bottom-up to find the originating IP, then check its reputation.
+2) Sender domain: is it a lookalike? How old is it? WHOIS often shows a domain registered days ago.
+3) Content: urgency, authority, fear, generic greeting, mismatched branding.
+4) URLs: compare the displayed text with the real href, then analyze the URL safely in urlscan or a sandbox,
+   never by clicking it.
+5) Attachments: hash lookup first, then static checks like olevba for macros, then a sandbox.
+6) Scope: who else received it, who clicked (proxy logs), who submitted credentials (POST requests),
+   who executed something (EDR).
+Then I give a verdict and respond: purge from all mailboxes, block the IOCs, reset and revoke sessions for
+anyone who submitted credentials, isolate any host that executed the payload, and notify the client."</pre>
+
+<h3>رحلة الإيميل (عشان تفهم الـ headers جاية منين)</h3>
+<pre>Sender (Outlook/MUA) ─587─► Sender Mail Server (MSA/MTA) ── DNS MX lookup ──► ─25─► Recipient MX / Email Gateway
+   (Proofpoint / Mimecast / Defender for O365) ──► Exchange / Gmail (MDA) ──► User mailbox (Outlook, IMAP 993)
+<span class="c">كل MTA بيعدّي عليه الإيميل بيضيف "Received:" في الأول، عشان كده بنقراها من تحت لفوق.</span></pre>
+
+<h3>Spoofing vs Lookalike vs Compromised Account (سؤال فخ)</h3>
+<div class="tbl"><table>
+<tr><th>النوع</th><th>From</th><th>SPF/DKIM/DMARC</th><th>إزاي تكشفه</th></tr>
+<tr><td><b>Direct spoofing</b></td><td><code class="i">ceo@company.com</code> (الدومين الحقيقي)</td><td>غالباً <b>Fail</b> (لو الدومين عامل DMARC صح بيترفض)</td><td>Authentication-Results، الـ IP مش تبع الشركة</td></tr>
+<tr><td><b>Display name spoofing</b></td><td>"CEO Name" &lt;random@gmail.com&gt;</td><td>Pass (لـ gmail)</td><td>الإيميل نفسه مش الاسم</td></tr>
+<tr><td><b>Lookalike domain</b></td><td><code class="i">ceo@cornpany.com</code></td><td>ممكن <b>Pass</b> كله</td><td>اقرا الدومين حرف حرف + عمره (WHOIS)</td></tr>
+<tr><td><b>Compromised account</b></td><td>إيميل حقيقي لمورّد/زميل</td><td><b>Pass</b> كله</td><td>السلوك: طلب غريب، تغيير بيانات بنكية، لينك لـ OneDrive غريب، thread hijacking</td></tr>
+</table></div>
+
+<h3>حلول الـ Email Security (اتكلم عنها كأنك شفتها)</h3>
+<div class="tbl"><table>
+<tr><th>المنتج</th><th>Features تعرف أساميها</th></tr>
+<tr><td><b>Microsoft Defender for Office 365</b></td><td><b>Safe Links</b> (بيعيد كتابة اللينكات ويفحصها وقت الضغط)، <b>Safe Attachments</b> (sandbox)، <b>ZAP</b> (Zero-hour Auto Purge: بيشيل الإيميل بعد ما يوصل لو اتعرف إنه خبيث)، <b>Threat Explorer</b> (تدور على إيميل وتعمل purge)، Quarantine، User-reported messages، Attack Simulation Training</td></tr>
+<tr><td><b>Proofpoint</b></td><td>TAP (Targeted Attack Protection)، <b>URL Defense</b> (rewrite)، TRAP (auto-pull للإيميلات)، Quarantine</td></tr>
+<tr><td><b>Mimecast</b></td><td>URL Protect، Attachment Protect، Impersonation Protect</td></tr>
+<tr><td><b>Google Workspace</b></td><td>Security sandbox، Investigation tool</td></tr>
+</table></div>
+
+<div class="lab">
+<div class="lt">🧪 سؤال عملي: اللينك ده إيه؟</div>
+<pre>https://urldefense.proofpoint.com/v2/url?u=https-3A__m365-2Dverify-2Dlogin.web.app_owa_&amp;d=DwMFaQ&amp;c=...&amp;r=...
+https://nam12.safelinks.protection.outlook.com/?url=https%3A%2F%2Fm365-verify-login.web.app%2Fowa%2F&amp;data=05%7C02%7C...
+https://urldefense.com/v3/__https://m365-verify-login.web.app/owa/__;!!AbCdEf!xyz$</pre>
+<details class="ans"><summary>اظهر الإجابة</summary><div class="body">
+<p>ده نفس اللينك الخبيث <b>بعد ما الـ Email gateway عمله rewrite</b>. ده دليل إن الشركة عندها URL protection، والـ URL الحقيقي جوه الـ parameter:</p>
+<ul>
+<li><b>Proofpoint v2:</b> <code class="i">-3A</code> = <code class="i">:</code>، و <code class="i">_</code> = <code class="i">/</code>، و <code class="i">-2D</code> = <code class="i">-</code>، فالـ URL هو <code class="i">https://m365-verify-login.web.app/owa/</code></li>
+<li><b>Microsoft Safe Links:</b> parameter <code class="i">url=</code> وهو URL-encoded.</li>
+<li><b>Proofpoint v3:</b> الـ URL بين <code class="i">__</code> و <code class="i">__</code>.</li>
+</ul>
+<p>معرفة دي بتبيّن إنك <b>شفت إيميلات حقيقية</b> في بيئة شركات. ومهم: لو اليوزر داس على لينك rewritten، الـ gateway عنده click log (Proofpoint TAP / Defender "UrlClickEvents") وتقدر تعرف مين داس ومين اتعمله block.</p>
+</div></details>
+</div>
+
+<h3>Phishing Response في MSSP: مين يعمل إيه</h3>
+<ul>
+<li><b>SOC (إنت):</b> التحليل، الـ verdict، استخراج الـ IOCs، البحث عن نطاق الضرر، الـ ticket، إبلاغ العميل.</li>
+<li><b>حسب العقد:</b> الـ purge والـ block ممكن تعملها إنت (لو عندك صلاحيات على Defender/Proofpoint بتوع العميل) أو تطلبها من فريق العميل.</li>
+<li><b>Purge في Exchange Online:</b> Threat Explorer ← Take action، أو PowerShell: <code class="i">New-ComplianceSearch</code> ثم <code class="i">New-ComplianceSearchAction -Purge -PurgeType HardDelete</code>.</li>
+<li><b>لو حد دخّل credentials:</b> Reset + <b>Revoke sessions</b> (<code class="i">Revoke-MgUserSignInSession</code> / من Entra portal) + مراجعة sign-ins + inbox rules + MFA methods.</li>
+</ul>
+
+<h3>أسئلة Phishing سريعة</h3>
+<details><summary>SPF passed but it's still phishing. How?</summary><div class="body">SPF بيثبت إن الـ IP مسموحله يبعت باسم دومين الـ Return-Path بس. المهاجم ممكن: يمتلك الدومين (lookalike) ويظبط SPF، أو يبعت من خدمة شرعية (Gmail، SendGrid)، أو يستخدم حساب مخترق. وكمان SPF مش بيتشيك على الـ From اللي اليوزر شايفه، ودي شغلة DMARC alignment.</div></details>
+<details><summary>What is DMARC alignment?</summary><div class="body">إن الدومين في الـ <b>From</b> header يطابق (relaxed = نفس الـ organizational domain، strict = نفس الدومين بالظبط) الدومين اللي عدّى SPF (Return-Path) <b>أو</b> اللي عدّى DKIM (<code class="i">d=</code>). لو ولا واحد aligned يبقى DMARC fail حتى لو SPF pass.</div></details>
+<details><summary>How do you analyze a QR code phishing (quishing) email?</summary><div class="body">فك الـ QR من غير ما تفتحه بالموبايل (أدوات decode أو CyberChef "Parse QR Code")، وحلّل الـ URL زي أي لينك. خطورته إنه بيعدّي من URL scanning في الـ gateway (لأنه صورة) ويخلّي اليوزر يفتحه على موبايل شخصي برا حماية الشركة.</div></details>
+<details><summary>A user says "I clicked but didn't enter anything." What do you do?</summary><div class="body">ماتصدقش بالكامل ولا تكذّب. اتحقق: Proxy (فيه POST؟ download؟)، EDR (حاجة اتنفذت بعد الضغط؟)، Sign-in logs (login غريب؟). لو كله نضيف: document + awareness. ولو الصفحة كانت AiTM، مجرد الدخول ممكن يكون عدّى بالـ SSO، فشيّك sign-ins كويس.</div></details>
+<details><summary>What do you check if the email has a password-protected ZIP?</summary><div class="body">الباسورد غالباً في نص الإيميل، والهدف إن الـ gateway مايقدرش يفحص المحتوى. الموضوع ده لوحده suspicious. فكّه في sandbox وشوف جواه إيه (.js، .vbs، .lnk، .exe، .iso).</div></details>
+</section>
+
+<!-- ===================== SIEM DEEP ===================== -->
+<section class="sec" id="iv-siem">
+<header><h2><span class="num">I6</span>SIEM Deep Dive: إزاي بيشتغل من جوه</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<h3>SIEM Pipeline: اشرحه كده</h3>
+<pre>  <span class="b">Log Sources</span>            <span class="b">Collection</span>              <span class="b">Parsing / Normalization</span>      <span class="b">Storage / Index</span>     <span class="b">Correlation &amp; Detection</span>     <span class="b">Output</span>
+ Firewall, EDR,   ──►  Agents (UF, AMA,   ──►  Extract fields (src_ip,  ──►  Hot/Warm/Cold   ──►  Rules, thresholds,    ──►  Alerts / Incidents
+ AD/Windows, DNS,      Wazuh, Elastic)          user, action...) and         retention           correlation across        Dashboards, Reports
+ Proxy, Email,         Syslog (UDP/TCP 514)     map to a common schema       (90d hot,           sources, UEBA, TI         → Ticket / SOAR
+ Cloud (API)           API connectors           (CIM / ASIM / ECS)           1y archive...)      matching</pre>
+<ul>
+<li><b>Parsing:</b> تحويل الـ raw log لحقول. لو الـ parsing بايظ، الـ rules مش هتشتغل حتى لو الـ log موجود. (في الـ interview قول: <i>"A log that isn't parsed correctly is almost as bad as a missing log"</i>.)</li>
+<li><b>Normalization:</b> توحيد أسماء الحقول بين المصادر: Splunk <b>CIM</b>، Sentinel <b>ASIM</b>، Elastic <b>ECS</b>. فالـ rule الواحدة تشتغل على Palo Alto و Fortinet مع بعض.</li>
+<li><b>Enrichment:</b> إضافة context: GeoIP، TI، Asset owner/criticality، User department.</li>
+<li><b>Correlation:</b> ربط events من مصادر مختلفة: <i>"5 failed VPN logins + success + login from a new country + mailbox rule created = account takeover"</i>.</li>
+<li><b>EPS</b> (Events Per Second): مقياس حجم الـ data، والـ licensing غالباً عليه أو على GB/day.</li>
+<li><b>Retention:</b> مدة حفظ الـ logs، ومرتبطة بالـ compliance (PCI-DSS سنة، منها 3 شهور متاحة فوراً).</li>
+</ul>
+
+<h3>أشهر الـ SIEMs: مصطلحات كل واحد</h3>
+<div class="tbl"><table>
+<tr><th>SIEM</th><th>Architecture / Terms</th><th>Query Language</th><th>Alerts اسمها</th></tr>
+<tr><td><b>Splunk</b> (+ Enterprise Security)</td><td>Universal Forwarder ← (Heavy Forwarder) ← <b>Indexer</b> ← <b>Search Head</b>. Deployment Server. index، sourcetype، source، host. Apps/TAs. CIM data models</td><td>SPL</td><td>Correlation Searches ← <b>Notable Events</b> (Incident Review). RBA = Risk-Based Alerting</td></tr>
+<tr><td><b>Microsoft Sentinel</b></td><td>Cloud-native على <b>Log Analytics workspace</b>. Data Connectors، Workbooks، <b>Playbooks (Logic Apps)</b>، Watchlists، Hunting، ASIM. متكامل مع Defender XDR portal</td><td>KQL</td><td><b>Analytics Rules</b> (Scheduled، NRT، Fusion، Anomaly، Microsoft Security) ← <b>Incidents</b></td></tr>
+<tr><td><b>IBM QRadar</b></td><td>Event Collector ← Event Processor ← Console. <b>DSM</b> (parser لكل مصدر)، Log Sources، <b>Flows</b> (network)، Reference Sets، Building Blocks</td><td>AQL</td><td><b>Offenses</b>، والـ <b>Magnitude</b> = Relevance + Severity + Credibility</td></tr>
+<tr><td><b>Elastic Security</b></td><td>Elastic Agent/Beats ← (Logstash) ← Elasticsearch ← Kibana. ECS</td><td>KQL/Lucene، EQL، ES|QL</td><td>Detection Rules ← Alerts</td></tr>
+<tr><td><b>Wazuh</b> (open source)</td><td>Agent ← Manager (decoders + rules) ← Indexer (OpenSearch) ← Dashboard. FIM، SCA، Vulnerability detection</td><td>Lucene/DQL</td><td>Alerts بـ <b>levels 0-15</b></td></tr>
+<tr><td><b>Google SecOps</b> (Chronicle)</td><td>UDM (schema)، ingestion ضخم</td><td>UDM Search، YARA-L</td><td>Detections</td></tr>
+<tr><td>تانيين</td><td>LogRhythm، ArcSight، FortiSIEM، Exabeam، Sumo Logic</td><td colspan="2"></td></tr>
+</table></div>
+
+<div class="callout tip"><b class="t">💡 لما يسألوك "Which SIEM have you used?"</b>
+ماتقولش "ولا واحد". قول بصدق ومع تفصيل: <i>"I've used [the SIEM in LetsDefend / Splunk in BTL1 labs], writing searches to investigate alerts: filtering by host and user, stats by source IP, building timelines. I also know the concepts behind Sentinel and QRadar: analytics rules versus offenses, KQL versus AQL. The query language changes, but the investigation logic stays the same."</i> وبعدين اعرض عليهم: "I can walk you through a query for brute-force detection."
+</div>
+
+<h3>أسئلة SIEM سريعة</h3>
+<details><summary>What is a SIEM and why do we need it?</summary><div class="body">Security Information and Event Management. بيجمع الـ logs من كل مكان في مكان واحد، يعمل normalize، يربط events من مصادر مختلفة (correlation)، يطلع alerts، ويدعم التحقيق والـ compliance والـ retention. من غيره هتدخل على 20 console عشان تحقق في incident واحد.</div></details>
+<details><summary>What's the difference between a log, an event, an alert and an incident?</summary><div class="body"><b>Log</b> = سجل خام. <b>Event</b> = حدث له معنى (logon). <b>Alert</b> = event (أو مجموعة) طابقت rule. <b>Incident</b> = alert(s) اتأكد إنها تهديد حقيقي ومحتاجة response.</div></details>
+<details><summary>A log source stopped sending logs. What do you do?</summary><div class="body">ده alert مهم (blind spot). اتأكد من آخر event وصل إمتى، الـ agent/forwarder شغال؟ الشبكة؟ تغيير config/certificate؟ إبلاغ العميل/فريق الـ engineering. وفكّر أمنياً: ممكن يكون المهاجم وقّف الـ agent (Defense evasion)، خصوصاً لو حصل بعد alert مريبة.</div></details>
+<details><summary>Agent-based vs agentless collection?</summary><div class="body">Agent: تفاصيل أكتر، reliable، بيعمل buffering لو الشبكة قطعت، بس محتاج installation وإدارة. Agentless (Syslog، API، WEF): أسهل، مناسب للـ network devices والـ cloud، بس ممكن يضيّع events (UDP syslog مفيهوش ضمان).</div></details>
+<details><summary>What is UEBA?</summary><div class="body">User &amp; Entity Behavior Analytics: بيعمل baseline لسلوك كل user/host ويطلع alerts على الانحراف (login في وقت غريب، data أكتر من المعتاد، access لسيرفر عمره ما دخله). مفيد للـ insider threat والـ compromised accounts.</div></details>
+<details><summary>What is SOAR and give an example playbook.</summary><div class="body">Security Orchestration, Automation &amp; Response. مثال phishing playbook: user reports email ← استخراج IOCs تلقائياً ← enrichment (VT, urlscan) ← لو malicious: search &amp; purge من كل الـ mailboxes + block sender/URL + فتح ticket ← إشعار للـ analyst للمراجعة. بيوفر وقت الـ L1 للتحليل الحقيقي.</div></details>
+</section>
+
+<!-- ===================== RULES ===================== -->
+<section class="sec" id="iv-rules">
+<header><h2><span class="num">I7</span>Detection Rules &amp; Use Cases: من الفكرة للـ Tuning</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<h3>مكونات أي Detection Rule (احفظها، هتسأل عليها)</h3>
+<div class="tbl"><table>
+<tr><th>المكوّن</th><th>مثال (Brute force)</th></tr>
+<tr><td><b>Use case / Threat</b></td><td>Brute force against Windows accounts (T1110)</td></tr>
+<tr><td><b>Data source</b></td><td>Windows Security logs من الـ DCs والسيرفرات</td></tr>
+<tr><td><b>Logic / Condition</b></td><td>EventID 4625</td></tr>
+<tr><td><b>Grouping</b></td><td>By source IP (و/أو target user)</td></tr>
+<tr><td><b>Threshold</b></td><td>≥ 20 failures</td></tr>
+<tr><td><b>Time window</b></td><td>خلال 10 دقايق</td></tr>
+<tr><td><b>Exclusions</b></td><td>IPs الـ vulnerability scanner، service accounts معروفة بمشكلة</td></tr>
+<tr><td><b>Severity</b></td><td>Medium، وتطلع <b>High</b> لو بعدها 4624 ناجح</td></tr>
+<tr><td><b>MITRE mapping</b></td><td>T1110.001</td></tr>
+<tr><td><b>Response playbook</b></td><td>تعمل إيه لما تشتغل</td></tr>
+<tr><td><b>Schedule</b></td><td>كل 5 دقايق على آخر 10 دقايق</td></tr>
+</table></div>
+
+<h3>Rule Lifecycle (Detection Engineering)</h3>
+<ol class="steps">
+<li><b>Idea:</b> من TI، incident سابق، MITRE gap، طلب عميل.</li>
+<li><b>Data check:</b> الـ logs المطلوبة موجودة ومتعملها parse؟</li>
+<li><b>Write logic</b> (Sigma ← SPL/KQL/AQL).</li>
+<li><b>Test:</b> شغّلها على data تاريخية (كام alert كانت هتطلع؟) ونفّذ الهجوم في lab (مثلاً <b>Atomic Red Team</b>) وتأكد إنها بتمسكه.</li>
+<li><b>Deploy</b> + Playbook.</li>
+<li><b>Tune</b> بناءً على feedback الـ analysts (FP rate).</li>
+<li><b>Review</b> دوري: لسه مفيدة؟ لسه الـ data موجودة؟</li>
+</ol>
+
+<h3>نفس الـ Rule بـ 5 لغات (عشان لو سألوك عن أي SIEM)</h3>
+<pre><span class="c">// Splunk SPL</span>
+index=wineventlog EventCode=4625 earliest=-10m
+| stats count AS failures dc(TargetUserName) AS users BY src_ip
+| where failures &gt;= 20
+
+<span class="c">// Sentinel KQL (Scheduled analytics rule: run every 5m, lookback 10m)</span>
+SecurityEvent
+| where TimeGenerated &gt; ago(10m) and EventID == 4625
+| summarize failures = count(), users = dcount(TargetAccount) by IpAddress
+| where failures &gt;= 20
+
+<span class="c">// QRadar (Rule wizard, written as natural language)</span>
+Apply "Windows Brute Force" on events which are detected by the Local system
+  and when the event QID is one of "Failed Logon (4625)"
+  and when at least 20 events are seen with the same Source IP in 10 minutes
+
+<span class="c">// Wazuh (local_rules.xml), 60122 = Windows logon failure in the default ruleset</span>
+&lt;group name="windows,authentication_failures,"&gt;
+  &lt;rule id="100100" level="10" frequency="20" timeframe="600"&gt;
+    &lt;if_matched_sid&gt;60122&lt;/if_matched_sid&gt;
+    &lt;same_srcip /&gt;
+    &lt;description&gt;Possible brute force: 20+ Windows logon failures from same IP in 10m&lt;/description&gt;
+    &lt;mitre&gt;&lt;id&gt;T1110&lt;/id&gt;&lt;/mitre&gt;
+  &lt;/rule&gt;
+&lt;/group&gt;
+
+<span class="c"># Sigma (vendor-neutral, converted with sigma-cli / pySigma)</span>
+title: Windows Brute Force from Single Source
+logsource: { product: windows, service: security }
+detection:
+  selection: { EventID: 4625 }
+  condition: selection | count() by IpAddress &gt;= 20    <span class="c"># (old-style aggregation; Sigma v2 uses correlation rules)</span>
+timeframe: 10m
+level: medium</pre>
+
+<h3>Tuning: إزاي تقلل الـ False Positives صح</h3>
+<div class="grid2">
+<div class="card"><h4>✅ الصح</h4><ul>
+<li>Exclusion <b>محدد</b>: (IP + user + process + وقت) مش IP لوحده.</li>
+<li>Allowlist بتاريخ انتهاء ومراجعة.</li>
+<li>ظبط الـ threshold بالـ data التاريخية (baseline).</li>
+<li>زوّد context: severity أعلى للـ critical assets / privileged users.</li>
+<li>Aggregation / Suppression: alert واحدة بدل 500 لنفس الحدث.</li>
+<li>Risk-based alerting: كل حاجة تزود score، والـ alert تطلع لما الـ score يعدّي حد.</li>
+<li>وثّق سبب كل exclusion.</li></ul></div>
+<div class="card"><h4>❌ الغلط</h4><ul>
+<li>تقفل الـ rule خالص لأنها noisy.</li>
+<li>Exclude لـ <code class="i">powershell.exe</code> كله أو subnet كامل.</li>
+<li>Whitelist لـ admin account (المهاجم بيستخدم admin accounts!).</li>
+<li>ترفع الـ threshold لحد ما تبطل تمسك حاجة.</li>
+<li>تقفل alerts كـ FP من غير تحقيق عشان الـ queue.</li></ul></div>
+</div>
+
+<h3>Top 20 SOC Use Cases (لو سألوك "اذكر use cases")</h3>
+<div class="grid2">
+<ol>
+<li>Brute force / Password spraying (AD، VPN، O365)</li>
+<li>Successful login after multiple failures</li>
+<li>Impossible travel / login from new country</li>
+<li>MFA fatigue (push كتير مرفوض ثم قبول)</li>
+<li>Privileged group membership change (4728/4732/4756)</li>
+<li>New local admin / new account created</li>
+<li>Audit log cleared (1102)</li>
+<li>Office spawning script interpreters</li>
+<li>Encoded / obfuscated PowerShell</li>
+<li>LSASS access / credential dumping</li></ol>
+<ol start="11">
+<li>New service / scheduled task from unusual path</li>
+<li>Shadow copy deletion (ransomware)</li>
+<li>Mass file modification / rename</li>
+<li>Communication with TI-listed IP/domain</li>
+<li>Beaconing / rare outbound destination</li>
+<li>Large outbound data transfer (exfil)</li>
+<li>DNS tunneling / DGA</li>
+<li>Web attacks (SQLi/XSS/traversal) on WAF/web logs</li>
+<li>Suspicious inbox rule / mail forwarding</li>
+<li>Log source stopped reporting</li></ol>
+</div>
+
+<h3>أسئلة Rules سريعة</h3>
+<details><summary>How would you write a rule to detect password spraying?</summary><div class="body">Data: 4625 (أو Entra sign-in logs بـ error 50126). Group by source IP، count <b>distinct</b> target usernames، threshold مثلاً ≥ 15 users في 10-30 دقيقة، مع عدد محاولات قليل لكل user. وأحسن: alert أعلى لو فيه success من نفس الـ IP. Exclusions: VPN/NAT egress IPs الكبيرة محتاجة تعامل خاص لأن ناس كتير طالعين من IP واحد.</div></details>
+<details><summary>Signature-based vs behavior-based (anomaly) detection?</summary><div class="body">Signature: بيطابق pattern معروف (hash، string، IOC). دقيق وقليل الـ FP، بس مابيمسكش الجديد. Behavior/Anomaly: بيدور على سلوك غير طبيعي أو TTPs. بيمسك الجديد (zero-days) بس الـ FP بتاعه أعلى. الأحسن الاتنين مع بعض.</div></details>
+<details><summary>A rule generates 300 alerts a day, all FP. What do you do?</summary><div class="body">ماقفلهاش. أحلل الـ 300: إيه المشترك؟ (process/user/host واحد؟ job مجدول؟). أتأكد من صاحب النشاط إنه legit، وأعمل exclusion محدد بالشروط المشتركة دي مع توثيق ومراجعة، أو أعدّل الـ logic/threshold. وأتابع بعد التعديل إن الـ rule لسه بتمسك السيناريو الأصلي (test).</div></details>
+<details><summary>What's the difference between YARA, Sigma and Snort?</summary><div class="body">YARA للملفات والـ memory (patterns جوه malware). Sigma للـ logs وبتتحول لأي SIEM query. Snort/Suricata للـ network packets (IDS/IPS rules).</div></details>
+</section>
+
+<!-- ===================== EDR DEEP ===================== -->
+<section class="sec" id="iv-edr">
+<header><h2><span class="num">I8</span>EDR Deep Dive: بيشتغل إزاي وإزاي تتعامل معاه</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<h3>AV vs NGAV vs EDR vs XDR vs MDR</h3>
+<div class="tbl"><table>
+<tr><th></th><th>بيعمل إيه</th></tr>
+<tr><td><b>Traditional AV</b></td><td>Signatures (hashes/patterns) على الملفات. مابيمسكش الجديد ولا الـ fileless</td></tr>
+<tr><td><b>NGAV</b></td><td>AV + Machine learning + behavior. Prevention قبل التشغيل</td></tr>
+<tr><td><b>EDR</b></td><td>تسجيل مستمر لكل نشاط الـ endpoint (telemetry) + detection سلوكي + <b>investigation</b> (process tree، timeline) + <b>response</b> (isolate، kill، live shell)</td></tr>
+<tr><td><b>XDR</b></td><td>EDR + مصادر تانية (email، identity، cloud، network) في منصة واحدة بـ correlation (Defender XDR، Cortex XDR)</td></tr>
+<tr><td><b>MDR</b></td><td><b>خدمة</b> مش منتج: فريق (زي الـ MSSP) بيراقب ويستجيب على الـ EDR/XDR بتاع العميل 24/7</td></tr>
+</table></div>
+
+<h3>EDR بيشوف إزاي؟ (سؤال عميق بيميّزك)</h3>
+<ul>
+<li><b>Agent/Sensor</b> على الجهاز، فيه جزء في الـ <b>kernel</b> (driver).</li>
+<li><b>Kernel callbacks:</b> Windows بيبلّغ الـ driver عند إنشاء process/thread أو تحميل image (DLL) أو تعديل registry.</li>
+<li><b>Minifilter driver:</b> بيراقب عمليات الملفات (create/write/rename)، وده مفيد جداً لكشف الـ ransomware.</li>
+<li><b>ETW</b> (Event Tracing for Windows)، ومنه ETW Threat-Intelligence: تفاصيل زي memory allocation في processes تانية.</li>
+<li><b>AMSI integration:</b> فحص الـ scripts بعد فك التشفير.</li>
+<li><b>User-mode hooks</b> (في بعض المنتجات) على APIs حساسة.</li>
+<li>الـ telemetry بتتبعت لـ <b>cloud</b> للـ analytics والـ correlation والـ threat intel، والـ detections بترجعلك في الـ console.</li>
+<li>المهاجمين بيحاولوا: يوقفوا الـ agent، unhooking، <b>BYOVD</b> (Bring Your Own Vulnerable Driver) عشان يقتلوا الـ EDR من الـ kernel. عشان كده "sensor went offline" alert مهمة.</li>
+</ul>
+
+<h3>Response Actions: اعرف تقول إمتى تستخدم إيه</h3>
+<div class="tbl"><table>
+<tr><th>Action</th><th>إمتى</th><th>ملاحظة</th></tr>
+<tr><td><b>Network Isolation / Containment</b></td><td>جهاز confirmed مصاب (C2، lateral movement، ransomware)</td><td>الجهاز بيفضل متصل بالـ EDR console بس. في MSSP: حسب موافقة العميل/الـ runbook. خلي بالك من السيرفرات الـ critical (isolate = downtime)</td></tr>
+<tr><td><b>Kill process</b></td><td>process خبيثة شغالة</td><td>بعد ما تاخد evidence (command line، hash)</td></tr>
+<tr><td><b>Quarantine file</b></td><td>ملف خبيث على الديسك</td><td>بيتحفظ مشفر، ممكن يترجع لو FP</td></tr>
+<tr><td><b>Block hash / IOC</b></td><td>منع التشغيل على كل الأجهزة</td><td>Custom IOC</td></tr>
+<tr><td><b>Live Response / RTR</b></td><td>تحتاج تجمع ملفات/أدلة أو تشغل commands على الجهاز عن بعد</td><td>صلاحية حساسة، غالباً L2+</td></tr>
+<tr><td><b>Collect investigation package</b></td><td>جمع artifacts للتحليل (logs، autoruns، processes)</td><td></td></tr>
+<tr><td><b>Remediate / Rollback</b></td><td>إرجاع التغييرات (SentinelOne rollback بيستخدم VSS)</td><td>مفيد ضد الـ ransomware</td></tr>
+</table></div>
+
+<h3>مصطلحات كل EDR (عشان لو اتذكر اسمه)</h3>
+<div class="tbl"><table>
+<tr><th>EDR</th><th>Terms</th></tr>
+<tr><td><b>Microsoft Defender for Endpoint</b></td><td>Device page، <b>Device timeline</b>، Alert story/process tree، <b>Advanced Hunting</b> (KQL: <code class="i">DeviceProcessEvents</code>، <code class="i">DeviceNetworkEvents</code>، <code class="i">DeviceFileEvents</code>، <code class="i">DeviceRegistryEvents</code>، <code class="i">DeviceLogonEvents</code>)، Isolate device، Restrict app execution، Live response، Collect investigation package، <b>AIR</b> (Automated Investigation &amp; Response)، ASR rules، Tamper protection</td></tr>
+<tr><td><b>CrowdStrike Falcon</b></td><td>Falcon console، Detections (مع tactic/technique)، Process tree، <b>Network Contain</b>، <b>RTR</b> (Real Time Response)، IOA (Indicators of Attack)، Threat Graph، OverWatch (managed threat hunting)، Falcon Complete (MDR)، Event Search / LogScale</td></tr>
+<tr><td><b>SentinelOne</b></td><td><b>Storyline</b> (ربط الأحداث في قصة)، Deep Visibility (hunting)، Mitigation: Kill، Quarantine، Remediate، <b>Rollback</b>، Network quarantine</td></tr>
+<tr><td><b>Palo Alto Cortex XDR</b></td><td><b>Causality View / Causality chain</b>، BIOC rules، XQL</td></tr>
+<tr><td><b>Carbon Black / Trellix / Sophos / Elastic Defend</b></td><td>نفس المفاهيم بأسامي مختلفة</td></tr>
+</table></div>
+
+<h3>"Walk me through triaging an EDR alert"</h3>
+<pre style="white-space:pre-wrap">"First I read the detection: what rule fired, what tactic, what severity, which host and user.
+Then I check context: is it a server or a workstation, is the user privileged, is this asset critical for the client?
+Next I open the process tree: parent, child, command line, file path, signature and hash. I decode anything
+encoded and check the hash and any network destinations against threat intel.
+Then I look around the timeline: what happened minutes before (an email, a download, a logon) and after
+(network connections, persistence, lateral movement).
+I check prevalence: has this hash or command line appeared on other hosts?
+Then I decide. If it's benign, like a known admin tool, I document why and suggest tuning. If it's malicious,
+I contain according to the runbook (isolate, kill, quarantine), escalate, notify the client and hunt for the same IOCs elsewhere."</pre>
+
+<h3>أسئلة EDR سريعة</h3>
+<details><summary>EDR alert says "Detected" not "Blocked/Prevented". Does it matter?</summary><div class="body">جداً. <b>Detected</b> = الـ EDR شاف بس النشاط ممكن يكون كمل، يعني محتاج تدخل فوري. <b>Prevented/Blocked</b> = اتمنع، بس لسه لازم تعرف إزاي وصل لهنا (الـ initial access) ولو فيه حاجات تانية ماتمنعتش.</div></details>
+<details><summary>Should you shut down an infected machine?</summary><div class="body">غالباً لأ. اعمل <b>network isolation</b> بدل الـ shutdown عشان تحافظ على الـ memory (keys، injected code، network connections) للتحقيق. الاستثناء: ransomware بيشفر حالياً ومفيش isolation متاح، ساعتها إيقاف الضرر أولى.</div></details>
+<details><summary>The EDR agent on a host went offline right after a suspicious alert. What do you think?</summary><div class="body">احتمال <b>Defense Evasion</b> (المهاجم وقّف/شال الـ agent، T1562.001). اتأكد من مصادر تانية (Firewall، DNS، AD logons للجهاز)، Escalate، وتعامل كأنه compromised لحد ما يثبت العكس. وطبعاً ممكن يكون سبب عادي (الجهاز اتقفل)، فاتأكد.</div></details>
+<details><summary>How do you know if a detection on a signed Microsoft binary is malicious?</summary><div class="body">الـ binary سليم بس <b>الاستخدام</b> هو اللي مريب (LOLBins). بص على: الـ parent، الـ command line arguments، الـ paths (Public/Temp)، الـ network activity، المستخدم، والوقت. مثال: <code class="i">rundll32.exe</code> سليم، بس <code class="i">rundll32 comsvcs.dll MiniDump</code> = credential dumping.</div></details>
+</section>
+
+<!-- ===================== SOLUTIONS ===================== -->
+<section class="sec" id="iv-solutions">
+<header><h2><span class="num">I9</span>Security Solutions Map: كل حل بيعمل إيه وبيديك إيه</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+<p>الـ interviewer بيحب يسأل: <i>"What's the difference between X and Y?"</i> أو <i>"Which logs would help you investigate Z?"</i>. الجدول ده هو الخريطة.</p>
+
+<div class="tbl"><table>
+<tr><th>الحل</th><th>بيعمل إيه</th><th>Vendors</th><th>الـ logs اللي بيديهالك / بتفيد في إيه</th></tr>
+<tr><td><b>NGFW</b></td><td>Firewall + App-ID + IPS + URL filtering + SSL decryption</td><td>Palo Alto، Fortinet، Check Point، Cisco FTD</td><td>Traffic (allow/deny)، Threat logs، URL logs: scans، C2، exfil</td></tr>
+<tr><td><b>IDS / IPS</b></td><td>كشف/منع الهجمات من الـ traffic بـ signatures</td><td>Snort، Suricata، Zeek (NSM)</td><td>Signature alerts (SID): exploitation attempts</td></tr>
+<tr><td><b>WAF</b></td><td>حماية الـ web apps (L7)</td><td>Cloudflare، F5، Imperva، AWS WAF، ModSecurity</td><td>Blocked requests + payload: SQLi/XSS</td></tr>
+<tr><td><b>Proxy / SWG</b></td><td>فلترة ومراقبة الـ web الخارج</td><td>Zscaler، Netskope، Squid، Forcepoint، Bluecoat</td><td>URL، user، category، UA، bytes: مين داس، downloads، C2</td></tr>
+<tr><td><b>CASB</b></td><td>رقابة على استخدام الـ SaaS/cloud apps (Shadow IT، DLP)</td><td>Defender for Cloud Apps، Netskope</td><td>Cloud app activity، uploads</td></tr>
+<tr><td><b>SASE / SSE / ZTNA</b></td><td>Network + Security كخدمة cloud. ZTNA = وصول لكل app بدل VPN كامل</td><td>Zscaler، Netskope، Cloudflare One، Prisma Access</td><td>Access logs بالـ user والـ app</td></tr>
+<tr><td><b>VPN</b></td><td>وصول remote مشفر</td><td>FortiClient، GlobalProtect، Cisco AnyConnect</td><td>Logins (brute force، impossible travel). VPN بدون MFA = مدخل ransomware كلاسيك</td></tr>
+<tr><td><b>Email Security Gateway</b></td><td>Anti-spam/phishing، sandbox، URL rewrite</td><td>Defender for O365، Proofpoint، Mimecast</td><td>Message trace، verdicts، clicks</td></tr>
+<tr><td><b>EDR / XDR</b></td><td>مراقبة واستجابة على الـ endpoints</td><td>Defender، CrowdStrike، SentinelOne، Cortex</td><td>Process trees، command lines، network، files</td></tr>
+<tr><td><b>NDR</b></td><td>تحليل الـ network traffic بالسلوك (حتى المشفر)</td><td>Darktrace، Vectra، ExtraHop، Corelight</td><td>Lateral movement، anomalies، beaconing</td></tr>
+<tr><td><b>SIEM</b></td><td>تجميع وربط</td><td>Splunk، Sentinel، QRadar</td><td>كل حاجة</td></tr>
+<tr><td><b>SOAR</b></td><td>Automation</td><td>XSOAR، Splunk SOAR، Sentinel Playbooks، Tines</td><td>—</td></tr>
+<tr><td><b>UEBA</b></td><td>Behavior baselines</td><td>Exabeam، Sentinel UEBA</td><td>Anomaly scores</td></tr>
+<tr><td><b>TIP</b> (Threat Intel Platform)</td><td>تجميع وإدارة IOCs/TI</td><td>MISP، OpenCTI، ThreatConnect، Anomali</td><td>IOC feeds للـ SIEM</td></tr>
+<tr><td><b>IAM / IdP + MFA</b></td><td>الهوية والدخول (SSO، Conditional Access)</td><td>Entra ID (Azure AD)، Okta، Ping</td><td>Sign-in logs: ATO، spraying، MFA fatigue</td></tr>
+<tr><td><b>PAM</b></td><td>إدارة الحسابات ذات الصلاحيات (vault، session recording)</td><td>CyberArk، BeyondTrust، Delinea</td><td>Privileged sessions</td></tr>
+<tr><td><b>DLP</b></td><td>منع تسريب البيانات الحساسة</td><td>Microsoft Purview، Forcepoint، Symantec</td><td>Policy violations (upload، USB، email)</td></tr>
+<tr><td><b>NAC</b></td><td>التحكم مين يدخل الشبكة (802.1X، posture)</td><td>Cisco ISE، Aruba ClearPass، FortiNAC</td><td>أجهزة غريبة اتوصلت</td></tr>
+<tr><td><b>Vulnerability Scanner</b></td><td>اكتشاف الثغرات</td><td>Tenable Nessus، Qualys، Rapid7</td><td>Asset vulnerabilities، والـ scanner نفسه مصدر FPs كتير في الـ IDS</td></tr>
+<tr><td><b>Sandbox</b></td><td>تشغيل ملفات/لينكات مشبوهة بأمان</td><td>any.run، Joe، FortiSandbox، WildFire</td><td>Behavior reports</td></tr>
+<tr><td><b>Deception / Honeypot</b></td><td>فخاخ (honeytokens، fake creds)</td><td>Thinkst Canary، Attivo</td><td>أي تفاعل = High-fidelity alert</td></tr>
+<tr><td><b>CSPM / CNAPP</b></td><td>أمان إعدادات الـ cloud</td><td>Wiz، Prisma Cloud، Defender for Cloud</td><td>Misconfigs (S3 public، open security groups)</td></tr>
+<tr><td><b>DDoS Protection</b></td><td>صد هجمات الحجم</td><td>Cloudflare، Akamai، AWS Shield</td><td>Attack traffic stats</td></tr>
+<tr><td><b>Backup</b></td><td>الاسترجاع (آخر خط دفاع ضد ransomware)</td><td>Veeam، Commvault</td><td>Backup deletion attempts = 🚩</td></tr>
+</table></div>
+
+<h3>"Which logs would you need to investigate…?" (سؤال كلاسيك)</h3>
+<div class="tbl"><table>
+<tr><th>التحقيق</th><th>المصادر</th></tr>
+<tr><td>Phishing click</td><td>Email gateway (message trace، clicks) ← Proxy/DNS ← EDR ← IdP sign-ins</td></tr>
+<tr><td>Compromised account (cloud)</td><td>Entra/Okta sign-ins، M365 Unified Audit Log (inbox rules، forwarding)، MFA logs، VPN</td></tr>
+<tr><td>Malware on endpoint</td><td>EDR، Sysmon، Windows Security، Proxy، DNS، Firewall</td></tr>
+<tr><td>Lateral movement</td><td>Windows Security (4624 Type 3/10، 4648، 5140/5145، 7045) على الأجهزة الهدف، EDR، NDR، Firewall الداخلي</td></tr>
+<tr><td>Web server attack</td><td>WAF، web access/error logs، EDR/OS logs على السيرفر، DB logs، Firewall</td></tr>
+<tr><td>Data exfiltration</td><td>Firewall (bytes)، Proxy (uploads)، DLP، CASB، DNS، EDR (archiving tools زي 7zip/rclone)</td></tr>
+<tr><td>Insider threat</td><td>DLP، UEBA، File share access (5145)، CASB، HR context</td></tr>
+</table></div>
+
+<h3>Cloud basics (بيسألوا عليها أكتر وأكتر)</h3>
+<ul>
+<li><b>Shared Responsibility Model:</b> الـ provider مسؤول عن أمن الـ cloud نفسه (hardware، data centers)، والعميل مسؤول عن أمنه <b>جوه</b> الـ cloud (data، IAM، configs).</li>
+<li><b>أهم logs:</b> AWS <b>CloudTrail</b> (كل API call)، GuardDuty (detections)، VPC Flow Logs. Azure: <b>Entra sign-in &amp; audit logs</b>، Activity Log. M365: <b>Unified Audit Log</b>.</li>
+<li><b>أشهر المشاكل:</b> access keys اتسربت على GitHub، S3/Blob public، IAM permissions زيادة، مفيش MFA على الـ root/admin.</li>
+</ul>
+
+<h3>Vulnerability Management باختصار</h3>
+<p>Discover assets ← Scan ← <b>Prioritize</b> (CVSS + هل فيه exploit فعلي؟ (<b>CISA KEV</b>، <b>EPSS</b>) + أهمية الـ asset + معرّض للإنترنت؟) ← Remediate (patch/mitigate) ← Verify (rescan) ← Report. <b>CVSS لوحده مش كفاية:</b> ثغرة 9.8 على جهاز معزول ممكن تبقى أقل أولوية من 7.5 على VPN معرّض للإنترنت وعليها exploit شغال.</p>
+</section>
+
+<!-- ===================== BANK + DRILL ===================== -->
+<section class="sec" id="iv-bank">
+<header><h2><span class="num">I10</span>بنك أسئلة Rapid-fire + Mock Interview Drill</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<h3>🎙️ Mock Interview Drill</h3>
+<p>هيختارلك سؤال عشوائي وتايمر <b>90 ثانية</b>. جاوب <b>بصوت عالي</b> كأنك قدام الـ interviewer، وبعدين اكشف الإجابة النموذجية وقيّم نفسك. ده أقرب حاجة لـ interview حقيقي ممكن تعملها لوحدك.</p>
+<div class="toolbar">
+  <select class="btn" id="drCat"><option value="all">كل الفئات</option></select>
+  <button class="btn primary" id="drNext">🎲 سؤال جديد</button>
+  <button class="btn" id="drShow">👁️ الإجابة النموذجية</button>
+  <button class="btn" id="drGot">✅ جاوبتها كويس</button>
+  <button class="btn" id="drMiss">❌ محتاج أراجعها</button>
+</div>
+<div class="card" id="drBox" style="min-height:150px">
+  <div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><span class="badge b-blue" id="drC">—</span><span class="mono" id="drT" style="font-size:22px;font-weight:700">01:30</span></div>
+  <p id="drQ" style="font-size:19px;font-weight:700;direction:ltr;text-align:left;margin:12px 0">اضغط "سؤال جديد" للبدء</p>
+  <div id="drA" style="display:none;border-top:1px dashed var(--border);padding-top:10px"></div>
+</div>
+<p class="muted" id="drStats" style="font-size:13px"></p>
+
+<h3>📚 البنك كامل (مقسّم حسب الفئة)</h3>
+<div id="bank"></div>
+
+<h3>📰 أحداث مشهورة لازم تعرف تحكيها في جملتين</h3>
+<div class="tbl"><table>
+<tr><th>الحدث</th><th>السنة</th><th>إيه اللي حصل</th><th>الدرس</th></tr>
+<tr><td><b>WannaCry</b></td><td>2017</td><td>Ransomware worm استغل <b>EternalBlue</b> (MS17-010) في SMBv1 وانتشر لوحده عالمياً</td><td>Patching + اقفل SMB من الإنترنت + segmentation</td></tr>
+<tr><td><b>NotPetya</b></td><td>2017</td><td>Wiper متنكر كـ ransomware، انتشر عن طريق update مخترق لبرنامج محاسبة أوكراني (M.E.Doc) + EternalBlue + Mimikatz</td><td>Supply chain، خسائر بالمليارات (Maersk)</td></tr>
+<tr><td><b>Equifax</b></td><td>2017</td><td>استغلال Apache Struts (CVE-2017-5638) غير متحدّث، وسرقة بيانات ~147 مليون شخص</td><td>Vulnerability management</td></tr>
+<tr><td><b>SolarWinds (SUNBURST)</b></td><td>2020</td><td>Backdoor اتحط في updates برنامج Orion الشرعية ووصل لآلاف المؤسسات والحكومات</td><td><b>Supply chain attack</b>، والثقة في الـ signed updates</td></tr>
+<tr><td><b>Colonial Pipeline</b></td><td>2021</td><td>Ransomware (DarkSide) دخل بـ password مسرب لحساب VPN قديم <b>من غير MFA</b>، فوقف خط الوقود</td><td>MFA + إزالة الحسابات القديمة</td></tr>
+<tr><td><b>Kaseya VSA</b></td><td>2021</td><td>REvil استغل ثغرة في أداة RMM بتستخدمها MSPs، فاتشفّرت شركات عملائهم</td><td><b>MSP كـ target</b> (مهم لشركتك!)</td></tr>
+<tr><td><b>Log4Shell</b></td><td>Dec 2021</td><td>CVE-2021-44228 في Log4j: <code class="i">${jndi:ldap://...}</code> في أي input بيتعمله log يؤدي لـ RCE</td><td>Asset inventory (فين Log4j عندنا؟) + WAF + patch</td></tr>
+<tr><td><b>MOVEit</b></td><td>2023</td><td>Cl0p استغل <b>SQL injection</b> (CVE-2023-34362) في MOVEit Transfer وسرق بيانات مئات المؤسسات (data theft بدون تشفير)</td><td>Exposed file transfer apps، extortion بدون encryption</td></tr>
+<tr><td><b>Change Healthcare</b></td><td>2024</td><td>ALPHV/BlackCat دخلوا بـ credentials مسروقة على Citrix remote access <b>من غير MFA</b></td><td>MFA على كل remote access</td></tr>
+<tr><td><b>XZ Utils backdoor</b></td><td>2024</td><td>CVE-2024-3094: backdoor اتزرعت في مكتبة open source عن طريق maintainer "موثوق" على مدار سنين، واتكشفت بالصدفة قبل الانتشار</td><td>Open source supply chain</td></tr>
+<tr><td><b>CrowdStrike outage</b></td><td>Jul 2024</td><td><b>مش هجوم</b>: content update فيه مشكلة (Channel File 291) وقّع ملايين أجهزة Windows (BSOD)</td><td>Change management، resilience، وإن الـ phishing campaigns استغلت الحدث</td></tr>
+</table></div>
+</section>
+
+<!-- ===================== BEHAVIORAL ===================== -->
+<section class="sec" id="iv-behav">
+<header><h2><span class="num">I11</span>Behavioral (STAR) + أسئلة تسألها إنت + يوم الـ Interview</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<h3>طريقة STAR</h3>
+<div class="grid2">
+<div class="card"><ul><li><b>S</b>ituation: الموقف (جملة واحدة)</li><li><b>T</b>ask: كان مطلوب منك إيه</li><li><b>A</b>ction: <u>إنت</u> عملت إيه بالتحديد (أطول جزء)</li><li><b>R</b>esult: النتيجة + اتعلمت إيه</li></ul></div>
+<div class="card"><p>مفيش خبرة شغل؟ <b>استخدم:</b> BTL1 exam، LetsDefend cases، مشاريع الجامعة، شغل جماعي، تدريب، أي شغل (حتى برا الـ IT) فيه ضغط أو عملاء.</p></div>
+</div>
+
+<h3>قصص جاهزة (املاها بتفاصيلك الحقيقية)</h3>
+<details><summary>"Tell me about a challenging investigation."</summary><div class="body"><pre style="white-space:pre-wrap">S: In LetsDefend I got an alert for [e.g. a phishing email with an Excel attachment].
+T: I had to decide if it was malicious and whether the user was affected.
+A: I analyzed the headers (SPF fail, lookalike domain), extracted the attachment hash and found a macro that
+   launched PowerShell. Then I checked the endpoint logs and saw the user had opened it: there was an outbound
+   connection to [IP]. So I contained the host, documented the IOCs and closed it as a true positive.
+R: Correct verdict. It also taught me that the email is only half the investigation: you have to confirm
+   impact on the endpoint and the network.</pre></div></details>
+<details><summary>"Tell me about a time you worked under pressure." (BTL1)</summary><div class="body"><pre style="white-space:pre-wrap">S: The BTL1 exam is a 24-hour practical incident-response investigation.
+T: Answer the questions on a full incident using SIEM, forensics and phishing analysis within the time limit.
+A: I planned my time, started with what I was confident about, kept notes of every finding with timestamps,
+   and when I got stuck I moved on and came back later instead of burning hours.
+R: I passed [with X%]. I learned that structured notes and prioritization matter more than speed,
+   which applies directly to working an alert queue under SLA.</pre></div></details>
+<details><summary>"Tell me about a mistake you made."</summary><div class="body"><pre style="white-space:pre-wrap">S: Early in my LetsDefend practice I closed an alert as a false positive because the file hash was clean on VirusTotal.
+T: I had to understand why my verdict was wrong after reviewing the case.
+A: I realized the file was new, so it had no detections yet, and the process behavior was clearly malicious
+   (Office spawning PowerShell). I changed my approach: behavior and context first, reputation is only one input.
+R: Since then I never close an alert on a single data point. I check at least two independent sources.</pre>
+<p>المهم: غلطة حقيقية، صغيرة، وإنت <b>اتعلمت منها</b> وغيرت طريقتك. ماتقولش "مابغلطش".</p></div></details>
+<details><summary>"How do you explain a technical issue to a non-technical person?"</summary><div class="body">قصة عن شرح حاجة لأهلك/صحابك/عميل: استخدم تشبيه ("الـ phishing زي حد يتصل بيك ويقولك أنا من البنك…")، ركّز على الأثر والمطلوب منهم مش التفاصيل التقنية. وده مهم جداً في MSSP لأنك هتكلم عملاء.</div></details>
+<details><summary>"How do you handle many alerts at once?"</summary><div class="body">Prioritize حسب severity + SLA + asset criticality ← خلص الـ critical الأول ← لو الحمل أكبر منك بلّغ الـ shift lead بدري (مش بعد ما الـ SLA يتخرق) ← ماتقفلش alerts بسرعة من غير تحقيق ← دوّر على alerts مرتبطة ببعض (ممكن تكون incident واحد).</div></details>
+<details><summary>"Tell me about a disagreement with a teammate."</summary><div class="body">ركّز على: سمعت وجهة نظره، رجعنا للدليل/الـ data مش للرأي، وصلنا لقرار، والعلاقة فضلت كويسة. في SOC: "إحنا مختلفين على الـ verdict؟ نبص على الـ evidence ونعمل escalate لو لسه مش متفقين".</div></details>
+<details><summary>"How do you keep learning?"</summary><div class="body">اذكر حاجات <b>فعلية</b>: LetsDefend، BTL1، والـ blogs اللي بتقراها (The DFIR Report مثال ممتاز، فيه incidents حقيقية بالتفصيل وبالـ TTPs)، CISA advisories، BleepingComputer، Podcasts. ولو فيه حاجة اتعلمتها الأسبوع ده اذكرها، بيبان إنك متابع بجد.</div></details>
+
+<h3>❓ أسئلة تسألها إنت في الآخر (اختار 2-3)</h3>
+<ul>
+<li>"What does the first 90 days look like for a new L1 analyst? Is there a training or shadowing period?"</li>
+<li>"Which SIEM and EDR platforms do you use, and do you work in the client's tools or your own?"</li>
+<li>"How is the escalation process between L1 and L2, and are L1 analysts allowed to take containment actions?"</li>
+<li>"How many clients and roughly how many alerts per shift does an L1 handle?"</li>
+<li>"How do L1 analysts contribute to detection tuning or use-case development?"</li>
+<li>"What does growth from L1 to L2 look like here? Do you support certifications?"</li>
+</ul>
+<p class="muted">❌ ماتسألش في أول interview عن الإجازات والمرتب إلا لو هما فتحوا الموضوع.</p>
+
+<h3>🚫 أخطاء بتوقّع الناس في SOC interviews</h3>
+<div class="grid2">
+<ul>
+<li>تقول "هعمل block للـ IP وخلاص" من غير investigation أو scoping.</li>
+<li>تقول "VirusTotal نضيف يبقى آمن".</li>
+<li>تحفظ تعريفات من غير ما تقدر تديك مثال.</li>
+<li>تألّف إجابة بدل ما تقول "مش متأكد، بس هفكر كده".</li></ul>
+<ul>
+<li>تنسى خطوة الـ documentation والـ escalation.</li>
+<li>تتكلم عن أدوات hacking/red team أكتر من الـ blue team.</li>
+<li>تقلل من الـ FP: "دي FP أكيد" من غير ما تثبت.</li>
+<li>تتكلم عن الـ action في MSSP كأن البيئة بتاعتك (من غير موافقة العميل).</li></ul>
+</div>
+
+<h3>📅 خطة المذاكرة (المرحلتين)</h3>
+<div class="tbl"><table>
+<tr><th>الوقت</th><th>المرحلة 1: Assessment</th><th>المرحلة 2: Interview</th></tr>
+<tr><td>الأولوية القصوى</td><td>Phishing (<a href="#phishing">06</a>) + Proxy/EDR/Windows Events Labs</td><td><a href="#iv-story">I2</a> Tell me about yourself (اكتبها وقولها بصوتك 3 مرات)</td></tr>
+<tr><td>نقط ضعفك</td><td><a href="#win">02</a> Windows tables + <a href="#winevents">10</a></td><td><a href="#iv-win">I4</a> Windows + <a href="#iv-phish">I5</a> Phishing + <a href="#iv-rules">I7</a> Rules</td></tr>
+<tr><td>Tools</td><td><a href="#siem">15</a> SIEM queries</td><td><a href="#iv-siem">I6</a> SIEM + <a href="#iv-edr">I8</a> EDR + <a href="#iv-solutions">I9</a> Solutions</td></tr>
+<tr><td>تدريب</td><td><a href="#labs">16</a> Labs من غير ما تبص</td><td><a href="#iv-bank">I10</a> Mock Drill: 20 سؤال بصوت عالي</td></tr>
+<tr><td>آخر حاجة</td><td><a href="#flash">18</a> Flashcards</td><td><a href="#iv-mssp">I3</a> MSSP workflow + أسئلتك ليهم</td></tr>
+</table></div>
+
+<h3>✅ يوم الـ Interview</h3>
+<ul>
+<li>اعمل research عن الشركة: عملاءها، خدماتها (MDR؟ SOC-as-a-Service؟)، الـ partnerships (Microsoft؟ Splunk؟ CrowdStrike؟). ده بيقولك هيسألوك على أنهي tools.</li>
+<li>جهّز ورقة بـ: قصتك (Tell me about yourself)، 3 قصص STAR، و 3 أسئلة ليهم.</li>
+<li>لو online: كاميرا وصوت وإضاءة، وورقة وقلم (عادي تكتب أثناء سيناريو، وده بيبين إنك منظّم).</li>
+<li>في السيناريوهات: <b>فكّر بصوت عالي</b>. الـ interviewer عايز يسمع طريقة تفكيرك مش الإجابة النهائية بس.</li>
+<li>اختم بجملة: <i>"Thank you. I'm really excited about this role, and I'm confident I can ramp up quickly and be useful on the queue."</i></li>
+</ul>
+</section>
+
 <!-- ===================== FINAL ===================== -->
 <section class="sec" id="final">
 <header><h2><span class="num">21</span>Checklist ليلة الامتحان + أثناء الامتحان</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
@@ -2253,6 +2963,154 @@ Severity: High             Status: Contained / Open        Verdict: True Positiv
       try { tout.value = OPS[op](tin.value); } catch(e){ tout.value = '⚠️ Error: ' + e.message + '\n(تأكد إن الـ input صحيح للعملية دي)'; }
     };
   });
+})();
+</script>
+
+<script>
+(function(){
+  function sget(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+  function sset(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+  var B = [
+  /* Networking */
+  ['Networking','Explain the OSI model and where common attacks happen.','7 layers: Physical, Data Link (ARP spoofing), Network (IP spoofing, ICMP), Transport (SYN flood, port scans), Session, Presentation (TLS), Application (SQLi, XSS, phishing, DNS tunneling). SOC work mostly lives at L3, L4 and L7.'],
+  ['Networking','Walk me through the TCP three-way handshake. What does a SYN scan look like?','SYN → SYN/ACK → ACK. In a SYN (half-open) scan the attacker sends SYN, gets SYN/ACK from open ports and replies with RST, so the connection never completes. Closed ports answer RST/ACK. In logs: one source, many ports, very short or incomplete sessions.'],
+  ['Networking','What happens during a TLS handshake?','Client Hello (supported versions, ciphers, SNI = hostname in clear) → Server Hello + certificate → client validates the cert chain → key exchange (usually ECDHE) → both derive a symmetric session key → encrypted traffic. SOC value: SNI, certificate details (self-signed, new) and JA3/JA4 fingerprints without decrypting.'],
+  ['Networking','What is the difference between a hub, a switch and a router?','Hub: L1, sends to all ports. Switch: L2, forwards by MAC address table. Router: L3, routes between networks by IP. A firewall filters traffic between zones by policy.'],
+  ['Networking','What is NAT and why does it matter for investigations?','Network Address Translation maps many private IPs to one public IP. An external log will show only the public IP, so you need the firewall/NAT logs (and DHCP) to find the real internal host at that time.'],
+  ['Networking','What is DNS and name 5 record types.','Resolves names to IPs. A/AAAA (IPv4/IPv6), MX (mail), CNAME (alias), TXT (SPF/DKIM/DMARC, verification), NS, PTR (reverse), SOA, SRV. Attackers abuse DNS for tunneling, DGA and C2.'],
+  ['Networking','What is ARP spoofing?','The attacker sends fake ARP replies so the victims map the gateway IP to the attacker MAC, which gives a man-in-the-middle position. Detect duplicate MACs for different IPs or a gateway MAC that changes. Mitigate with Dynamic ARP Inspection.'],
+  ['Networking','What ports would you expect on a domain controller?','53 DNS, 88 Kerberos, 135 RPC, 389/636 LDAP/LDAPS, 445 SMB, 464 Kerberos password change, 3268/3269 Global Catalog, plus dynamic RPC ports.'],
+  ['Networking','Difference between a forward proxy and a reverse proxy?','Forward proxy sits in front of clients going out to the internet (filtering, logging users). Reverse proxy sits in front of servers (load balancing, TLS termination, WAF). For investigations, X-Forwarded-For holds the real client IP behind a reverse proxy.'],
+  ['Networking','What is a VLAN and why is segmentation important?','A VLAN logically separates a switched network. Segmentation limits lateral movement and blast radius: ransomware on a user VLAN shouldn\'t reach the server VLAN over SMB.'],
+  /* Concepts */
+  ['Security Concepts','What is the CIA triad? Give an attack against each.','Confidentiality (data breach, sniffing), Integrity (data tampering, MITM modification), Availability (DDoS, ransomware).'],
+  ['Security Concepts','Explain hashing vs encryption vs encoding.','Hashing: one-way, fixed length, integrity (SHA-256). Encryption: reversible with a key, confidentiality (AES, RSA). Encoding: reversible without a key, it only changes the format (Base64). Base64 is NOT security.'],
+  ['Security Concepts','Why do we salt passwords and how are hashes cracked?','The salt is a random value added before hashing, so identical passwords get different hashes and precomputed rainbow tables don\'t work. Cracking = guessing: dictionary, brute force or rules (hashcat/john), then compare hashes. Defend with slow algorithms (bcrypt, Argon2) and strong passwords.'],
+  ['Security Concepts','What is the difference between a vulnerability, a threat, an exploit and a risk?','Vulnerability = weakness. Threat = actor or event that could use it. Exploit = the method or code that uses it. Risk = likelihood × impact.'],
+  ['Security Concepts','True positive, false positive, false negative: which is worst and why?','A false negative is worst: a real attack went undetected. False positives cost time and cause alert fatigue, which can lead to missing true positives.'],
+  ['Security Concepts','What is defense in depth?','Multiple layers of controls (email gateway, EDR, firewall, MFA, segmentation, backups, monitoring), so if one fails another catches the attack.'],
+  ['Security Concepts','What is the principle of least privilege?','Give users and services only the access they need, for only as long as they need it. It limits damage from compromised accounts. Examples: no daily admin accounts, JIT access, PAM.'],
+  ['Security Concepts','What is a zero-day?','A vulnerability unknown to the vendor, or with no patch available, that is being exploited. Signatures won\'t catch it, so behavior-based detection and defense in depth matter.'],
+  ['Security Concepts','Explain the Pyramid of Pain.','IOCs ranked by how painful they are for the attacker to change: hashes (trivial) < IPs < domains < network/host artifacts < tools < TTPs (hardest). Detecting behavior (TTPs) gives the most durable detections.'],
+  ['Security Concepts','What is MITRE ATT&CK and how do you use it as an L1?','A knowledge base of adversary tactics (why) and techniques (how), based on real attacks. As an L1: map alerts to techniques, understand what likely comes next, communicate clearly, and help find detection coverage gaps.'],
+  ['Security Concepts','What is threat intelligence? Name the types.','Evidence-based knowledge about threats. Strategic (executives, trends), Operational (campaigns, actors), Tactical (TTPs), Technical (IOCs). Sources: OSINT feeds, ISACs, vendors, MISP.'],
+  ['Security Concepts','What is TLP?','Traffic Light Protocol for sharing information: RED (named recipients only), AMBER+STRICT (your organization only), AMBER (your organization and clients who need to know), GREEN (the community), CLEAR (public).'],
+  /* Windows / AD */
+  ['Windows/AD','Event IDs: 4624, 4625, 4672, 4688, 4720, 4732, 7045, 1102?','Logon success, logon failure, admin privileges assigned at logon, process creation, user created, member added to a local group, service installed, Security log cleared.'],
+  ['Windows/AD','Name the logon types you know.','2 Interactive, 3 Network, 4 Batch, 5 Service, 7 Unlock, 8 NetworkCleartext, 9 NewCredentials, 10 RemoteInteractive (RDP), 11 CachedInteractive.'],
+  ['Windows/AD','What is LSASS and why do attackers target it?','The Local Security Authority Subsystem handles authentication and caches credential material (NTLM hashes, Kerberos tickets). Dumping it (Mimikatz, procdump, comsvcs MiniDump) gives credentials for lateral movement. Protect it with Credential Guard, RunAsPPL and ASR.'],
+  ['Windows/AD','Explain Kerberos vs NTLM.','Kerberos uses tickets from the KDC (TGT 4768, service ticket 4769) and supports mutual authentication. NTLM is challenge-response (4776), weaker, and the hash alone is enough (Pass-the-Hash). Kerberos is the default in domains; NTLM is the fallback.'],
+  ['Windows/AD','What is Kerberoasting and how do you detect it?','Any domain user requests service tickets for accounts with an SPN, then cracks them offline. Detect 4769 with encryption type 0x17 (RC4) and many SPN requests from one user. Mitigate with long passwords or gMSA for service accounts and AES-only.'],
+  ['Windows/AD','What is Pass-the-Hash?','Authenticating with a stolen NTLM hash instead of the password. Signs: 4624 logon type 9 with logon process seclogo on the source, unusual NTLM type 3 logons. Mitigate with LAPS, restricting NTLM, Protected Users and admin tiering.'],
+  ['Windows/AD','What is a Golden Ticket?','A forged TGT signed with the krbtgt hash. It gives the attacker any identity in the domain for as long as they want. Requires domain compromise. Fix: reset krbtgt twice. Signs: TGS requests with no matching AS-REQ, abnormal ticket lifetimes.'],
+  ['Windows/AD','What is DCSync?','The attacker abuses replication rights to ask a DC for password hashes as if it were another DC (Mimikatz lsadump::dcsync). Detect 4662 with the replication GUIDs coming from a non-DC account or host.'],
+  ['Windows/AD','Name 5 Windows persistence techniques.','Run/RunOnce registry keys, scheduled tasks, new services, Startup folder, WMI event subscriptions, new accounts, IFEO debugger, DLL hijacking.'],
+  ['Windows/AD','What is a LOLBin? Give examples.','A legitimate, signed OS binary abused by attackers to avoid detection: certutil (download/decode), mshta, rundll32, regsvr32, bitsadmin, wmic, powershell.'],
+  ['Windows/AD','How do you detect lateral movement with PsExec?','On the target: 4624 type 3, 5145 access to ADMIN$, 7045 service PSEXESVC installed, named pipe PSEXESVC, process launched by services.exe. On the source: psexec.exe execution and 4648.'],
+  ['Windows/AD','Normal parent of lsass.exe and svchost.exe?','lsass.exe → wininit.exe (only one instance, in System32). svchost.exe → services.exe (with -k). Anything else is suspicious.'],
+  /* Phishing */
+  ['Phishing/Email','How do you analyze a suspicious email?','Get the .eml → headers (From / Return-Path / Reply-To, SPF/DKIM/DMARC, Received chain bottom-up, originating IP) → sender domain age and lookalike check → content (social engineering) → URLs (href vs text, urlscan) → attachments (hash, olevba, sandbox) → scope (recipients, clicks, submissions, executions) → verdict → response.'],
+  ['Phishing/Email','Explain SPF, DKIM and DMARC.','SPF: DNS TXT record listing the servers allowed to send for the Return-Path domain. DKIM: cryptographic signature of headers and body (d= domain, public key in DNS). DMARC: requires alignment with the visible From domain and sets the policy (none/quarantine/reject) plus reporting.'],
+  ['Phishing/Email','Can a phishing email pass SPF, DKIM and DMARC? How?','Yes: a lookalike domain the attacker owns, a free email provider, a compromised legitimate account, or an abused legitimate sending service. Authentication proves the domain, not intent.'],
+  ['Phishing/Email','What is BEC and how is it different from regular phishing?','Business Email Compromise uses impersonation or compromised accounts to trick employees into wire transfers, gift cards or changing bank details. Often no link or attachment, pure social engineering, so gateways miss it. Defend with process (call-back verification), banners and awareness.'],
+  ['Phishing/Email','What is AiTM phishing and why does MFA not stop it?','Adversary-in-the-Middle: a reverse proxy (Evilginx) relays the real login page, so the user completes MFA and the attacker steals the session cookie. Detect sign-ins from new IPs right after the user logs in, and "MFA satisfied by token". Defend with phishing-resistant MFA (FIDO2) and Conditional Access on compliant devices.'],
+  ['Phishing/Email','A user entered their password on a phishing page. What now?','Reset the password AND revoke sessions/tokens, review sign-ins since the click, check for new MFA methods, inbox rules, forwarding, OAuth consents and emails sent from the account. Block the domain, find other victims, notify the client.'],
+  ['Phishing/Email','How do you safely analyze a malicious link?','Never click on your machine. Use urlscan.io, VirusTotal, a sandbox (any.run) or an isolated VM. Check domain age (WHOIS), redirects, hosting, and the page content in screenshots. Defang it in notes.'],
+  ['Phishing/Email','What file types are commonly used in phishing attachments today?','HTML (smuggling or a local credential page), ISO/IMG, LNK, ZIP containing JS/VBS, OneNote, PDF with links or QR codes, SVG with script, macro docs (less common since MOTW macro blocking).'],
+  /* SIEM & Rules */
+  ['SIEM/Rules','What is a SIEM and what are its main components?','Collection (agents/syslog/API) → parsing and normalization → storage/indexing → correlation and detection rules → alerting, dashboards, investigation. It centralizes visibility and correlates across sources.'],
+  ['SIEM/Rules','How would you detect a brute-force attack with a SIEM?','Count 4625 (or VPN/O365 failures) grouped by source IP over a time window above a threshold (e.g. ≥20 in 10 minutes). Raise severity if a success follows from the same source. Exclude known scanners.'],
+  ['SIEM/Rules','How do you reduce false positives without missing attacks?','Analyze the FP pattern and add specific exclusions (several attributes plus an expiry), adjust thresholds with a baseline, add context (asset/user criticality), aggregate or suppress duplicates, use risk-based alerting, then test the rule still catches the real scenario.'],
+  ['SIEM/Rules','What is log normalization and why does it matter?','Mapping different vendor fields into a common schema (CIM, ASIM, ECS), so one rule or query works across Palo Alto, Fortinet and others. Bad parsing means rules silently fail.'],
+  ['SIEM/Rules','What is correlation? Give an example.','Linking events from different sources into one detection: e.g. a phishing email delivered + the user clicked the URL (proxy) + powershell spawned by Office (EDR) on the same host within 10 minutes → high-confidence incident.'],
+  ['SIEM/Rules','What is Sigma?','A vendor-neutral YAML format for log detection rules. Converted with pySigma/sigma-cli into SPL, KQL, QRadar AQL and others. YARA is for files, Snort/Suricata for network traffic.'],
+  ['SIEM/Rules','A log source stopped sending logs. Why is it a security concern?','It creates a blind spot. It may be an outage, but attackers also disable agents or logging (T1562). Check the last event time, agent health and network path, notify, and correlate with recent alerts on that host.'],
+  ['SIEM/Rules','What is SOAR? Give an automation example.','Security Orchestration, Automation and Response: playbooks that automate enrichment and response. Example: a reported phishing email → extract IOCs → VT/urlscan → if malicious, purge from all mailboxes, block the URL, open a ticket and notify the analyst.'],
+  /* EDR */
+  ['EDR/Endpoint','What is the difference between AV, EDR and XDR?','AV: signature-based prevention on files. EDR: continuous endpoint telemetry, behavioral detection, investigation (process trees) and response (isolate, kill). XDR: EDR plus email, identity, cloud and network, correlated in one platform.'],
+  ['EDR/Endpoint','How does an EDR collect its data?','A kernel driver uses OS callbacks (process, thread, image load, registry), a file-system minifilter, ETW, AMSI and sometimes user-mode hooks; the telemetry goes to the cloud for analytics and threat intel.'],
+  ['EDR/Endpoint','Walk me through investigating an EDR alert.','Read the detection (rule, tactic, host, user) → context (asset criticality, user role) → process tree (parent/child, command line, path, signer, hash) → decode and enrich → timeline before and after → prevalence across hosts → verdict → contain per runbook, document, escalate, hunt.'],
+  ['EDR/Endpoint','Would you isolate a production server immediately?','Not blindly. Isolating a critical server causes downtime. Confirm the evidence, follow the client\'s runbook, get approval (in an MSSP) unless it\'s pre-approved or there\'s active damage like ransomware spreading, where speed wins. Document the decision.'],
+  ['EDR/Endpoint','What is process injection? How is it detected?','Running code inside another legitimate process to hide and inherit its privileges (CreateRemoteThread, process hollowing, APC injection). Detect via Sysmon 8/10, EDR memory scanning, and unusual network connections from processes like notepad or rundll32 with no arguments.'],
+  ['EDR/Endpoint','What are signs of ransomware activity on endpoints?','vssadmin/wmic shadowcopy deletion, bcdedit recovery disabled, wbadmin delete, backup/AV/SQL services stopped, mass file renames with a new extension, ransom notes, high file I/O, PsExec/GPO used to deploy widely, exfil (rclone/MEGA) beforehand.'],
+  ['EDR/Endpoint','What is fileless malware?','Malware that runs in memory or via legitimate tools (PowerShell, WMI, registry-stored scripts) without dropping a traditional executable. Detect by behavior: script block logging (4104), AMSI, EDR telemetry, unusual parent/child chains.'],
+  /* IR */
+  ['Incident Response','What are the phases of incident response?','NIST: Preparation; Detection & Analysis; Containment, Eradication & Recovery; Post-Incident Activity. SANS PICERL: Preparation, Identification, Containment, Eradication, Recovery, Lessons learned.'],
+  ['Incident Response','What is the difference between containment and eradication?','Containment stops the spread or damage (isolate host, disable account, block IOC). Eradication removes the cause (malware, persistence, backdoor accounts) and fixes the entry point. Then recovery restores normal operations.'],
+  ['Incident Response','How do you prioritize alerts?','Severity × confidence × asset criticality (DC, CEO laptop, internet-facing server), plus SLA. Active threats (exfil, ransomware, C2) come first. Look for related alerts that might be one incident.'],
+  ['Incident Response','What would you include in an incident report?','Executive summary, timeline (UTC), scope and impact, evidence and analysis, IOCs (defanged), MITRE mapping, actions taken, recommendations, lessons learned.'],
+  ['Incident Response','What is chain of custody?','Documentation of who collected, handled and stored evidence, when and how (with hashes), so it stays trustworthy and legally admissible.'],
+  ['Incident Response','What is the order of volatility?','Collect the most volatile evidence first: CPU registers and cache → RAM → network state and connections → running processes → disk → logs and backups. That\'s why we isolate instead of shutting down.'],
+  ['Incident Response','You find a C2 connection from a host. Steps?','Validate the IOC (TI, how confident), identify the process (EDR), scope (when it started, beaconing, other hosts talking to it), contain (isolate, block), collect evidence, find the initial access, eradicate, recover, document, notify.'],
+  /* Web & Malware */
+  ['Web/Malware','Explain SQL injection and how you\'d spot it in logs.','User input changes the SQL query. In logs: quotes, UNION SELECT, comments (--, #), SLEEP/BENCHMARK, information_schema, 500 errors after a quote, sqlmap user-agents. Success: larger response sizes and follow-up activity. Fix: parameterized queries.'],
+  ['Web/Malware','Difference between stored, reflected and DOM XSS?','Reflected: the payload comes from the request and is reflected once (needs a crafted link). Stored: saved on the server and served to every visitor (worst). DOM: happens in client-side JS, may never hit server logs. Mitigate with output encoding, CSP and HttpOnly cookies.'],
+  ['Web/Malware','What is SSRF and why is 169.254.169.254 interesting?','Server-Side Request Forgery makes the server request internal resources. 169.254.169.254 is the cloud metadata service, which can leak IAM credentials (the Capital One breach).'],
+  ['Web/Malware','How do you detect a web shell?','Script files (.php/.aspx/.jsp) in upload or image folders, requests with cmd/exec parameters, a single external IP hitting one odd file, the web server process (w3wp, httpd, java) spawning cmd/sh/whoami, new files in the web root.'],
+  ['Web/Malware','Static vs dynamic malware analysis?','Static: examine without running (hashes, strings, PE imports, entropy/packing, signatures, YARA). Dynamic: run in a sandbox and observe processes, network, files and registry. Malware may evade sandboxes.'],
+  ['Web/Malware','What is a C2 and how is beaconing detected?','Command and Control is the channel attackers use to control compromised hosts. Beaconing: periodic connections (with jitter) to the same rare destination with similar sizes, odd user-agents, new domains or certificates, often over HTTPS or DNS.'],
+  ['Web/Malware','What is the difference between a virus, a worm and a trojan?','Virus attaches to files and needs execution. Worm self-propagates over networks. Trojan disguises itself as legitimate software. A RAT gives remote control; ransomware encrypts files for extortion.'],
+  /* Cloud & Misc */
+  ['Cloud/Misc','What is the shared responsibility model?','The cloud provider secures the cloud (physical, hypervisor, core services); the customer secures what they put in it (data, identities, configs, access). Most cloud breaches are customer misconfigurations.'],
+  ['Cloud/Misc','Which logs would you check for a compromised Microsoft 365 account?','Entra ID sign-in logs (IPs, locations, MFA details, user agent), audit logs (MFA method changes), the M365 Unified Audit Log (inbox rules, forwarding, mailbox access, file downloads), message trace (emails sent), OAuth app consents.'],
+  ['Cloud/Misc','What is CVSS, and is it enough for prioritizing patches?','The Common Vulnerability Scoring System rates severity 0-10. Not enough alone: also consider active exploitation (CISA KEV), likelihood (EPSS), exposure (internet-facing) and asset criticality.'],
+  ['Cloud/Misc','What is MFA fatigue?','The attacker has the password and spams MFA push requests until the user approves out of annoyance. Detect many denied pushes followed by an approval. Mitigate with number matching and phishing-resistant MFA.'],
+  ['Cloud/Misc','What is a supply chain attack? Example?','Compromising a trusted vendor or software to reach its customers: SolarWinds Orion updates, the Kaseya VSA RMM tool, the XZ Utils backdoor, 3CX. MSPs and MSSPs are attractive targets for the same reason.'],
+  /* MSSP / Scenarios */
+  ['MSSP/Scenario','You get 5 alerts at once from different clients. What do you do?','Triage quickly by severity, SLA and asset criticality; handle active or high-impact ones first; check whether alerts are related; tell the shift lead early if overloaded; never mass-close without investigation; document as you go.'],
+  ['MSSP/Scenario','A client asks you to whitelist an alert that keeps firing. What do you do?','Understand the activity first and confirm it\'s legitimate with evidence. Then create a narrow exclusion (specific host, user, process, path) with documentation, client approval and an expiry or review date, never a blanket allowlist. Make sure it doesn\'t blind the rule to real attacks.'],
+  ['MSSP/Scenario','You suspect a true positive but can\'t prove it. What do you do?','Don\'t close it. Document the evidence and the gaps, gather more context (ask the client or asset owner, check more sources), and escalate to L2 with clear notes. Wrongly closing a TP is far worse than escalating.'],
+  ['MSSP/Scenario','An alert shows Nmap scanning from an internal IP. Your steps?','Identify the host and owner (asset inventory, DHCP), check whether it\'s an authorized scanner or pentest (change calendar, ask the client), look at what was scanned and what followed (logins, exploitation). If it\'s unauthorized, treat it as a possibly compromised host or insider and escalate.'],
+  ['MSSP/Scenario','Impossible travel alert for a user. How do you investigate?','Check both sign-ins: IPs, ASN (VPN, cloud proxy, hosting?), device and user agent, MFA method, success or failure. Corporate VPN or SASE egress means likely FP. If it\'s unknown infrastructure, check post-login activity (inbox rules, downloads, MFA changes); if it\'s suspicious, revoke sessions, reset, notify.'],
+  ['MSSP/Scenario','How would you explain a true positive to a non-technical client manager?','Short and impact-focused: what happened, what it means for them, what we already did, what we need from them, and when they\'ll hear from us next. Avoid jargon; keep technical details in an appendix or ticket.'],
+  ['MSSP/Scenario','What does a good L1 escalation to L2 contain?','Alert name, client, host/user, timeline, evidence (log lines, screenshots), IOCs, what you already checked and ruled out, your hypothesis and verdict, actions taken, and what you need from L2.']
+  ];
+
+  /* Render bank */
+  var bank = document.getElementById('bank'), cats = [];
+  B.forEach(function(x){ if (cats.indexOf(x[0]) === -1) cats.push(x[0]); });
+  cats.forEach(function(c){
+    var h = document.createElement('h4'); h.textContent = c + ' (' + B.filter(function(x){ return x[0] === c; }).length + ')'; bank.appendChild(h);
+    B.filter(function(x){ return x[0] === c; }).forEach(function(x){
+      var d = document.createElement('details'), s = document.createElement('summary'), b = document.createElement('div');
+      s.textContent = x[1]; s.style.direction = 'ltr'; s.style.textAlign = 'left';
+      b.className = 'body'; b.textContent = x[2]; b.style.direction = 'ltr'; b.style.textAlign = 'left';
+      d.appendChild(s); d.appendChild(b); bank.appendChild(d);
+    });
+  });
+
+  /* Drill */
+  var sel = document.getElementById('drCat');
+  cats.forEach(function(c){ var o = document.createElement('option'); o.value = c; o.textContent = c; sel.appendChild(o); });
+  var cur = null, timer = null, left = 90;
+  var st = { got:0, miss:0, missed:[] }; try { st = JSON.parse(sget('soc-drill') || '') || st; } catch(e){}
+  function fmt(n){ return '0' + Math.floor(n/60) + ':' + ('0' + (n%60)).slice(-2); }
+  function stats(){ document.getElementById('drStats').textContent = '✅ ' + st.got + '   ❌ ' + st.miss + (st.missed.length ? '   — أسئلة محتاج تراجعها: ' + st.missed.length + ' (بتطلع أكتر في الـ drill)' : ''); }
+  function tick(){ left--; var t = document.getElementById('drT'); t.textContent = fmt(Math.max(left,0)); t.style.color = left <= 15 ? 'var(--red)' : ''; if (left <= 0){ clearInterval(timer); reveal(); } }
+  function reveal(){ if (!cur) return; var a = document.getElementById('drA'); a.style.display = 'block'; a.innerHTML = ''; var p = document.createElement('p'); p.style.direction = 'ltr'; p.style.textAlign = 'left'; p.textContent = cur[2]; a.appendChild(p); clearInterval(timer); }
+  function pick(){
+    var pool = B.filter(function(x){ return sel.value === 'all' || x[0] === sel.value; });
+    var weak = pool.filter(function(x){ return st.missed.indexOf(x[1]) !== -1; });
+    if (weak.length && Math.random() < 0.4) pool = weak;
+    var nx; do { nx = pool[Math.floor(Math.random() * pool.length)]; } while (pool.length > 1 && nx === cur);
+    cur = nx;
+    document.getElementById('drC').textContent = cur[0];
+    document.getElementById('drQ').textContent = cur[1];
+    document.getElementById('drA').style.display = 'none';
+    clearInterval(timer); left = 90; document.getElementById('drT').textContent = fmt(left); document.getElementById('drT').style.color = '';
+    timer = setInterval(tick, 1000);
+  }
+  function mark(ok){
+    if (!cur) return;
+    var i = st.missed.indexOf(cur[1]);
+    if (ok){ st.got++; if (i !== -1) st.missed.splice(i,1); } else { st.miss++; if (i === -1) st.missed.push(cur[1]); }
+    sset('soc-drill', JSON.stringify(st)); stats(); pick();
+  }
+  document.getElementById('drNext').onclick = pick;
+  document.getElementById('drShow').onclick = reveal;
+  document.getElementById('drGot').onclick = function(){ mark(true); };
+  document.getElementById('drMiss').onclick = function(){ mark(false); };
+  stats();
 })();
 </script>
 </body>
