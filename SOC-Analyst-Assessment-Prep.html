@@ -116,6 +116,7 @@ td.m,th.m{direction:ltr;text-align:left;font-family:"JetBrains Mono",monospace;f
 details{border:1px solid var(--border);border-radius:12px;margin:10px 0;background:var(--panel2)}
 details>summary{cursor:pointer;padding:10px 14px;font-weight:700;list-style:none;display:flex;gap:8px;align-items:center}
 details>summary::-webkit-details-marker{display:none}
+details>summary{unicode-bidi:plaintext}
 details>summary::before{content:"◀";font-size:11px;color:var(--accent);transition:transform .2s}
 details[open]>summary::before{transform:rotate(-90deg)}
 details>.body{padding:2px 16px 14px}
